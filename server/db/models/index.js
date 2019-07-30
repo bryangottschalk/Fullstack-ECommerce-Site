@@ -15,6 +15,16 @@ const Order = require('./order');
  * for example, we can say: const {User} = require('../db/models')
  * instead of: const User = require('../db/models/user')
  */
+
+User.hasMany(Order);
+Order.belongsTo(User);
+User.hasMany(Review);
+Review.belongsTo(User);
+Product.hasMany(Review);
+Review.belongsTo(Product);
+Product.belongsToMany(Order, { through: 'ProductOrder' });
+Order.belongsToMany(Product, { through: 'ProductOrder' });
+
 module.exports = {
   User,
   Product,
