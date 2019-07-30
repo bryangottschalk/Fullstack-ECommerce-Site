@@ -8,7 +8,7 @@ const { User, Review, Order, Product } = require('../server/db/models');
 
 const userGenerator = () => {
   let users = [];
-  for (let i = 0; i < 2; i++) {
+  for (let i = 0; i < 10001; i++) {
     let firstName = faker.name.firstName();
     let lastName = faker.name.lastName();
     users.push({
