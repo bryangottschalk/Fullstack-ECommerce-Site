@@ -48,7 +48,7 @@ const User = db.define('user', {
     defaultValue: false
   },
   creditCardNumber: {
-    type: Sequelize.INT,
+    type: Sequelize.INTEGER,
     allowNull: true
   },
   passwordResetTriggered: {
@@ -101,16 +101,16 @@ User.beforeBulkCreate(users => {
   users.forEach(setSaltAndPassword);
 });
 
-User.beforeCreate(() => {
+User.beforeCreate(user => {
   let capFirst = '';
-  capFirst += User.firstName[0].toUpperCase();
-  capFirst += User.firstName.slice(1);
-  User.firstName = capFirst;
+  capFirst += user.firstName[0].toUpperCase();
+  capFirst += user.firstName.slice(1);
+  user.firstName = capFirst;
 });
 
-User.beforeCreate(() => {
+User.beforeCreate(user => {
   let capLast = '';
-  capLast += User.lastName[0].toUpperCase();
-  capLast += User.lastName.slice(1);
-  User.lastName = capLast;
+  capLast += user.lastName[0].toUpperCase();
+  capLast += user.lastName.slice(1);
+  user.lastName = capLast;
 });
