@@ -15,3 +15,18 @@ router.get('/', async (req, res, next) => {
     next(err);
   }
 });
+
+router.get('/:id', async (req, res, next) => {
+  try {
+    const user = await User.findByPk(req.params.id);
+    if (!user) {
+      const err = new Error("couldn't find product");
+      err.status = 404;
+      throw err;
+    } else {
+      res.status(200).json(user);
+    }
+  } catch (err) {
+    next(err);
+  }
+});

@@ -41,3 +41,5 @@ export const singleProductReducer = (state = initialState, action) => {
       return state;
   }
 };
+
+export default singleProductReducer;
