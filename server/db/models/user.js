@@ -25,7 +25,8 @@ const User = db.define('user', {
   },
   creditCardNumber: {
     type: Sequelize.BIGINT,
-    allowNull: true
+    allowNull: true,
+    unique: true
   },
   password: {
     type: Sequelize.STRING,
