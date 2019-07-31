@@ -4,17 +4,14 @@ const db = require('../db');
 
 const User = db.define('user', {
   firstName: {
-    //
     type: Sequelize.STRING,
     allowNull: false
   },
   lastName: {
-    //
     type: Sequelize.STRING,
     allowNull: false
   },
   email: {
-    //
     type: Sequelize.STRING,
     unique: true,
     allowNull: false,
@@ -23,12 +20,10 @@ const User = db.define('user', {
     }
   },
   isAdmin: {
-    //
     type: Sequelize.BOOLEAN,
     defaultValue: false
   },
   creditCardNumber: {
-    //
     type: Sequelize.BIGINT,
     allowNull: true
   },

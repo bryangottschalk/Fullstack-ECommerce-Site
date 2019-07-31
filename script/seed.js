@@ -1,5 +1,5 @@
 'use strict';
-// const { red } = require('chalk');
+const { red } = require('chalk');
 const db = require('../server/db');
 const faker = require('faker');
 const Sentencer = require('sentencer');
@@ -60,7 +60,7 @@ const productGenerator = () => {
     let productName = faker.commerce.productName();
     products.push({
       name: productName,
-      category: faker.commerce.productAdjective(),
+      category: ['category1'],
       imageUrl: faker.image.animals(),
       description: faker.lorem.sentence(),
       price: faker.commerce.price(),
@@ -83,7 +83,8 @@ const productGenerator = () => {
 //   }
 // };
 
-// const products = productGenerator();
+const products = productGenerator();
+// console.log('TCL: products', products);
 // const productInfo = products[Math.floor(Math.random() * 1000)];
 
 // const orderGenerator = () => {
@@ -106,11 +107,8 @@ async function seed() {
   await db.sync({ force: true });
   console.log('db synced!');
 
-  await Promise.all(
-    users.map(user => User.create(user))
-    // User.create({ email: 'cody@email.com', password: '123' }),
-    // User.create({ email: 'murphy@email.com', password: '123' })
-  );
+  await Promise.all(users.map(user => User.create(user)));
+  await Promise.all(products.map(product => Product.create(product)));
 
   // console.log(`seeded ${syncedUsers.length} users`);
   console.log(`seeded successfully`);
