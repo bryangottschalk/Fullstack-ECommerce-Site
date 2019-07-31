@@ -2,12 +2,13 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { getAllProductsThunk, deleteProduct } from '../store/allProducts';
-import { addToCartThunk } from '../store/cart';
+import { addToCartThunk, setCartIdThunk } from '../store/cart';
 //import remote product thunk?
 
 export class allProducts extends React.Component {
   async componentDidMount() {
     await this.props.fetchProducts();
+    await this.props.setCartId(this.props.user.id);
   }
 
   render() {
@@ -63,7 +64,8 @@ const mapDispatchToProps = dispatch => ({
   // removeProduct: productId => dipsatch(removeProductThunk(productId))
   fetchProducts: () => dispatch(getAllProductsThunk()),
   deleteProduct: productId => dispatch(deleteProduct(productId)),
-  quickAdd: item => dispatch(addToCartThunk(item))
+  quickAdd: item => dispatch(addToCartThunk(item)),
+  setCartId: id => dispatch(setCartIdThunk(id))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(allProducts);
