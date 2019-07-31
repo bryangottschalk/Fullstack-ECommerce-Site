@@ -64,9 +64,11 @@
     "redux": "^4.0.1",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0",
+    "semantic-ui-react": "^0.87.3",
     "sentencer": "^0.2.0",
     "sequelize": "^5.3.1",
-    "socket.io": "^2.2.0"
+    "socket.io": "^2.2.0",
+    "mini-css-extract-plugin": "^0.7.0"
   },
   "devDependencies": {
     "@babel/core": "^7.4.3",

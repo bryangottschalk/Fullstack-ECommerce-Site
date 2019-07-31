@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { getAllProductsThunk, deleteProduct } from '../store/allProducts';
 import { addToCartThunk, setCartIdThunk } from '../store/cart';
+import { Button } from 'semantic-ui-react';
 //import remote product thunk?
 
 export class allProducts extends React.Component {
@@ -16,6 +17,7 @@ export class allProducts extends React.Component {
 
     return (
       <div>
+        <Button>GELLO</Button>
         <ul id="UsersList">
           {products.map(product => {
             return (
