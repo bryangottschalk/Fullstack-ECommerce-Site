@@ -1,5 +1,5 @@
 'use strict';
-const { red } = require('chalk');
+// const { red } = require('chalk');
 const db = require('../server/db');
 const faker = require('faker');
 const Sentencer = require('sentencer');
@@ -20,7 +20,7 @@ const userGenerator = () => {
       authenticated: false,
       creditCardNumber: ccGenerator.GenCC()[0],
       passwordResetTriggered: false,
-      address: faker.address.streetAddress(),
+      address: [faker.address.streetAddress()],
       password: faker.internet.password()
     });
   }
@@ -54,22 +54,22 @@ const userGenerator = () => {
 
 // const usersArray = Array.from({ length: 110 }, () => userGenerator());
 
-// const productGenerator = () => {
-//   let products = [];
-//   for (let i = 0; i < 1001; i++) {
-//     let productName = faker.commerce.productName();
-//     products.push({
-//       name: productName,
-//       category: faker.commerce.productAdjective(),
-//       imageUrl: faker.image.animals(),
-//       description: faker.lorem.sentence(),
-//       price: faker.commerce.price(),
-//       inventoryQuantity: faker.random.number(),
-//       availability: true
-//     });
-//   }
-//   return products;
-// };
+const productGenerator = () => {
+  let products = [];
+  for (let i = 0; i < 1001; i++) {
+    let productName = faker.commerce.productName();
+    products.push({
+      name: productName,
+      category: faker.commerce.productAdjective(),
+      imageUrl: faker.image.animals(),
+      description: faker.lorem.sentence(),
+      price: faker.commerce.price(),
+      inventoryQuantity: faker.random.number(),
+      availability: true
+    });
+  }
+  return products;
+};
 
 // const reviewGenerator = () => {
 //   let reviews = [];
@@ -83,7 +83,6 @@ const userGenerator = () => {
 //   }
 // };
 
-const users = userGenerator();
 // const products = productGenerator();
 // const productInfo = products[Math.floor(Math.random() * 1000)];
 
@@ -101,20 +100,22 @@ const users = userGenerator();
 
 // const reviews = reviewGenerator();
 // const orders = orderGenerator();
+const users = userGenerator();
 
-const seed = async () => {
-  try {
-    await db.sync({ force: true });
-    console.log('HELLO');
-    // await User.bulkCreate(usersArray, { validate: true });
-    await Promise.all(users.map(user => User.create(user)));
-    // await Promise.all(products.map(product => Product.create(product)));
-    // await Promise.all(reviews.map(review => Review.create(review)));
-    // await Promise.all(orders.map(order => Order.create(order)));
-  } catch (error) {
-    console.log(red(error));
-  }
-};
+async function seed() {
+  await db.sync({ force: true });
+  console.log('db synced!');
+
+  await Promise.all(
+    users.map(user => User.create(user))
+    // User.create({ email: 'cody@email.com', password: '123' }),
+    // User.create({ email: 'murphy@email.com', password: '123' })
+  );
+
+  // console.log(`seeded ${syncedUsers.length} users`);
+  console.log(`seeded successfully`);
+}
+
 // We've separated the `seed` function from the `runSeed` function.
 // This way we can isolate the error handling and exit trapping.
 // The `seed` function is concerned only with modifying the database.
@@ -132,12 +133,12 @@ async function runSeed() {
   }
 }
 
+// we export the seed function for testing purposes (see `./seed.spec.js`)
+module.exports = seed;
+
 // Execute the `seed` function, IF we ran this module directly (`node seed`).
 // `Async` functions always return a promise, so we can use `catch` to handle
 // any errors that might occur inside of `seed`.
 if (module === require.main) {
   runSeed();
 }
-
-// we export the seed function for testing purposes (see `./seed.spec.js`)
-module.exports = seed;

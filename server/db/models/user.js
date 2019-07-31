@@ -3,13 +3,34 @@ const Sequelize = require('sequelize');
 const db = require('../db');
 
 const User = db.define('user', {
+  firstName: {
+    //
+    type: Sequelize.STRING,
+    allowNull: false
+  },
+  lastName: {
+    //
+    type: Sequelize.STRING,
+    allowNull: false
+  },
   email: {
+    //
     type: Sequelize.STRING,
     unique: true,
     allowNull: false,
     validate: {
       isEmail: true
     }
+  },
+  isAdmin: {
+    //
+    type: Sequelize.BOOLEAN,
+    defaultValue: false
+  },
+  creditCardNumber: {
+    //
+    type: Sequelize.BIGINT,
+    allowNull: true
   },
   password: {
     type: Sequelize.STRING,
@@ -20,7 +41,13 @@ const User = db.define('user', {
       return () => this.getDataValue('password');
     }
   },
+  passwordResetTriggered: {
+    //
+    type: Sequelize.BOOLEAN,
+    defaultValue: false
+  },
   salt: {
+    //
     type: Sequelize.STRING,
     // Making `.salt` act like a function hides it when serializing to JSON.
     // This is a hack to get around Sequelize's lack of a "private" option.
@@ -31,31 +58,14 @@ const User = db.define('user', {
   googleId: {
     type: Sequelize.STRING
   },
-  firstName: {
-    type: Sequelize.STRING,
-    allowNull: false
-  },
-  lastName: {
-    type: Sequelize.STRING,
-    allowNull: false
-  },
+
   authenticated: {
     type: Sequelize.BOOLEAN,
     defaultValue: false
   },
-  isAdmin: {
-    type: Sequelize.BOOLEAN,
-    defaultValue: false
-  },
-  creditCardNumber: {
-    type: Sequelize.INTEGER,
-    allowNull: true
-  },
-  passwordResetTriggered: {
-    type: Sequelize.BOOLEAN,
-    defaultValue: false
-  },
+
   address: {
+    //
     type: Sequelize.ARRAY(Sequelize.STRING),
     allowNull: false
   }
