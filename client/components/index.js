@@ -7,4 +7,5 @@ export { default as Navbar } from './navbar';
 export { default as allProducts } from './allProducts';
 export { default as allUsers } from './allUsers';
 export { default as UserHome } from './user-home';
+export { default as SingleProduct } from './SingleProduct';
 export { Login, Signup } from './auth-form';

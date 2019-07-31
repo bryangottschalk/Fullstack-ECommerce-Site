@@ -11,7 +11,6 @@ export class allUsers extends React.Component {
 
   render() {
     const users = this.props.users;
-    console.log('users', users);
     return (
       <div>
         <ul id="UsersList">
