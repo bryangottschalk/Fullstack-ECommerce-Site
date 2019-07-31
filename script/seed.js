@@ -5,7 +5,13 @@ const Faker = require('faker');
 const Random = require('random-name');
 const Sentencer = require('sentencer');
 const ccGenerator = require('creditcard-generator');
-const { User, Review, Order, Product } = require('../server/db/models');
+const {
+  User,
+  Review,
+  Order,
+  Product,
+  ProductOrder
+} = require('../server/db/models');
 
 const userGenerator = () => {
   let users = [];
@@ -96,9 +102,30 @@ async function seed() {
     address: ['123 Road'],
     creditCardNumber: 99999
   });
+
   await Promise.all(users.map(user => User.create(user)));
   await Promise.all(products.map(product => Product.create(product)));
   await Promise.all(orders.map(order => Order.create(order)));
+
+  for (let i = 1; i <= 10; i++) {
+    const price = (1 + Math.random() * 300).toFixed(2);
+    const test = await Product.create({
+      name: 'product',
+      price,
+      inventoryQuantity: Math.ceil(1 + Math.random() * 200),
+      description: 'aaaa'
+    });
+
+    await Order.findByPk(i).then(order => {
+      order.addProduct(test, {
+        through: {
+          quantity: Math.ceil(1 + Math.random() * 50),
+          unitPrice: price
+        }
+      });
+    });
+  }
+
   await Promise.all(reviews.map(review => Review.create(review)));
   console.log(green(`seeded successfully`));
 }

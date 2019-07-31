@@ -1,4 +1,5 @@
 import axios from 'axios';
+import history from '../history';
 
 const GET_ALL_PRODUCTS = 'GET_ALL_PRODUCTS';
 

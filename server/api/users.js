@@ -15,3 +15,16 @@ router.get('/', async (req, res, next) => {
     next(err);
   }
 });
+
+router.delete('/:userId', async (req, res, next) => {
+  try {
+    await User.destroy({
+      where: {
+        id: req.params.userId
+      }
+    });
+    res.sendStatus(202);
+  } catch (error) {
+    next(error);
+  }
+});

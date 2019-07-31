@@ -1,13 +1,20 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
-import { getAllUsersThunk } from '../store/allUsers';
-//import removeUser thunk ??
+import { getAllUsersThunk, deleteUserThunk } from '../store/allUsers';
 
 export class allUsers extends React.Component {
+  constructor() {
+    super();
+  }
   async componentDidMount() {
     await this.props.fetchUsers();
   }
+
+  handleDelete = (event, userId) => {
+    event.preventDefault();
+    this.props.deleteUser(userId, '/users');
+  };
 
   render() {
     const users = this.props.users;
@@ -24,7 +31,11 @@ export class allUsers extends React.Component {
                 </NavLink>
 
                 <img className="user-image" src={user.imageUrl} />
-                <button type="button" className="remove">
+                <button
+                  type="button"
+                  className="remove"
+                  onClick={event => this.handleDelete(event, user.id)}
+                >
                   DELETE USER
                 </button>
               </li>
@@ -41,7 +52,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  // removeUser: userId => dipsatch(removeUserThunk(userId))
+  deleteUser: (userId, redirectPath) =>
+    dispatch(deleteUserThunk(userId, redirectPath)),
   fetchUsers: () => dispatch(getAllUsersThunk())
 });
 
