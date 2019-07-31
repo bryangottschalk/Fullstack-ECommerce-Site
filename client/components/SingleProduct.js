@@ -3,14 +3,14 @@ import { connect } from 'react-redux';
 import { getSingleProductThunk } from '../store/singleProduct';
 
 class SingleProduct extends React.Component {
-  async componentDidMount() {
-    await this.props.getProduct(this.props.match.params.id);
+  componentDidMount() {
+    this.props.getProduct(this.props.match.params.id);
   }
   render() {
     const { product } = this.props;
     return (
       <div>
-        <img src="http://placekitten.com/500/500" />
+        <img src={product.imageUrl} />
         <h1>{product.name}</h1>
         <h3>{`$${product.price}`}</h3>
         <h3>{product.description}</h3>
