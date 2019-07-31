@@ -6,12 +6,6 @@ const Product = db.define('product', {
     type: Sequelize.STRING,
     allowNull: false
   },
-  category: {
-    type: Sequelize.ARRAY(
-      Sequelize.ENUM('category1', 'category2', 'category3')
-    ),
-    allowNull: false
-  },
   imageUrl: {
     type: Sequelize.STRING,
     defaultValue: 'https://placekitten.com/200/300'
