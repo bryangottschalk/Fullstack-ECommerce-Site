@@ -1,117 +1,106 @@
 'use strict';
-const { red } = require('chalk');
+const { green, red } = require('chalk');
 const db = require('../server/db');
-const faker = require('faker');
+const Faker = require('faker');
+const Random = require('random-name');
 const Sentencer = require('sentencer');
 const ccGenerator = require('creditcard-generator');
 const { User, Review, Order, Product } = require('../server/db/models');
 
 const userGenerator = () => {
   let users = [];
-  for (let i = 0; i < 1001; i++) {
-    let firstName = faker.name.firstName();
-    let lastName = faker.name.lastName();
+  for (let i = 0; i < 10; i++) {
+    let firstName = Random.first();
+    let lastName = Random.last();
+    let emailName = (
+      firstName.toLowerCase().trim() +
+      '.' +
+      lastName.toLowerCase().trim()
+    ).replace(/\s/g, '');
     users.push({
       firstName: firstName,
       lastName: lastName,
-      email: `${firstName}.${lastName}@email.com`,
-      imageUrl: faker.image.avatar(),
+      email: `${emailName}@gmail.com`,
+      imageUrl: Faker.image.avatar(),
       isAdmin: false,
       authenticated: false,
       creditCardNumber: ccGenerator.GenCC()[0],
       passwordResetTriggered: false,
-      address: [faker.address.streetAddress()],
-      password: faker.internet.password()
+      address: [Faker.address.streetAddress()],
+      password: Faker.internet.password()
     });
   }
   return users;
 };
 
-// const userGenerator = () => {
-//   const firstName = faker.name.firstName();
-//   const lastName = faker.name.lastName();
-//   const email = `${firstName}.${lastName}@email.com`;
-//   const imageUrl = faker.image.avatar();
-//   const isAdmin = false;
-//   const authenticated = false;
-//   const creditCardNumber = ccGenerator.GenCC()[0];
-//   const passwordResetTriggered = false;
-//   const address = faker.address.streetAddress();
-//   const password = faker.internet.password();
-//   return {
-//     firstName,
-//     lastName,
-//     email,
-//     imageUrl,
-//     isAdmin,
-//     authenticated,
-//     creditCardNumber,
-//     passwordResetTriggered,
-//     address,
-//     password
-//   };
-// };
-
-// const usersArray = Array.from({ length: 110 }, () => userGenerator());
+const users = userGenerator();
 
 const productGenerator = () => {
   let products = [];
-  for (let i = 0; i < 1001; i++) {
-    let productName = faker.commerce.productName();
+  for (let i = 0; i < 10; i++) {
+    let productName = Faker.commerce.productName();
     products.push({
       name: productName,
-      category: ['category1'],
-      imageUrl: faker.image.animals(),
-      description: faker.lorem.sentence(),
-      price: faker.commerce.price(),
-      inventoryQuantity: faker.random.number(),
+      imageUrl: Faker.image.animals(),
+      description: Sentencer.make(
+        'This product has {{ a_noun }} and {{ an_adjective }} {{ noun }} in it.'
+      ),
+      price: (1 + Math.random() * 300).toFixed(2),
+      inventoryQuantity: Math.ceil(1 + Math.random() * 200),
       availability: true
     });
   }
   return products;
 };
 
-// const reviewGenerator = () => {
-//   let reviews = [];
-//   for (let i = 0; i < 301; i++) {
-//     reviews.push({
-//       content: faker.lorem.sentences(),
-//       star: faker.random.number({ min: 0, max: 5 }),
-//       userId: faker.random.number({ min: 1, max: 1000 }),
-//       productId: faker.random.number({ min: 10, max: 1000 })
-//     });
-//   }
-// };
-
 const products = productGenerator();
-// console.log('TCL: products', products);
-// const productInfo = products[Math.floor(Math.random() * 1000)];
 
-// const orderGenerator = () => {
-//   let orders = [];
-//   for (let i = 0; i < 101; i++) {
-//     orders.push({
-//       total: faker.random.number({ min: 0, max: 10000, precision: 0.01 }),
-//       status: 'Completed',
-//       shippingAddress: users[Math.floor(Math.random() * 100)].address,
-//       productList: [`${productInfo.id}, ${productInfo.price}, 3 `]
-//     });
-//   }
-// };
+const reviewGenerator = () => {
+  let reviews = [];
+  for (let i = 0; i < 10; i++) {
+    reviews.push({
+      content: Faker.lorem.sentences(),
+      star: Math.ceil(Math.random() * 5),
+      userId: i + 1,
+      productId: i + 1
+    });
+  }
+  return reviews;
+};
 
-// const reviews = reviewGenerator();
-// const orders = orderGenerator();
-const users = userGenerator();
+const reviews = reviewGenerator();
+
+const orderGenerator = () => {
+  let orders = [];
+  for (let i = 0; i < 10; i++) {
+    orders.push({
+      total: (1 + Math.random() * 500).toFixed(2),
+      status: 'Cart',
+      shippingAddress: users[i].address[0],
+      userId: i + 1
+    });
+  }
+  return orders;
+};
+
+const orders = orderGenerator();
 
 async function seed() {
   await db.sync({ force: true });
   console.log('db synced!');
-
+  await User.create({
+    email: 'cody.cody@email.com',
+    password: '123',
+    firstName: 'cody',
+    lastName: 'cody',
+    address: ['123 Road'],
+    creditCardNumber: 99999
+  });
   await Promise.all(users.map(user => User.create(user)));
   await Promise.all(products.map(product => Product.create(product)));
-
-  // console.log(`seeded ${syncedUsers.length} users`);
-  console.log(`seeded successfully`);
+  await Promise.all(orders.map(order => Order.create(order)));
+  await Promise.all(reviews.map(review => Review.create(review)));
+  console.log(green(`seeded successfully`));
 }
 
 // We've separated the `seed` function from the `runSeed` function.
@@ -122,7 +111,7 @@ async function runSeed() {
   try {
     await seed();
   } catch (err) {
-    console.error(err);
+    console.error(red(err));
     process.exitCode = 1;
   } finally {
     console.log('closing db connection');
