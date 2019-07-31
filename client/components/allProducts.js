@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
-import { getAllProductsThunk } from '../store/allProducts';
+import { getAllProductsThunk, deleteProduct } from '../store/allProducts';
+import { addToCartThunk } from '../store/cart';
 //import remote product thunk?
 
 export class allProducts extends React.Component {
@@ -11,7 +12,7 @@ export class allProducts extends React.Component {
 
   render() {
     const products = this.props.products;
-    console.log('products', this.props);
+
     return (
       <div>
         <ul id="UsersList">
@@ -24,8 +25,25 @@ export class allProducts extends React.Component {
                 </NavLink>
 
                 <img className="user-image" src={product.imageUrl} />
-                <button type="button" className="addToCart">
+                <button
+                  type="button"
+                  className="addToCart"
+                  // onClick={() =>
+                  //   this.props.quickAdd({
+                  //     quantity: 1,
+                  //     unitPrice: product.price,
+                  //     productId: product.id,
+                  //     orderId:
+                  //   })
+                  // }
+                >
                   QUICK ADD
+                </button>
+                <button
+                  type="button"
+                  onClick={() => this.props.deleteProduct(product.id)}
+                >
+                  DELETE
                 </button>
               </li>
             );
@@ -37,12 +55,15 @@ export class allProducts extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  products: state.allProductsReducer
+  products: state.allProductsReducer,
+  user: state.user
 });
 
 const mapDispatchToProps = dispatch => ({
   // removeProduct: productId => dipsatch(removeProductThunk(productId))
-  fetchProducts: () => dispatch(getAllProductsThunk())
+  fetchProducts: () => dispatch(getAllProductsThunk()),
+  deleteProduct: productId => dispatch(deleteProduct(productId)),
+  quickAdd: item => dispatch(addToCartThunk(item))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(allProducts);
