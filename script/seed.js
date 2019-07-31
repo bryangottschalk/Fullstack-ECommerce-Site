@@ -5,7 +5,13 @@ const Faker = require('faker');
 const Random = require('random-name');
 const Sentencer = require('sentencer');
 const ccGenerator = require('creditcard-generator');
-const { User, Review, Order, Product } = require('../server/db/models');
+const {
+  User,
+  Review,
+  Order,
+  Product,
+  ProductOrder
+} = require('../server/db/models');
 
 const userGenerator = () => {
   let users = [];
