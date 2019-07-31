@@ -12,7 +12,6 @@ const initialState = [];
 export const getAllProductsThunk = () => {
   return async dispatch => {
     const response = await axios.get('/api/products');
-    console.log('res', response);
     const allProducts = response.data;
     const action = getAllProducts(allProducts);
     dispatch(action);
