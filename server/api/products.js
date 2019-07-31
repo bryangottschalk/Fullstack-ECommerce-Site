@@ -26,3 +26,24 @@ router.get('/', async (req, res, next) => {
     next(err);
   }
 });
+
+router.delete('/:productId', async (req, res, next) => {
+  try {
+    await Product.destroy({
+      where: {
+        id: req.params.productId
+      }
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.post('/', async (req, res, next) => {
+  try {
+    const newProduct = await Product.create(req.body);
+    res.json(newProduct);
+  } catch (err) {
+    next(err);
+  }
+});
