@@ -14,7 +14,7 @@ export class allProducts extends React.Component {
 
   render() {
     const products = this.props.products;
-
+    console.log('PROPS', this.props);
     return (
       <div>
         <Button>GELLO</Button>
@@ -31,14 +31,14 @@ export class allProducts extends React.Component {
                 <button
                   type="button"
                   className="addToCart"
-                  // onClick={() =>
-                  //   this.props.quickAdd({
-                  //     quantity: 1,
-                  //     unitPrice: product.price,
-                  //     productId: product.id,
-                  //     orderId:
-                  //   })
-                  // }
+                  onClick={() =>
+                    this.props.quickAdd({
+                      quantity: 1,
+                      unitPrice: product.price,
+                      productId: product.id,
+                      orderId: this.props.cart.id
+                    })
+                  }
                 >
                   QUICK ADD
                 </button>
@@ -59,7 +59,8 @@ export class allProducts extends React.Component {
 
 const mapStateToProps = state => ({
   products: state.allProductsReducer,
-  user: state.user
+  user: state.user,
+  cart: state.cartReducer
 });
 
 const mapDispatchToProps = dispatch => ({

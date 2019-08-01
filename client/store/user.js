@@ -47,7 +47,10 @@ export const auth = (userInfo, method) => async dispatch => {
           'https://s3.amazonaws.com/uifaces/faces/twitter/thedamianhdez/128.jpg'
       });
     } else {
-      res = await axios.post(`/auth/${method}`, { email, password });
+      res = await axios.post(`/auth/${method}`, {
+        email: userInfo.email,
+        password: userInfo.password
+      });
     }
   } catch (authError) {
     return dispatch(getUser({ error: authError }));

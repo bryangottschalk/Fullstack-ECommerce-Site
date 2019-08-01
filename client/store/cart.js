@@ -4,11 +4,6 @@ const ADD_TO_CART = 'ADD_TO_CART';
 const DELETE_FROM_CART = 'DELETE_FROM_CART';
 const SET_CART_ID = 'SET_CART_ID';
 
-const initialCart = {
-  id: 0,
-  items: []
-};
-
 const addToCart = item => ({
   type: ADD_TO_CART,
   item
@@ -24,7 +19,7 @@ export const setCartIdThunk = id => {
     try {
       const { data } = await axios.get(`/api/orders/${id}`);
       console.log('DATA', data);
-      dispatch(setCartId(data.id));
+      dispatch(setCartId(data[0].id));
     } catch (error) {
       console.error(error);
     }
@@ -42,10 +37,20 @@ export const addToCartThunk = item => {
   };
 };
 
+const initialCart = {
+  id: 0,
+  items: []
+};
+
 const cartReducer = (state = initialCart, action) => {
   switch (action.type) {
     case ADD_TO_CART:
-      return [...state, action.item];
+      return { ...state, items: [...state.items, action.item] };
+    case SET_CART_ID:
+      return {
+        ...state,
+        id: action.id
+      };
     default:
       return state;
   }
