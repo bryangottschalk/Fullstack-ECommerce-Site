@@ -4,6 +4,8 @@ import { NavLink } from 'react-router-dom';
 import { getAllProductsThunk, deleteProductThunk } from '../store/allProducts';
 import { addToCartThunk, setCartIdThunk } from '../store/cart';
 import { Button } from 'semantic-ui-react';
+import { Card, Image } from 'semantic-ui-react';
+
 //import remote product thunk?
 
 export class allProducts extends React.Component {
@@ -19,43 +21,45 @@ export class allProducts extends React.Component {
 
   render() {
     const products = this.props.products;
-    console.log('PROPS', this.props);
     return (
       <div>
-        <ul id="UsersList">
+        <Card.Group itemsPerRow={6}>
           {products.map(product => {
             return (
-              <li key={product.id}>
-                <NavLink to={`products/${product.id}`}>
-                  PRODUCT: {product.name}
-                  RATING: {products.rating}
-                </NavLink>
-
-                <img className="user-image" src={product.imageUrl} />
-                <Button
-                  type="button"
-                  className="addToCart"
-                  onClick={() =>
-                    this.props.quickAdd({
-                      quantity: 1,
-                      unitPrice: product.price,
-                      productId: product.id,
-                      orderId: this.props.cart.id
-                    })
-                  }
-                >
-                  QUICK ADD
-                </Button>
-                <button
-                  type="button"
-                  onClick={event => this.handleDelete(event, product.id)}
-                >
-                  DELETE
-                </button>
-              </li>
+              <Card key={product.id} id="UsersList">
+                <Card.Content>
+                  <Image src={product.imageUrl} />
+                  <Card.Header>
+                    <NavLink to={`products/${product.id}`}>
+                      {product.name}
+                    </NavLink>
+                  </Card.Header>
+                  <Card.Meta>RATING: {products.rating}</Card.Meta>
+                  <button
+                    type="button"
+                    className="addToCart"
+                    onClick={() =>
+                      this.props.quickAdd({
+                        quantity: 1,
+                        unitPrice: product.price,
+                        productId: product.id,
+                        orderId: this.props.cart.id
+                      })
+                    }
+                  >
+                    QUICK ADD
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => this.props.deleteProduct(product.id)}
+                  >
+                    DELETE
+                  </button>
+                </Card.Content>
+              </Card>
             );
           })}
-        </ul>
+        </Card.Group>
       </div>
     );
   }
