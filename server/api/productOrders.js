@@ -13,12 +13,26 @@ router.get('/', async (req, res, next) => {
 
 router.post('/', async (req, res, next) => {
   try {
-    const addToOrder = await ProductOrder.create(req.body);
-    console.log('typeof req.body quantity', typeof req.body.quantity);
-    console.log('typeof req.body unitPrice', typeof req.body.unitPrice);
-
-    // console.log('addToOrder:', addToOrder, 'req.body', req.body);
-    res.status(201).send(addToOrder);
+    console.log('REWQBOY', req.body);
+    console.log('******************************');
+    const order = await ProductOrder.findOne({
+      where: {
+        productId: req.body.productId,
+        orderId: req.body.orderId
+      }
+    });
+    if (!order) {
+      console.log('REB', req.body);
+      console.log('HELLOOOO');
+      const newOrder = await ProductOrder.create({
+        productId: req.body.productId,
+        orderId: req.body.orderId,
+        quantity: 1
+      });
+    } else {
+      order.quantity++;
+      order.save();
+    }
   } catch (error) {
     next(error);
   }

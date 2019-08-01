@@ -14,23 +14,28 @@ const setCartId = id => ({
   id
 });
 
-export const setCartIdThunk = id => {
+export const setCartIdThunk = userId => {
   return async dispatch => {
     try {
-      const { data } = await axios.get(`/api/orders/${id}`);
-      console.log('DATA', data);
-      dispatch(setCartId(data[0].id));
+      const { data } = await axios.post('/api/orders', {
+        status: 'Cart',
+        userId: userId
+      });
+      dispatch(setCartId(data.id));
     } catch (error) {
       console.error(error);
     }
   };
 };
 
-export const addToCartThunk = item => {
+export const addToCartThunk = (item, order) => {
   return async dispatch => {
     try {
-      const { data } = await axios.post('/api/productOrders', item);
-      dispatch(addToCart(data));
+      const { data } = await axios.post('/api/productOrders', {
+        productId: item.id,
+        orderId: order
+      });
+      // dispatch(addToCart(data));
     } catch (error) {
       console.error(error);
     }

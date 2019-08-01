@@ -1,15 +1,32 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
-import { getAllProductsThunk, deleteProduct } from '../store/allProducts';
+import {
+  getAllProductsThunk,
+  deleteProduct,
+  addProduct
+} from '../store/allProducts';
 import { addToCartThunk, setCartIdThunk } from '../store/cart';
 import { Button } from 'semantic-ui-react';
 //import remote product thunk?
 
 export class allProducts extends React.Component {
+  constructor() {
+    super();
+
+    this.addProduct = this.addProduct.bind(this);
+  }
+
   async componentDidMount() {
     await this.props.fetchProducts();
-    await this.props.setCartId(this.props.user.id);
+  }
+
+  async addProduct(product) {
+    if (this.props.cart.id === 0) {
+      await this.props.setCartId(this.props.user.id);
+      console.log('this.propsasjdkf;a&&&&&&&&&&&&&&', this.props.cart);
+    }
+    await this.props.quickAdd(product, this.props.cart.id);
   }
 
   render() {
@@ -30,14 +47,7 @@ export class allProducts extends React.Component {
                 <Button
                   type="button"
                   className="addToCart"
-                  onClick={() =>
-                    this.props.quickAdd({
-                      quantity: 1,
-                      unitPrice: product.price,
-                      productId: product.id,
-                      orderId: this.props.cart.id
-                    })
-                  }
+                  onClick={() => this.addProduct(product)}
                 >
                   QUICK ADD
                 </Button>
@@ -66,8 +76,8 @@ const mapDispatchToProps = dispatch => ({
   // removeProduct: productId => dipsatch(removeProductThunk(productId))
   fetchProducts: () => dispatch(getAllProductsThunk()),
   deleteProduct: productId => dispatch(deleteProduct(productId)),
-  quickAdd: item => dispatch(addToCartThunk(item)),
-  setCartId: id => dispatch(setCartIdThunk(id))
+  quickAdd: (item, order) => dispatch(addToCartThunk(item, order)),
+  setCartId: userId => dispatch(setCartIdThunk(userId))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(allProducts);
