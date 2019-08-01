@@ -1,5 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import ReviewForm from './ReviewForm';
+
 import { getSingleProductThunk } from '../store/singleProduct';
 
 class SingleProduct extends React.Component {
@@ -22,6 +24,7 @@ class SingleProduct extends React.Component {
         >
           Add To Cart
         </button>
+        <ReviewForm />
       </div>
     );
   }
