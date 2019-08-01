@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import ReviewForm from './ReviewForm';
+import ListReviews from './ListReviews';
 
 import { getSingleProductThunk } from '../store/singleProduct';
 
@@ -10,6 +11,8 @@ class SingleProduct extends React.Component {
   }
   render() {
     const { product } = this.props;
+    const reviews = product.reviews;
+    console.log('TCL: SingleProduct -> render -> reviews', reviews);
     return (
       <div>
         <img src={product.imageUrl} />
@@ -25,6 +28,7 @@ class SingleProduct extends React.Component {
           Add To Cart
         </button>
         <ReviewForm />
+        <ListReviews reviews={reviews} />
       </div>
     );
   }

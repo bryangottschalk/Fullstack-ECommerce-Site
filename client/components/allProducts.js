@@ -3,8 +3,7 @@ import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { getAllProductsThunk, deleteProductThunk } from '../store/allProducts';
 import { addToCartThunk, setCartIdThunk } from '../store/cart';
-import { Button } from 'semantic-ui-react';
-import { Card, Image } from 'semantic-ui-react';
+import { Card, Image, Button } from 'semantic-ui-react';
 
 //import remote product thunk?
 
