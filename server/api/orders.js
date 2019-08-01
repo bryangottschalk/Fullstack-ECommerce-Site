@@ -4,7 +4,7 @@ module.exports = router;
 
 router.get('/:userId', async (req, res, next) => {
   try {
-    const order = await Order.findOne({
+    const order = await Order.findOrCreate({
       where: {
         userId: req.params.userId,
         status: 'Cart'
@@ -15,3 +15,11 @@ router.get('/:userId', async (req, res, next) => {
     next(error);
   }
 });
+
+// router.post('/:userId', async (req, res, next) => {
+//   try {
+//     const order = await Order.create(req.body)
+//   } catch (error) {
+//     next(error)
+//   }
+// })
