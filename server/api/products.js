@@ -33,6 +33,7 @@ router.delete('/:productId', async (req, res, next) => {
         id: req.params.productId
       }
     });
+    res.sendStatus(202);
   } catch (err) {
     next(err);
   }

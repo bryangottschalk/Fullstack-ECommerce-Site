@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
-import { getAllProductsThunk, deleteProduct } from '../store/allProducts';
+import { getAllProductsThunk, deleteProductThunk } from '../store/allProducts';
 import { addToCartThunk, setCartIdThunk } from '../store/cart';
 import { Button } from 'semantic-ui-react';
 //import remote product thunk?
@@ -9,8 +9,13 @@ import { Button } from 'semantic-ui-react';
 export class allProducts extends React.Component {
   async componentDidMount() {
     await this.props.fetchProducts();
-    await this.props.setCartId(this.props.user.id);
+    // await this.props.setCartId(this.props.user.id);
   }
+
+  handleDelete = (event, productId) => {
+    event.preventDefault();
+    this.props.deleteProduct(productId, '/products');
+  };
 
   render() {
     const products = this.props.products;
@@ -43,7 +48,7 @@ export class allProducts extends React.Component {
                 </Button>
                 <button
                   type="button"
-                  onClick={() => this.props.deleteProduct(product.id)}
+                  onClick={event => this.handleDelete(event, product.id)}
                 >
                   DELETE
                 </button>
@@ -65,7 +70,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   // removeProduct: productId => dipsatch(removeProductThunk(productId))
   fetchProducts: () => dispatch(getAllProductsThunk()),
-  deleteProduct: productId => dispatch(deleteProduct(productId)),
+  deleteProduct: (productId, redirectPath) =>
+    dispatch(deleteProductThunk(productId, redirectPath)),
   quickAdd: item => dispatch(addToCartThunk(item)),
   setCartId: id => dispatch(setCartIdThunk(id))
 });
