@@ -17,7 +17,6 @@ export class allProducts extends React.Component {
     console.log('PROPS', this.props);
     return (
       <div>
-        <Button>GELLO</Button>
         <ul id="UsersList">
           {products.map(product => {
             return (
@@ -28,7 +27,7 @@ export class allProducts extends React.Component {
                 </NavLink>
 
                 <img className="user-image" src={product.imageUrl} />
-                <button
+                <Button
                   type="button"
                   className="addToCart"
                   onClick={() =>
@@ -41,7 +40,7 @@ export class allProducts extends React.Component {
                   }
                 >
                   QUICK ADD
-                </button>
+                </Button>
                 <button
                   type="button"
                   onClick={() => this.props.deleteProduct(product.id)}
