@@ -29,7 +29,6 @@ const userGenerator = () => {
       email: `${emailName}@gmail.com`,
       imageUrl: Faker.image.avatar(),
       isAdmin: false,
-      authenticated: false,
       creditCardNumber: ccGenerator.GenCC()[0],
       passwordResetTriggered: false,
       address: [Faker.address.streetAddress()],
@@ -108,7 +107,8 @@ async function seed() {
     firstName: 'cody',
     lastName: 'cody',
     address: ['123 Road'],
-    creditCardNumber: 99999
+    creditCardNumber: 999999999,
+    imageUrl: Faker.image.avatar()
   });
 
   await Promise.all(users.map(user => User.create(user)));

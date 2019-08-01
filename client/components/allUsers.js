@@ -4,9 +4,6 @@ import { NavLink } from 'react-router-dom';
 import { getAllUsersThunk, deleteUserThunk } from '../store/allUsers';
 
 export class allUsers extends React.Component {
-  constructor() {
-    super();
-  }
   async componentDidMount() {
     await this.props.fetchUsers();
   }
