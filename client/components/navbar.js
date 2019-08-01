@@ -1,28 +1,48 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { logout } from '../store';
+import { Button, Header } from 'semantic-ui-react';
 
 const Navbar = ({ handleClick, isLoggedIn }) => (
   <div>
-    <h1>Graceshopper App</h1>
+    <Header as="h1"> Graceshopper App! </Header>
     <nav>
       {isLoggedIn ? (
         <div>
           {/* The navbar will show these links after you log in */}
-          <Link to="/home">Home</Link>
-          <Link to="/cart">Cart</Link>
+          <NavLink to="/home">
+            <Button type="button">Home</Button>
+          </NavLink>
+          <NavLink to="/products">
+            <Button>All Products</Button>
+          </NavLink>
+          <NavLink to="/cart">
+            <Button>Cart</Button>
+          </NavLink>
+          <NavLink to="/myaccount">
+            <Button>My Account</Button>
+          </NavLink>
           <a href="#" onClick={handleClick}>
-            Logout
+            <Button>Logout</Button>
           </a>
         </div>
       ) : (
         <div>
           {/* The navbar will show these links before you log in */}
-          <Link to="/login">Login</Link>
-          <Link to="/signup">Sign Up</Link>
-          <Link to="/cart">Cart</Link>
+          <NavLink to="/login">
+            <Button>Login</Button>
+          </NavLink>
+          <NavLink to="/products">
+            <Button>All Products</Button>
+          </NavLink>
+          <NavLink to="/signup">
+            <Button>Sign Up</Button>
+          </NavLink>
+          <NavLink to="/cart">
+            <Button>Cart</Button>
+          </NavLink>
         </div>
       )}
     </nav>

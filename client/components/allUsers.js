@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
+import { Button } from 'semantic-ui-react';
 import { getAllUsersThunk, deleteUserThunk } from '../store/allUsers';
 
 export class allUsers extends React.Component {
@@ -28,13 +29,13 @@ export class allUsers extends React.Component {
                 </NavLink>
 
                 <img className="user-image" src={user.imageUrl} />
-                <button
+                <Button
                   type="button"
                   className="remove"
                   onClick={event => this.handleDelete(event, user.id)}
                 >
                   DELETE USER
-                </button>
+                </Button>
               </li>
             );
           })}
