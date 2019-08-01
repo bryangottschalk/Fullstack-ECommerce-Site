@@ -4,7 +4,7 @@ import { postReviewThunk } from '../store/reviews';
 
 const initialState = {
   content: '',
-  star: null
+  star: ''
 };
 class ReviewForm extends React.Component {
   constructor() {
@@ -13,6 +13,7 @@ class ReviewForm extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
+
   handleChange(evt) {
     this.setState({
       [evt.target.name]: evt.target.value
@@ -20,8 +21,8 @@ class ReviewForm extends React.Component {
   }
   handleSubmit(evt) {
     evt.preventDefault();
-    //call postReview thunk passing in state
-    this.props.postReview(this.state);
+    console.log(typeof this.state.star);
+    this.props.postReview(this.state, this.props.productId);
     this.setState(initialState);
   }
   render() {
@@ -64,6 +65,7 @@ class ReviewForm extends React.Component {
   }
 }
 const mapDispatchToProps = dispatch => ({
-  postReview: formSubmission => dispatch(postReviewThunk(formSubmission))
+  postReview: (formSubmission, productId) =>
+    dispatch(postReviewThunk(formSubmission, productId))
 });
 export default connect(null, mapDispatchToProps)(ReviewForm);

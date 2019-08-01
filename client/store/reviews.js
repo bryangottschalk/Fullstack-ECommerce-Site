@@ -11,10 +11,13 @@ const postReview = formSubmission => ({
 
 // thunk creators
 
-export const postReviewThunk = formSubmission => {
+export const postReviewThunk = (formSubmission, productId) => {
   return async dispatch => {
     try {
-      const { data } = await axios.post('/api/reviews', formSubmission);
+      const { data } = await axios.post('/api/reviews', {
+        ...formSubmission,
+        productId: productId
+      });
       dispatch(postReview(data));
     } catch (err) {
       console.log('error adding review', err);

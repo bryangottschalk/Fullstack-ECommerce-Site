@@ -26,7 +26,7 @@ class SingleProduct extends React.Component {
         >
           Add To Cart
         </button>
-        <ReviewForm />
+        <ReviewForm productId={product.id} />
         <ListReviews reviews={reviews} />
       </div>
     );
