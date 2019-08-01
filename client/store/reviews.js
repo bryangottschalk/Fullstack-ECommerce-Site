@@ -18,6 +18,8 @@ export const postReviewThunk = (formSubmission, productId) => {
         ...formSubmission,
         productId: productId
       });
+      console.log('TCL: postReviewThunk -> data', data);
+
       dispatch(postReview(data));
     } catch (err) {
       console.log('error adding review', err);
@@ -30,7 +32,8 @@ const initialState = [];
 const productReviewsReducer = (state = initialState, action) => {
   switch (action.type) {
     case POST_REVIEW:
-      return [...state, action.review];
+      // const { content, star, productId, userId } = action.formSubmission;
+      return [...state, action.formSubmission];
     default:
       return state;
   }

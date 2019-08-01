@@ -9,6 +9,7 @@ class SingleProduct extends React.Component {
   componentDidMount() {
     this.props.getProduct(this.props.match.params.id);
   }
+
   render() {
     const { product } = this.props;
     const reviews = product.reviews;

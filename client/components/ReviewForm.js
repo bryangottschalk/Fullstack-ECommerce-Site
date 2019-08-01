@@ -21,8 +21,9 @@ class ReviewForm extends React.Component {
   }
   handleSubmit(evt) {
     evt.preventDefault();
-    console.log(typeof this.state.star);
     this.props.postReview(this.state, this.props.productId);
+    console.log('this.state', this.state);
+
     this.setState(initialState);
   }
   render() {
