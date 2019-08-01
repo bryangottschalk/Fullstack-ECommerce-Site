@@ -1,7 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { postReviewThunk } from '../store/reviews';
+
 const initialState = {
-  description: ''
+  content: '',
+  star: null
 };
 class ReviewForm extends React.Component {
   constructor() {
@@ -18,10 +21,11 @@ class ReviewForm extends React.Component {
   handleSubmit(evt) {
     evt.preventDefault();
     //call postReview thunk passing in state
+    this.props.postReview(this.state);
     this.setState(initialState);
   }
   render() {
-    const { description } = this.state;
+    const { content, star } = this.state;
     return (
       <div>
         <h2>Add a review for your pet!</h2>
@@ -29,15 +33,24 @@ class ReviewForm extends React.Component {
           <form className="ReviewForm" onSubmit={this.handleSubmit}>
             <ul>
               <li>
-                <label htmlFor="description">
-                  Did they make you feel warm and fuzzy inside?
+                <label htmlFor="content">
+                  Tell us about your pet experience. Has it made you feel warm
+                  and fuzzy inside?
                 </label>
                 <input
                   onChange={this.handleChange}
-                  name="description"
-                  // description="description"
+                  name="content"
                   type="text"
-                  value={description}
+                  value={content}
+                />
+                <label htmlFor="star">
+                  What would you rate it from 0 to 5 stars?
+                </label>
+                <input
+                  onChange={this.handleChange}
+                  name="star"
+                  type="text"
+                  value={star}
                 />
               </li>
               <li>
@@ -51,7 +64,6 @@ class ReviewForm extends React.Component {
   }
 }
 const mapDispatchToProps = dispatch => ({
-  // postReview thunk here
-  // loadCampus: formSubmission => dispatch(postCampus(formSubmission)),
+  postReview: formSubmission => dispatch(postReviewThunk(formSubmission))
 });
 export default connect(null, mapDispatchToProps)(ReviewForm);

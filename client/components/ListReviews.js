@@ -4,7 +4,7 @@ const ListReviews = props => {
   const { reviews } = props;
   return (
     <div>
-      <h1>Reviews:</h1>
+      <h1>Past Reviews:</h1>
       {reviews &&
         reviews.map(review => {
           return (

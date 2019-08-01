@@ -12,7 +12,6 @@ class SingleProduct extends React.Component {
   render() {
     const { product } = this.props;
     const reviews = product.reviews;
-    console.log('TCL: SingleProduct -> render -> reviews', reviews);
     return (
       <div>
         <img src={product.imageUrl} />

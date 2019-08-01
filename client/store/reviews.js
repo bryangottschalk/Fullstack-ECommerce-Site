@@ -1,13 +1,8 @@
 import axios from 'axios';
 
-const GET_REVIEWS_FOR_PRODUCT = 'GET_REVIEWS_FOR_PRODUCT';
 const POST_REVIEW = 'POST_REVIEW';
-//action creators
 
-const getReviewsForProduct = reviews => ({
-  type: GET_REVIEWS_FOR_PRODUCT,
-  reviews
-});
+//action creators
 
 const postReview = formSubmission => ({
   type: POST_REVIEW,
@@ -16,20 +11,23 @@ const postReview = formSubmission => ({
 
 // thunk creators
 
-export const getReviewsForProductThunk = () => {
-  return async dispatch => {};
-};
-
-export const postReviewThunk = () => {
-  return async dispatch => {};
+export const postReviewThunk = formSubmission => {
+  return async dispatch => {
+    try {
+      const { data } = await axios.post('/api/reviews', formSubmission);
+      dispatch(postReview(data));
+    } catch (err) {
+      console.log('error adding review', err);
+    }
+  };
 };
 
 const initialState = [];
 
 const productReviewsReducer = (state = initialState, action) => {
   switch (action.type) {
-    case GET_REVIEWS_FOR_PRODUCT:
-      return action.reviews;
+    case POST_REVIEW:
+      return [...state, action.review];
     default:
       return state;
   }
