@@ -54,15 +54,13 @@ const User = db.define('user', {
   googleId: {
     type: Sequelize.STRING
   },
-
-  authenticated: {
-    type: Sequelize.BOOLEAN,
-    defaultValue: false
-  },
-
   address: {
     //
     type: Sequelize.ARRAY(Sequelize.STRING),
+    allowNull: false
+  },
+  imageUrl: {
+    type: Sequelize.STRING,
     allowNull: false
   }
 });

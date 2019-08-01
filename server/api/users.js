@@ -16,6 +16,19 @@ router.get('/', async (req, res, next) => {
   }
 });
 
+router.delete('/:userId', async (req, res, next) => {
+  try {
+    await User.destroy({
+      where: {
+        id: req.params.userId
+      }
+    });
+    res.sendStatus(202);
+  } catch (error) {
+    next(error);
+  }
+});
+
 router.get('/:id', async (req, res, next) => {
   try {
     const user = await User.findByPk(req.params.id);

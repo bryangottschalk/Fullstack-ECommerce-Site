@@ -1,4 +1,5 @@
 import axios from 'axios';
+import history from '../history';
 
 // action types
 const GET_SINGLE_PRODUCT = 'GET_SINGLE_PRODUCT';

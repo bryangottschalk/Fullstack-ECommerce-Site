@@ -10,7 +10,7 @@ const {
   Review,
   Order,
   Product,
-  ProductOrder
+  Category
 } = require('../server/db/models');
 
 const userGenerator = () => {
@@ -29,7 +29,6 @@ const userGenerator = () => {
       email: `${emailName}@gmail.com`,
       imageUrl: Faker.image.avatar(),
       isAdmin: false,
-      authenticated: false,
       creditCardNumber: ccGenerator.GenCC()[0],
       passwordResetTriggered: false,
       address: [Faker.address.streetAddress()],
@@ -44,9 +43,8 @@ const users = userGenerator();
 const productGenerator = () => {
   let products = [];
   for (let i = 0; i < 10; i++) {
-    let productName = Faker.commerce.productName();
     products.push({
-      name: productName,
+      name: Faker.commerce.productName(),
       imageUrl: Faker.image.animals(),
       description: Sentencer.make(
         'This product has {{ a_noun }} and {{ an_adjective }} {{ noun }} in it.'
@@ -91,6 +89,15 @@ const orderGenerator = () => {
 
 const orders = orderGenerator();
 
+const categories = [
+  { name: 'Dog' },
+  { name: 'Cat' },
+  { name: 'Reptile' },
+  { name: 'Small Pet' },
+  { name: 'Food & Treats' },
+  { name: 'Supplies' }
+];
+
 async function seed() {
   await db.sync({ force: true });
   console.log('db synced!');
@@ -100,11 +107,48 @@ async function seed() {
     firstName: 'cody',
     lastName: 'cody',
     address: ['123 Road'],
-    creditCardNumber: 99999
+    creditCardNumber: 999999999,
+    imageUrl: Faker.image.avatar()
   });
+
   await Promise.all(users.map(user => User.create(user)));
   await Promise.all(products.map(product => Product.create(product)));
   await Promise.all(orders.map(order => Order.create(order)));
+  await Promise.all(categories.map(category => Category.create(category)));
+
+  // Seed data for cart items and category items
+  for (let i = 1; i <= 10; i++) {
+    const price = (1 + Math.random() * 300).toFixed(2);
+    const cartItem = await Product.create({
+      name: Faker.commerce.productName(),
+      imageUrl: Faker.image.animals(),
+      description: Sentencer.make(
+        'This product has {{ a_noun }} and {{ an_adjective }} {{ noun }} in it.'
+      ),
+      price: (1 + Math.random() * 300).toFixed(2),
+      inventoryQuantity: Math.ceil(1 + Math.random() * 200),
+      availability: true
+    });
+
+    await Category.findByPk(Math.ceil(i / 2)).then(category => {
+      category.addProduct(cartItem, {
+        through: {
+          quantity: Math.ceil(1 + Math.random() * 50),
+          unitPrice: price
+        }
+      });
+    });
+
+    await Order.findByPk(i).then(order => {
+      order.addProduct(cartItem, {
+        through: {
+          quantity: Math.ceil(1 + Math.random() * 50),
+          unitPrice: price
+        }
+      });
+    });
+  }
+
   await Promise.all(reviews.map(review => Review.create(review)));
   console.log(green(`seeded successfully`));
 }
