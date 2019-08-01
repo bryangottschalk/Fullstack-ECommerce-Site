@@ -22,8 +22,6 @@ const addProduct = product => ({
   product
 });
 
-const initialState = [];
-
 //THUNK CREATORS
 export const getAllProductsThunk = () => {
   return async dispatch => {
@@ -56,6 +54,8 @@ export const deleteProductThunk = (productId, redirectpath) => {
 //     }
 //   }
 // }
+
+const initialState = [];
 
 const allProductsReducer = (state = initialState, action) => {
   switch (action.type) {
