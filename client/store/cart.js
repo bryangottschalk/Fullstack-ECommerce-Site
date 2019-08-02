@@ -4,7 +4,7 @@ const ADD_TO_CART = 'ADD_TO_CART';
 const DELETE_FROM_CART = 'DELETE_FROM_CART';
 const SET_CART_ID = 'SET_CART_ID';
 
-const addToCart = item => ({
+export const addToCart = item => ({
   type: ADD_TO_CART,
   item
 });
@@ -35,7 +35,7 @@ export const addToCartThunk = (item, order) => {
         productId: item.id,
         orderId: order
       });
-      // dispatch(addToCart(data));
+      dispatch(addToCart(data));
     } catch (error) {
       console.error(error);
     }
@@ -50,6 +50,7 @@ const initialCart = {
 const cartReducer = (state = initialCart, action) => {
   switch (action.type) {
     case ADD_TO_CART:
+      console.log('adding to cart');
       return { ...state, items: [...state.items, action.item] };
     case SET_CART_ID:
       return {
@@ -57,6 +58,7 @@ const cartReducer = (state = initialCart, action) => {
         id: action.id
       };
     default:
+      console.log('inside default');
       return state;
   }
 };
