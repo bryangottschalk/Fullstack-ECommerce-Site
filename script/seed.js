@@ -108,7 +108,7 @@ async function seed() {
     lastName: 'cody',
     address: ['123 Road'],
     creditCardNumber: 999999999,
-    imageUrl: `https://robohash.org/${firstName}--${lastName}`
+    imageUrl: `https://robohash.org/cody--cody`
   });
 
   await Promise.all(users.map(user => User.create(user)));
