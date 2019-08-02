@@ -12,17 +12,15 @@ const getAllProducts = products => ({
   products
 });
 
-export const deleteProduct = productId => ({
+const deleteProduct = productId => ({
   type: DELETE_PRODUCT,
   productId
 });
 
-export const addProduct = product => ({
+const addProduct = product => ({
   type: ADD_PRODUCT,
   product
 });
-
-const initialState = [];
 
 //THUNK CREATORS
 export const getAllProductsThunk = () => {
@@ -34,13 +32,17 @@ export const getAllProductsThunk = () => {
   };
 };
 
-export const deleteProductThunk = productId => {
+export const deleteProductThunk = (productId, redirectpath) => {
   return async dispatch => {
     try {
-      await axios.delete(`/api/products/${productId}`);
-      dispatch(deleteProduct(productId));
-    } catch (err) {
-      console.error(err);
+      const { status } = await axios.delete(`/api/products/${productId}`);
+      if (status === 202) {
+        const action = deleteProduct(productId);
+        dispatch(action);
+        history.push(redirectpath);
+      }
+    } catch (error) {
+      console.log('Error deleting the product');
     }
   };
 };
@@ -53,16 +55,14 @@ export const deleteProductThunk = productId => {
 //   }
 // }
 
+const initialState = [];
+
 const allProductsReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_ALL_PRODUCTS:
       return action.products;
     case DELETE_PRODUCT:
-      return [
-        ...state.filter(product => {
-          return product.id !== action.productId;
-        })
-      ];
+      return [...state.filter(product => product.id !== action.productId)];
     default:
       return state;
   }

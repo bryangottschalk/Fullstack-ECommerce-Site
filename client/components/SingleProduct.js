@@ -1,5 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import ReviewForm from './ReviewForm';
+import ListReviews from './ListReviews';
+import { postReviewThunk } from '../store/reviews';
 import { getSingleProductThunk } from '../store/singleProduct';
 import { Dropdown, Button } from 'semantic-ui-react';
 import { addToCartThunk, setCartIdThunk } from '../store/cart';
@@ -15,6 +18,7 @@ class SingleProduct extends React.Component {
 
   componentDidMount() {
     this.props.getProduct(this.props.match.params.id);
+    this.handleFormSubmit = this.handleFormSubmit.bind(this);
   }
 
   handleChange(event, { value }) {
@@ -26,8 +30,20 @@ class SingleProduct extends React.Component {
   async addProduct(product) {
     await this.props.quickAdd(product, this.props.cart.id, this.state.quantity);
   }
+
+  handleFormSubmit(evt, formState) {
+    evt.preventDefault();
+    this.props.postReview(
+      formState,
+      this.props.match.params.id,
+      `/products/${this.props.match.params.id}`
+    );
+  }
+
   render() {
     const { product } = this.props;
+    const oldReviews = product.reviews;
+    const newReviews = this.props.reviews;
     const qtyOptions = [
       {
         key: '1',
@@ -78,6 +94,11 @@ class SingleProduct extends React.Component {
           options={qtyOptions}
           value={this.state.quantity}
         />
+        <ReviewForm
+          productId={product.id}
+          handleFormSubmit={this.handleFormSubmit}
+        />
+        <ListReviews oldReviews={oldReviews} newReviews={newReviews} />
       </div>
     );
   }
@@ -87,7 +108,8 @@ const mapStateToProps = state => {
   return {
     product: state.singleProductReducer,
     user: state.user,
-    cart: state.cartReducer
+    cart: state.cartReducer,
+    reviews: state.productReviewsReducer
   };
 };
 
@@ -95,7 +117,9 @@ const mapDispatchToProps = dispatch => ({
   getProduct: productId => dispatch(getSingleProductThunk(productId)),
   quickAdd: (item, order, quantity) =>
     dispatch(addToCartThunk(item, order, quantity)),
-  setCartId: userId => dispatch(setCartIdThunk(userId))
+  setCartId: userId => dispatch(setCartIdThunk(userId)),
+  postReview: (formSubmission, productId, redirectPath) =>
+    dispatch(postReviewThunk(formSubmission, productId, redirectPath))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SingleProduct);

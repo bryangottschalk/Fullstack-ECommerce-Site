@@ -27,7 +27,7 @@ const userGenerator = () => {
       firstName: firstName,
       lastName: lastName,
       email: `${emailName}@gmail.com`,
-      imageUrl: Faker.image.avatar(),
+      imageUrl: `https://robohash.org/${firstName}--${lastName}`,
       isAdmin: false,
       creditCardNumber: ccGenerator.GenCC()[0],
       passwordResetTriggered: false,
@@ -108,13 +108,27 @@ async function seed() {
     lastName: 'cody',
     address: ['123 Road'],
     creditCardNumber: 999999999,
-    imageUrl: Faker.image.avatar()
+    imageUrl: `https://robohash.org/${firstName}--${lastName}`
   });
 
   await Promise.all(users.map(user => User.create(user)));
   await Promise.all(products.map(product => Product.create(product)));
   await Promise.all(orders.map(order => Order.create(order)));
   await Promise.all(categories.map(category => Category.create(category)));
+
+  await Review.create({
+    content: Faker.lorem.sentences(),
+    star: Math.ceil(Math.random() * 5),
+    userId: 1,
+    productId: 1
+  });
+
+  await Review.create({
+    content: Faker.lorem.sentences(),
+    star: Math.ceil(Math.random() * 5),
+    userId: 1,
+    productId: 1
+  });
 
   // Seed data for cart items and category items
   for (let i = 1; i <= 10; i++) {
@@ -139,14 +153,14 @@ async function seed() {
       });
     });
 
-    // await Order.findByPk(i).then(order => {
-    //   order.addProduct(cartItem, {
-    //     through: {
-    //       quantity: Math.ceil(1 + Math.random() * 50),
-    //       unitPrice: price
-    //     }
-    //   });
-    // });
+    await Order.findByPk(i).then(order => {
+      order.addProduct(cartItem, {
+        through: {
+          quantity: Math.ceil(1 + Math.random() * 50),
+          unitPrice: price
+        }
+      });
+    });
   }
 
   await Promise.all(reviews.map(review => Review.create(review)));
