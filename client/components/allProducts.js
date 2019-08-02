@@ -20,10 +20,10 @@ export class allProducts extends React.Component {
     const products = this.props.products;
     return (
       <div>
-        <Card.Group itemsPerRow={6}>
+        <Card.Group itemsPerRow={5}>
           {products.map(product => {
             return (
-              <Card color="teal" key={product.id} id="UsersList">
+              <Card color="teal" key={product.id} id="ProductsList">
                 <Card.Content>
                   <Image src={product.imageUrl} />
 

@@ -33,6 +33,8 @@ router.get('/:id', async (req, res, next) => {
       err.status = 404;
       throw err;
     } else {
+      const avg = await product.getAverageRating();
+      await product.update({ avgStar: avg });
       res.status(200).json(product);
     }
   } catch (err) {

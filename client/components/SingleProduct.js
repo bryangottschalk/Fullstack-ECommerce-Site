@@ -4,6 +4,7 @@ import ReviewForm from './ReviewForm';
 import ListReviews from './ListReviews';
 import { postReviewThunk } from '../store/reviews';
 import { getSingleProductThunk } from '../store/singleProduct';
+import { Rating } from 'semantic-ui-react';
 
 class SingleProduct extends React.Component {
   componentDidMount() {
@@ -29,6 +30,21 @@ class SingleProduct extends React.Component {
       <div>
         <img src={product.imageUrl} />
         <h1>{product.name}</h1>
+        <div>
+          RATING:
+          {product.avgStar !== null ? (
+            <Rating
+              icon="star"
+              defaultRating={Math.floor(1 + Math.random() * 5)}
+              maxRating={5}
+              size="huge"
+              disabled
+            />
+          ) : (
+            'N/A'
+          )}{' '}
+          {product.avgStar}
+        </div>
         <h3>{`$${product.price}`}</h3>
         <h3>{product.description}</h3>
 
