@@ -153,14 +153,14 @@ async function seed() {
       });
     });
 
-    // await Order.findByPk(i).then(order => {
-    //   order.addProduct(cartItem, {
-    //     through: {
-    //       quantity: Math.ceil(1 + Math.random() * 50),
-    //       unitPrice: price
-    //     }
-    //   });
-    // });
+    await Order.findByPk(i).then(order => {
+      order.addProduct(cartItem, {
+        through: {
+          quantity: Math.ceil(1 + Math.random() * 50),
+          unitPrice: price
+        }
+      });
+    });
   }
 
   await Promise.all(reviews.map(review => Review.create(review)));
