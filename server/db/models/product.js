@@ -28,7 +28,30 @@ const Product = db.define('product', {
   availability: {
     type: Sequelize.BOOLEAN,
     defaultValue: true
+  },
+  avgStar: {
+    type: Sequelize.INTEGER
   }
 });
+
+Product.prototype.getAverageRating = async function() {
+  const allReview = await this.getReviews({
+    where: { productId: this.id }
+  });
+
+  if (allReview.length === 0) {
+    return undefined;
+  }
+
+  let stars = [];
+
+  for (let i = 0; i < allReview.length; i++) {
+    stars.push(allReview[i].star);
+  }
+  const total = stars.reduce((acc, c) => acc + c, 0);
+  const average = Math.round(total / stars.length);
+
+  return average;
+};
 
 module.exports = Product;
