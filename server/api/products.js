@@ -5,7 +5,18 @@ module.exports = router;
 router.get('/', async (req, res, next) => {
   try {
     const products = await Product.findAll();
-    res.send(products);
+
+    products.map(async product => {
+      const productInfo = await Product.findByPk(product.id);
+      const avg = await productInfo.getAverageRating();
+
+      await productInfo.update({ avgStar: avg });
+
+      // product.dataValues.avgStar = avg;
+      // console.log('dataValues: ', product.dataValues);
+    });
+
+    res.json(products);
   } catch (err) {
     next(err);
   }

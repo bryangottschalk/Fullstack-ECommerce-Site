@@ -10,7 +10,7 @@ router.get('/:userId', async (req, res, next) => {
         status: 'Cart'
       }
     });
-    res.send(order);
+    res.json(order);
   } catch (error) {
     next(error);
   }
