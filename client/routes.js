@@ -11,7 +11,8 @@ import {
   allUsers,
   SingleProduct,
   SingleUser,
-  Cart
+  Cart,
+  FavoriteProducts
 } from './components';
 
 /**
@@ -28,6 +29,7 @@ class Routes extends Component {
     return (
       <Switch>
         {/* Routes placed here are available to all visitors */}
+        {/* <Route exact path="/" component={FavoriteProducts} /> */}
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
         <Route exact path="/products/:id" component={SingleProduct} />
@@ -45,6 +47,7 @@ class Routes extends Component {
         )}
         {/* Displays our Login component as a fallback */}
         <Route component={Login} />
+        <Route component={FavoriteProducts} />
       </Switch>
     );
   }

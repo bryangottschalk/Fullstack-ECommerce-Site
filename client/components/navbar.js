@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { logout } from '../store';
-import { Button, Header } from 'semantic-ui-react';
+import { Button, Header, Input } from 'semantic-ui-react';
 
 const Navbar = ({ handleClick, isLoggedIn }) => (
   <div>
@@ -27,15 +27,16 @@ const Navbar = ({ handleClick, isLoggedIn }) => (
           <a href="#" onClick={handleClick}>
             <Button>Logout</Button>
           </a>
+          <Input icon="serach" placeholder="Search..." />
         </div>
       ) : (
         <div>
           {/* The navbar will show these links before you log in */}
+          <NavLink to="/products">
+            <Button color="orange">All Products</Button>
+          </NavLink>
           <NavLink to="/login">
             <Button>Login</Button>
-          </NavLink>
-          <NavLink to="/products">
-            <Button>All Products</Button>
           </NavLink>
           <NavLink to="/signup">
             <Button>Sign Up</Button>
@@ -43,6 +44,7 @@ const Navbar = ({ handleClick, isLoggedIn }) => (
           <NavLink to="/cart">
             <Button>Cart</Button>
           </NavLink>
+          <Input icon="search" placeholder="Search..." />
         </div>
       )}
     </nav>

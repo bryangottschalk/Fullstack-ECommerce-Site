@@ -4,7 +4,6 @@ import { NavLink } from 'react-router-dom';
 import { getAllProductsThunk, deleteProduct } from '../store/allProducts';
 import { addToCartThunk, setCartIdThunk } from '../store/cart';
 import { Button } from 'semantic-ui-react';
-//import remote product thunk?
 
 export class allProducts extends React.Component {
   async componentDidMount() {
@@ -63,7 +62,6 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  // removeProduct: productId => dipsatch(removeProductThunk(productId))
   fetchProducts: () => dispatch(getAllProductsThunk()),
   deleteProduct: productId => dispatch(deleteProduct(productId)),
   quickAdd: item => dispatch(addToCartThunk(item)),
