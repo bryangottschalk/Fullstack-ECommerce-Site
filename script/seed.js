@@ -116,6 +116,20 @@ async function seed() {
   await Promise.all(orders.map(order => Order.create(order)));
   await Promise.all(categories.map(category => Category.create(category)));
 
+  await Review.create({
+    content: Faker.lorem.sentences(),
+    star: Math.ceil(Math.random() * 5),
+    userId: 1,
+    productId: 1
+  });
+
+  await Review.create({
+    content: Faker.lorem.sentences(),
+    star: Math.ceil(Math.random() * 5),
+    userId: 1,
+    productId: 1
+  });
+
   // Seed data for cart items and category items
   for (let i = 1; i <= 10; i++) {
     const price = (1 + Math.random() * 300).toFixed(2);
@@ -139,14 +153,14 @@ async function seed() {
       });
     });
 
-    // await Order.findByPk(i).then(order => {
-    //   order.addProduct(cartItem, {
-    //     through: {
-    //       quantity: Math.ceil(1 + Math.random() * 50),
-    //       unitPrice: price
-    //     }
-    //   });
-    // });
+    await Order.findByPk(i).then(order => {
+      order.addProduct(cartItem, {
+        through: {
+          quantity: Math.ceil(1 + Math.random() * 50),
+          unitPrice: price
+        }
+      });
+    });
   }
 
   await Promise.all(reviews.map(review => Review.create(review)));

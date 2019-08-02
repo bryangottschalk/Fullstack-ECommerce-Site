@@ -5,7 +5,7 @@ module.exports = router;
 router.get('/', async (req, res, next) => {
   try {
     const allOrders = await ProductOrder.findAll();
-    res.send(allOrders);
+    res.json(allOrders);
   } catch (error) {
     next(error);
   }
