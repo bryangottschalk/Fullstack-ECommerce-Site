@@ -5,7 +5,7 @@ module.exports = router;
 router.post('/', async (req, res, next) => {
   try {
     const newReview = await Review.create(req.body);
-    res.json(newReview);
+    res.status(201).json(newReview);
   } catch (err) {
     next(err);
   }

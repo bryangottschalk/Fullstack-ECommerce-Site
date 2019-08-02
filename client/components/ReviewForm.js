@@ -1,6 +1,6 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { postReviewThunk } from '../store/reviews';
+// import { connect } from 'react-redux';
+// import { postReviewThunk } from '../store/reviews';
 
 const initialState = {
   content: '',
@@ -11,7 +11,6 @@ class ReviewForm extends React.Component {
     super();
     this.state = initialState;
     this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleChange(evt) {
@@ -19,20 +18,24 @@ class ReviewForm extends React.Component {
       [evt.target.name]: evt.target.value
     });
   }
-  handleSubmit(evt) {
-    evt.preventDefault();
-    this.props.postReview(this.state, this.props.productId);
-    console.log('this.state', this.state);
+  // handleSubmit(evt) {
+  //   evt.preventDefault();
 
-    this.setState(initialState);
-  }
+  //   this.props.postReview(this.state, this.props.productId);
+  //   console.log('this.state', this.state);
+
+  // this.setState(initialState);
+  // }
   render() {
     const { content, star } = this.state;
     return (
       <div>
         <h2>Add a review for your pet!</h2>
         <div>
-          <form className="ReviewForm" onSubmit={this.handleSubmit}>
+          <form
+            className="ReviewForm"
+            onSubmit={event => this.props.handleFormSubmit(event, this.state)}
+          >
             <ul>
               <li>
                 <label htmlFor="content">
@@ -65,8 +68,8 @@ class ReviewForm extends React.Component {
     );
   }
 }
-const mapDispatchToProps = dispatch => ({
-  postReview: (formSubmission, productId) =>
-    dispatch(postReviewThunk(formSubmission, productId))
-});
-export default connect(null, mapDispatchToProps)(ReviewForm);
+// const mapDispatchToProps = dispatch => ({
+//   postReview: (formSubmission, productId) =>
+//     dispatch(postReviewThunk(formSubmission, productId))
+// });
+export default ReviewForm;

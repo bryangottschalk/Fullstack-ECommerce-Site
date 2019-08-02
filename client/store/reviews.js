@@ -1,4 +1,5 @@
 import axios from 'axios';
+import history from '../history';
 
 const POST_REVIEW = 'POST_REVIEW';
 
@@ -11,7 +12,7 @@ const postReview = formSubmission => ({
 
 // thunk creators
 
-export const postReviewThunk = (formSubmission, productId) => {
+export const postReviewThunk = (formSubmission, productId, redirectPath) => {
   return async dispatch => {
     try {
       const { data } = await axios.post('/api/reviews', {
@@ -19,8 +20,8 @@ export const postReviewThunk = (formSubmission, productId) => {
         productId: productId
       });
       console.log('TCL: postReviewThunk -> data', data);
-
       dispatch(postReview(data));
+      history.push(redirectPath);
     } catch (err) {
       console.log('error adding review', err);
     }
