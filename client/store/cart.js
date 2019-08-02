@@ -28,12 +28,13 @@ export const setCartIdThunk = userId => {
   };
 };
 
-export const addToCartThunk = (item, order) => {
+export const addToCartThunk = (item, order, quantity) => {
   return async dispatch => {
     try {
       const { data } = await axios.post('/api/productOrders', {
         productId: item.id,
-        orderId: order
+        orderId: order,
+        quantity: quantity
       });
       dispatch(addToCart(data));
     } catch (error) {

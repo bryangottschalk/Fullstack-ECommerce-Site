@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { ProductOrder } = require('../db/models');
+const { ProductOrder, Order, User } = require('../db/models');
 module.exports = router;
 
 router.get('/', async (req, res, next) => {
@@ -13,23 +13,47 @@ router.get('/', async (req, res, next) => {
 
 router.post('/', async (req, res, next) => {
   try {
-    const order = await ProductOrder.findOne({
+    const userOrder = await Order.findOne({
       where: {
-        productId: req.body.productId,
-        orderId: req.body.orderId
+        status: 'Cart',
+        userId: req.user.id
       }
     });
-    if (!order) {
-      const newOrder = await ProductOrder.create({
-        productId: req.body.productId,
-        orderId: req.body.orderId,
-        quantity: 1
+    if (userOrder) {
+      const order = await ProductOrder.findOne({
+        where: {
+          productId: req.body.productId,
+          orderId: userOrder.id
+        }
       });
-      res.send(newOrder);
+      if (!order) {
+        const newOrder = await ProductOrder.create({
+          productId: req.body.productId,
+          orderId: req.body.orderId,
+          quantity: req.body.quantity
+        });
+        res.send(newOrder);
+      } else {
+        order.quantity += req.body.quantity;
+        order.save();
+        res.send(order);
+      }
     } else {
-      order.quantity++;
-      order.save();
-      res.send(order);
+      const newOrder = await Order.create({
+        status: 'Cart'
+      });
+      const orderUser = await User.findOne({
+        where: {
+          id: req.user.id
+        }
+      });
+      newOrder.setUser(orderUser);
+      const newProductOrder = await ProductOrder.create({
+        productId: req.body.productId,
+        orderId: newOrder.id,
+        quantity: req.body.quantity
+      });
+      res.status(201).send(newOrder);
     }
   } catch (error) {
     next(error);

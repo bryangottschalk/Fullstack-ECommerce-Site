@@ -22,11 +22,7 @@ export class allProducts extends React.Component {
   }
 
   async addProduct(product) {
-    if (this.props.cart.id === 0) {
-      await this.props.setCartId(this.props.user.id);
-      console.log('this.propsasjdkf;a&&&&&&&&&&&&&&', this.props.cart);
-    }
-    await this.props.quickAdd(product, this.props.cart.id);
+    await this.props.quickAdd(product, this.props.cart.id, 1);
   }
 
   render() {
@@ -73,10 +69,10 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  // removeProduct: productId => dipsatch(removeProductThunk(productId))
   fetchProducts: () => dispatch(getAllProductsThunk()),
   deleteProduct: productId => dispatch(deleteProduct(productId)),
-  quickAdd: (item, order) => dispatch(addToCartThunk(item, order)),
+  quickAdd: (item, order, quantity) =>
+    dispatch(addToCartThunk(item, order, quantity)),
   setCartId: userId => dispatch(setCartIdThunk(userId))
 });
 
