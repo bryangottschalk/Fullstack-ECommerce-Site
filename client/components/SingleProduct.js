@@ -22,7 +22,9 @@ class SingleProduct extends React.Component {
 
   render() {
     const { product } = this.props;
-    const reviews = product.reviews;
+    const oldReviews = product.reviews;
+    const newReviews = this.props.reviews;
+    console.log('PROPS', this.props);
     return (
       <div>
         <img src={product.imageUrl} />
@@ -41,7 +43,7 @@ class SingleProduct extends React.Component {
           productId={product.id}
           handleFormSubmit={this.handleFormSubmit}
         />
-        <ListReviews reviews={reviews} />
+        <ListReviews oldReviews={oldReviews} newReviews={newReviews} />
       </div>
     );
   }

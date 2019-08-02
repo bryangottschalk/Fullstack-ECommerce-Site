@@ -34,6 +34,7 @@ const productReviewsReducer = (state = initialState, action) => {
   switch (action.type) {
     case POST_REVIEW:
       // const { content, star, productId, userId } = action.formSubmission;
+      console.log('action.formSubmission', action.formSubmission);
       return [...state, action.formSubmission];
     default:
       return state;
