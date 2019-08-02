@@ -4,7 +4,7 @@ const db = require('../db');
 const Order = db.define('order', {
   total: {
     type: Sequelize.FLOAT,
-    allowNull: false
+    allowNull: true
   },
   status: {
     type: Sequelize.ENUM(
@@ -18,7 +18,7 @@ const Order = db.define('order', {
   },
   shippingAddress: {
     type: Sequelize.STRING,
-    allowNull: false
+    allowNull: true
   }
 });
 
