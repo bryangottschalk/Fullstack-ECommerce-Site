@@ -12,7 +12,6 @@ class SingleProduct extends React.Component {
   }
 
   handleFormSubmit(evt, formState) {
-    console.log('HERE', this.props.match.params.id);
     evt.preventDefault();
     this.props.postReview(
       formState,
@@ -50,7 +49,8 @@ class SingleProduct extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    product: state.singleProductReducer
+    product: state.singleProductReducer,
+    reviews: state.productReviewsReducer
   };
 };
 
