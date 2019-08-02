@@ -27,7 +27,7 @@ const userGenerator = () => {
       firstName: firstName,
       lastName: lastName,
       email: `${emailName}@gmail.com`,
-      imageUrl: Faker.image.avatar(),
+      imageUrl: `https://robohash.org/${firstName}--${lastName}`,
       isAdmin: false,
       creditCardNumber: ccGenerator.GenCC()[0],
       passwordResetTriggered: false,
@@ -108,7 +108,7 @@ async function seed() {
     lastName: 'cody',
     address: ['123 Road'],
     creditCardNumber: 999999999,
-    imageUrl: Faker.image.avatar()
+    imageUrl: `https://robohash.org/${firstName}--${lastName}`
   });
 
   await Promise.all(users.map(user => User.create(user)));
