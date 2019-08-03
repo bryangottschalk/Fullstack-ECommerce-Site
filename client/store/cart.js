@@ -17,7 +17,7 @@ const getCart = cart => ({
   cart
 });
 
-const addToCart = item => ({
+export const addToCart = item => ({
   type: ADD_TO_CART,
   item
 });
@@ -40,17 +40,6 @@ export const getCartThunk = cartId => {
       const action = getCart(data);
       dispatch(action);
     } catch (error) {
-      console.log('Error getting the cart', error);
-    }
-  };
-};
-
-export const addToCartThunk = item => {
-  return async dispatch => {
-    try {
-      const { data } = await axios.post('/api/productOrders', item);
-      dispatch(addToCart(data));
-    } catch (error) {
       console.error(error);
     }
   };
@@ -59,9 +48,26 @@ export const addToCartThunk = item => {
 export const setCartIdThunk = userId => {
   return async dispatch => {
     try {
-      const { data } = await axios.get(`/api/orders/?userId=${userId}`);
-      console.log('DATA', data);
-      dispatch(setCartId(data[0].id));
+      const { data } = await axios.post('/api/orders', {
+        status: 'Cart',
+        userId: userId
+      });
+      dispatch(setCartId(data.id));
+    } catch (error) {
+      console.log('Error getting the cart', error);
+    }
+  };
+};
+
+export const addToCartThunk = (item, order, quantity) => {
+  return async dispatch => {
+    try {
+      const { data } = await axios.post('/api/productOrders', {
+        productId: item.id,
+        orderId: order,
+        quantity: quantity
+      });
+      dispatch(addToCart(data));
     } catch (error) {
       console.error(error);
     }
@@ -111,6 +117,7 @@ const initialCart = {
 const cartReducer = (state = initialCart, action) => {
   switch (action.type) {
     case ADD_TO_CART:
+      console.log('adding to cart');
       return { ...state, items: [...state.items, action.item] };
     case SET_CART_ID:
       return {
@@ -118,6 +125,7 @@ const cartReducer = (state = initialCart, action) => {
         id: action.id
       };
     default:
+      console.log('inside default');
       return state;
   }
 };
