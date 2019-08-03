@@ -10,10 +10,20 @@ import { Button, Card, Image, Icon, Grid, Table } from 'semantic-ui-react';
 
 export class Cart extends React.Component {
   async componentDidMount() {
-    // await this.props.fetchProducts();
+    await this.props.getCart(this.props.cart.id);
   }
 
+  deleteFromCart = (orderId, productId) => {
+    event.preventDefault(this.props.cart.cartId);
+    this.props.deleteFromCart(orderId, productId, '/cart');
+  };
+
+  updateCart = newItem => {
+    this.props.updateCart(newItem);
+  };
+
   render() {
+    console.log('PROPS  ', this.props);
     return (
       <div>
         <div style={{ fontSize: '30px' }}>My Cart</div>
@@ -47,16 +57,15 @@ export class Cart extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  products: state.allProductsReducer,
-  user: state.user,
-  cart: state.cartReducer
+  cart: state.cartReducer,
+  user: state.user
 });
 
 const mapDispatchToProps = dispatch => ({
-  // removeProduct: productId => dipsatch(removeProductThunk(productId))
-  // fetchProducts: () => dispatch(getAllProductsThunk()),
-  // deleteProduct: (productId, redirectPath) =>
-  //   dispatch(deleteProductThunk(productId, redirectPath))
+  getCart: cartId => dispatch(getCartThunk(cartId)),
+  deleteFromCart: (orderId, productId, redirectpPath) =>
+    dispatch(deleteFromCartThunk(orderId, productId, redirectpPath)),
+  updateCart: newItem => dispatch(updateCartThunk(newItem))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Cart);

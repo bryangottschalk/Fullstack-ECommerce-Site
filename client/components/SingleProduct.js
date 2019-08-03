@@ -14,11 +14,11 @@ class SingleProduct extends React.Component {
       quantity: 1
     };
     this.handleChange = this.handleChange.bind(this);
+    this.handleFormSubmit = this.handleFormSubmit.bind(this);
   }
 
   componentDidMount() {
     this.props.getProduct(this.props.match.params.id);
-    this.handleFormSubmit = this.handleFormSubmit.bind(this);
   }
 
   handleChange(event, { value }) {
@@ -28,7 +28,13 @@ class SingleProduct extends React.Component {
   }
 
   async addProduct(product) {
-    await this.props.quickAdd(product, this.props.cart.id, this.state.quantity);
+    await this.props.setCartId(this.props.user.id);
+    await this.props.quickAdd({
+      quantity: this.state.quantity,
+      unitPrice: product.price,
+      productId: product.id,
+      orderId: this.props.cart.id
+    });
   }
 
   handleFormSubmit(evt, formState) {
@@ -41,6 +47,7 @@ class SingleProduct extends React.Component {
   }
 
   render() {
+    console.log('PROPS  ', this.props);
     const { product } = this.props;
     const oldReviews = product.reviews;
     const newReviews = this.props.reviews;
@@ -119,19 +126,16 @@ class SingleProduct extends React.Component {
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    product: state.singleProductReducer,
-    user: state.user,
-    cart: state.cartReducer,
-    reviews: state.productReviewsReducer
-  };
-};
+const mapStateToProps = state => ({
+  product: state.singleProductReducer,
+  user: state.user,
+  cart: state.cartReducer,
+  reviews: state.productReviewsReducer
+});
 
 const mapDispatchToProps = dispatch => ({
   getProduct: productId => dispatch(getSingleProductThunk(productId)),
-  quickAdd: (item, order, quantity) =>
-    dispatch(addToCartThunk(item, order, quantity)),
+  quickAdd: item => dispatch(addToCartThunk(item)),
   setCartId: userId => dispatch(setCartIdThunk(userId)),
   postReview: (formSubmission, productId, redirectPath) =>
     dispatch(postReviewThunk(formSubmission, productId, redirectPath))

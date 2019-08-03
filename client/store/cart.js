@@ -48,25 +48,18 @@ export const getCartThunk = cartId => {
 export const setCartIdThunk = userId => {
   return async dispatch => {
     try {
-      const { data } = await axios.post('/api/orders', {
-        status: 'Cart',
-        userId: userId
-      });
-      dispatch(setCartId(data.id));
+      const { data } = await axios.get(`/api/orders/?userId=${userId}`);
+      dispatch(setCartId(data[0].id));
     } catch (error) {
-      console.log('Error getting the cart', error);
+      console.error(error);
     }
   };
 };
 
-export const addToCartThunk = (item, order, quantity) => {
+export const addToCartThunk = item => {
   return async dispatch => {
     try {
-      const { data } = await axios.post('/api/productOrders', {
-        productId: item.id,
-        orderId: order,
-        quantity: quantity
-      });
+      const { data } = await axios.post('/api/productOrders', item);
       dispatch(addToCart(data));
     } catch (error) {
       console.error(error);
@@ -124,6 +117,29 @@ const cartReducer = (state = initialCart, action) => {
         ...state,
         id: action.id
       };
+    case GET_CART:
+      return {
+        ...state,
+        items: action.cart
+      };
+    case DELETE_FROM_CART:
+      return {
+        ...state.filter(
+          (order, product) =>
+            order.id !== action.orderId && product.id !== action.productId
+        )
+      };
+    case UPDATE_CART:
+      return {
+        ...state.map(item => {
+          if (item.id !== action.item.id) {
+            return item;
+          } else {
+            return action.item;
+          }
+        })
+      };
+
     default:
       console.log('inside default');
       return state;

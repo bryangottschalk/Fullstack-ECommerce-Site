@@ -6,17 +6,9 @@ import { addToCartThunk, setCartIdThunk } from '../store/cart';
 import { Button, Card, Image, Rating, Icon, Grid } from 'semantic-ui-react';
 
 export class allProducts extends React.Component {
-  constructor() {
-    super();
-    this.addProduct = this.addProduct.bind(this);
-  }
-
   async componentDidMount() {
     await this.props.fetchProducts();
-  }
-
-  async addProduct(product) {
-    await this.props.quickAdd(product, this.props.cart.id, 1);
+    await this.props.setCartId(this.props.user.id);
   }
 
   handleDelete = (event, productId) => {
@@ -63,7 +55,14 @@ export class allProducts extends React.Component {
                         color="linkedin"
                         animated="vertical"
                         className="addToCart"
-                        onClick={() => this.addProduct(product)}
+                        onClick={() =>
+                          this.props.quickAdd({
+                            quantity: 1,
+                            unitPrice: product.price,
+                            productId: product.id,
+                            orderId: this.props.cart.id
+                          })
+                        }
                       >
                         <Button.Content hidden>Add</Button.Content>
                         <Button.Content visible>
@@ -97,11 +96,10 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   fetchProducts: () => dispatch(getAllProductsThunk()),
-  quickAdd: (item, order, quantity) =>
-    dispatch(addToCartThunk(item, order, quantity)),
-  setCartId: userId => dispatch(setCartIdThunk(userId)),
   deleteProduct: (productId, redirectPath) =>
-    dispatch(deleteProductThunk(productId, redirectPath))
+    dispatch(deleteProductThunk(productId, redirectPath)),
+  quickAdd: item => dispatch(addToCartThunk(item)),
+  setCartId: id => dispatch(setCartIdThunk(id))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(allProducts);

@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { ProductOrder, Order, User } = require('../db/models');
+const { ProductOrder, Order, Product } = require('../db/models');
 module.exports = router;
 
 router.get('/', async (req, res, next) => {
@@ -22,47 +22,33 @@ router.get('/', async (req, res, next) => {
 
 router.post('/', async (req, res, next) => {
   try {
-    const userOrder = await Order.findOne({
+    const existingEntryOnCart = await ProductOrder.findOne({
       where: {
-        status: 'Cart',
-        userId: req.user.id
+        orderId: req.body.orderId,
+        productId: req.body.productId
       }
     });
-    if (userOrder) {
-      const order = await ProductOrder.findOne({
-        where: {
-          productId: req.body.productId,
-          orderId: userOrder.id
+
+    const existingOrder = await Order.findByPk(req.body.orderId);
+    const newItem = await Product.findByPk(req.body.productId);
+
+    if (existingEntryOnCart === null) {
+      const addStuff = await existingOrder.addProduct(newItem, {
+        through: {
+          quantity: req.body.quantity,
+          unitPrice: req.body.unitPrice
         }
       });
-      if (!order) {
-        const newOrder = await ProductOrder.create({
-          productId: req.body.productId,
-          orderId: req.body.orderId,
-          quantity: req.body.quantity
-        });
-        res.send(newOrder);
-      } else {
-        order.quantity += req.body.quantity;
-        order.save();
-        res.send(order);
-      }
+      res.json(addStuff);
     } else {
-      const newOrder = await Order.create({
-        status: 'Cart'
-      });
-      const orderUser = await User.findOne({
-        where: {
-          id: req.user.id
+      const currentQuantity = existingEntryOnCart.dataValues.quantity;
+      const addStuff = await existingOrder.addProduct(newItem, {
+        through: {
+          quantity: currentQuantity + req.body.quantity,
+          unitPrice: req.body.unitPrice
         }
       });
-      newOrder.setUser(orderUser);
-      const newProductOrder = await ProductOrder.create({
-        productId: req.body.productId,
-        orderId: newOrder.id,
-        quantity: req.body.quantity
-      });
-      res.status(201).send(newOrder);
+      res.json(addStuff);
     }
   } catch (error) {
     next(error);
