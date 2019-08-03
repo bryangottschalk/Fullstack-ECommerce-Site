@@ -1,16 +1,22 @@
 const router = require('express').Router();
-const { Order } = require('../db/models');
+const { Order, User } = require('../db/models');
 module.exports = router;
 
-router.get('/:userId', async (req, res, next) => {
+router.get('/', async (req, res, next) => {
   try {
-    const order = await Order.findOrCreate({
-      where: {
-        userId: req.params.userId,
-        status: 'Cart'
-      }
-    });
-    res.json(order);
+    if (req.query.userId) {
+      const order = await Order.findOrCreate({
+        where: {
+          userId: req.query.userId,
+          status: 'Cart'
+        },
+        defaults: { total: 0.0 }
+      });
+      res.json(order);
+    } else {
+      const orders = await Order.findAll();
+      res.json(orders);
+    }
   } catch (error) {
     next(error);
   }

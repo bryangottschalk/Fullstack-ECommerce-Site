@@ -18,7 +18,7 @@ const Order = db.define('order', {
   },
   shippingAddress: {
     type: Sequelize.STRING,
-    allowNull: false
+    allowNull: true
   }
 });
 

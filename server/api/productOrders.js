@@ -1,11 +1,20 @@
 const router = require('express').Router();
-const { ProductOrder } = require('../db/models');
+const { ProductOrder, Order, Product } = require('../db/models');
 module.exports = router;
 
 router.get('/', async (req, res, next) => {
   try {
-    const allOrders = await ProductOrder.findAll();
-    res.json(allOrders);
+    if (req.query.orderId) {
+      const orderForOneUser = await ProductOrder.findAll({
+        where: {
+          orderId: req.query.orderId
+        }
+      });
+      res.json(orderForOneUser);
+    } else {
+      const allOrders = await ProductOrder.findAll();
+      res.json(allOrders);
+    }
   } catch (error) {
     next(error);
   }
@@ -13,12 +22,79 @@ router.get('/', async (req, res, next) => {
 
 router.post('/', async (req, res, next) => {
   try {
-    const addToOrder = await ProductOrder.create(req.body);
-    console.log('typeof req.body quantity', typeof req.body.quantity);
-    console.log('typeof req.body unitPrice', typeof req.body.unitPrice);
+    const existingEntry = await ProductOrder.findOne({
+      where: {
+        orderId: req.body.orderId,
+        productId: req.body.productId
+      }
+    });
 
-    // console.log('addToOrder:', addToOrder, 'req.body', req.body);
-    res.status(201).send(addToOrder);
+    const existingOrder = await Order.findByPk(req.body.orderId);
+    const newItem = await Product.findByPk(req.body.productId);
+
+    if (existingEntry === null) {
+      const addStuff = await existingOrder.addProduct(newItem, {
+        through: {
+          quantity: req.body.quantity,
+          unitPrice: req.body.unitPrice
+        }
+      });
+      res.json(addStuff);
+    } else {
+      const currentQuantity = existingEntry.dataValues.quantity;
+      const addStuff = await existingOrder.addProduct(newItem, {
+        through: {
+          quantity: currentQuantity + req.body.quantity,
+          unitPrice: req.body.unitPrice
+        }
+      });
+      res.json(addStuff);
+    }
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.delete('/', async (req, res, next) => {
+  try {
+    if (req.query.orderId && req.query.productId) {
+      await ProductOrder.destroy({
+        where: {
+          orderId: req.params.orderId,
+          productId: req.query.productId
+        }
+      });
+      res.sendStatus(202);
+    }
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.put('/', async (req, res, next) => {
+  try {
+    if (req.query.orderId && req.query.productId) {
+      const itemToUpdate = await ProductOrder.findOne({
+        where: {
+          orderId: req.params.orderId,
+          productId: req.params.productId
+        }
+      });
+      const updatedItem = await itemToUpdate.update({
+        quantity: req.body.quantity
+      });
+      res.json(updatedItem);
+    }
+
+    if (req.query.orderId && req.query.productId) {
+      await ProductOrder.update({
+        where: {
+          orderId: req.params.orderId,
+          productId: req.query.productId
+        }
+      });
+      res.sendStatus(202);
+    }
   } catch (error) {
     next(error);
   }

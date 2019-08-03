@@ -8,7 +8,7 @@ import { Button, Card, Image, Rating, Icon, Grid } from 'semantic-ui-react';
 export class allProducts extends React.Component {
   async componentDidMount() {
     await this.props.fetchProducts();
-    // await this.props.setCartId(this.props.user.id);
+    await this.props.setCartId(this.props.user.id);
   }
 
   handleDelete = (event, productId) => {
@@ -17,6 +17,7 @@ export class allProducts extends React.Component {
   };
 
   render() {
+    console.log('PROPS  ', this.props);
     const products = this.props.products;
     return (
       <div>
@@ -94,7 +95,6 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  // removeProduct: productId => dipsatch(removeProductThunk(productId))
   fetchProducts: () => dispatch(getAllProductsThunk()),
   deleteProduct: (productId, redirectPath) =>
     dispatch(deleteProductThunk(productId, redirectPath)),
