@@ -8,7 +8,6 @@ import { Button, Card, Image, Rating, Icon, Grid } from 'semantic-ui-react';
 export class allProducts extends React.Component {
   constructor() {
     super();
-
     this.addProduct = this.addProduct.bind(this);
   }
 
@@ -58,7 +57,6 @@ export class allProducts extends React.Component {
                     )}
                   </Card.Meta>
 
-                  <img className="user-image" src={product.imageUrl} />
                   <Grid>
                     <Grid.Column width={6}>
                       <Button
