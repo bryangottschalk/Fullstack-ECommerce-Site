@@ -44,7 +44,7 @@ router.post('/', async (req, res, next) => {
       const currentQuantity = existingEntryOnCart.dataValues.quantity;
       const addStuff = await existingOrder.addProduct(newItem, {
         through: {
-          quantity: currentQuantity + req.body.quantity,
+          quantity: Number(currentQuantity) + Number(req.body.quantity),
           unitPrice: req.body.unitPrice
         }
       });

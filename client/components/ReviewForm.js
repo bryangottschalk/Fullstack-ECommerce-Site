@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { postReviewThunk } from '../store/reviews';
-import { Input } from 'semantic-ui-react';
+import { Input, Button } from 'semantic-ui-react';
 
 const initialState = {
   content: '',
@@ -28,6 +28,7 @@ class ReviewForm extends React.Component {
   }
   render() {
     const { content, star } = this.state;
+
     return (
       <div>
         <h2>Add a review for your pet!</h2>
@@ -58,19 +59,14 @@ class ReviewForm extends React.Component {
                   list="stars"
                   onChange={this.handleChange}
                   name="star"
-                  type="text"
+                  type="number"
                   value={star}
-                  placeholder="Rate..."
+                  min="0"
+                  max="5"
+                  step="1"
                 />
-                <datalist id="stars">
-                  <option value="1" />
-                  <option value="2" />
-                  <option value="3" />
-                  <option value="4" />
-                  <option value="5" />
-                </datalist>
               </li>
-              <button type="submit">Submit</button>
+              <Button type="submit">Submit</Button>
             </ul>
           </form>
         </div>

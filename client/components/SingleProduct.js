@@ -4,14 +4,14 @@ import ReviewForm from './ReviewForm';
 import ListReviews from './ListReviews';
 import { postReviewThunk } from '../store/reviews';
 import { getSingleProductThunk } from '../store/singleProduct';
-import { Rating, Dropdown, Button } from 'semantic-ui-react';
+import { Rating, Button, Input } from 'semantic-ui-react';
 import { addToCartThunk, setCartIdThunk } from '../store/cart';
 
 class SingleProduct extends React.Component {
   constructor() {
     super();
     this.state = {
-      quantity: 1
+      quantity: ''
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
@@ -21,9 +21,9 @@ class SingleProduct extends React.Component {
     this.props.getProduct(this.props.match.params.id);
   }
 
-  handleChange(event, { value }) {
+  handleChange(evt) {
     this.setState({
-      quantity: value
+      [evt.target.name]: evt.target.value
     });
   }
 
@@ -51,33 +51,7 @@ class SingleProduct extends React.Component {
     const { product } = this.props;
     const oldReviews = product.reviews;
     const newReviews = this.props.reviews;
-    const qtyOptions = [
-      {
-        key: '1',
-        text: '1',
-        value: 1
-      },
-      {
-        key: '2',
-        text: '2',
-        value: 2
-      },
-      {
-        key: '3',
-        text: '3',
-        value: 3
-      },
-      {
-        key: '4',
-        text: '4',
-        value: 4
-      },
-      {
-        key: '5',
-        text: '5',
-        value: 5
-      }
-    ];
+
     return (
       <div>
         {/* <img src={product.imageUrl} /> */}
@@ -100,22 +74,23 @@ class SingleProduct extends React.Component {
         </div>
         <h3>{`$${product.price}`}</h3>
         <h3>{product.description}</h3>
-
+        <Input
+          onChange={this.handleChange}
+          name="quantity"
+          type="number"
+          value={this.state.quantity}
+          placeholder="Enter quantity"
+          min="0"
+          step="1"
+        />{' '}
         <Button
           className="addToCart"
+          color="teal"
           onClick={() => this.addProduct(product)}
           type="button"
         >
           Add To Cart
         </Button>
-        <Dropdown
-          onChange={this.handleChange}
-          placeholder="qty"
-          fluid
-          selection
-          options={qtyOptions}
-          value={this.state.quantity}
-        />
         <ReviewForm
           productId={product.id}
           handleFormSubmit={this.handleFormSubmit}
