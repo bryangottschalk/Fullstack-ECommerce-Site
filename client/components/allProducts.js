@@ -14,6 +14,7 @@ export class allProducts extends React.Component {
 
   async componentDidMount() {
     await this.props.fetchProducts();
+    await this.props.setCartId(this.props.user.id);
   }
 
   async addProduct(product) {
@@ -32,7 +33,7 @@ export class allProducts extends React.Component {
         <Card.Group itemsPerRow={6}>
           {products.map(product => {
             return (
-              <Card color="teal" key={product.id} id="UsersList">
+              <Card color="teal" key={product.id} id="ProductsList">
                 <Card.Content>
                   <Image src={product.imageUrl} />
 
@@ -57,7 +58,6 @@ export class allProducts extends React.Component {
                     )}
                   </Card.Meta>
 
-                  <img className="user-image" src={product.imageUrl} />
                   <Grid>
                     <Grid.Column width={6}>
                       <Button

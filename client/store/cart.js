@@ -34,7 +34,8 @@ export const addToCartThunk = (item, order, quantity) => {
       const { data } = await axios.post('/api/productOrders', {
         productId: item.id,
         orderId: order,
-        quantity: quantity
+        quantity: quantity,
+        unitPrice: item.price
       });
       dispatch(addToCart(data));
     } catch (error) {

@@ -27,7 +27,7 @@ const Navbar = ({ handleClick, isLoggedIn }) => (
           <a href="#" onClick={handleClick}>
             <Button>Logout</Button>
           </a>
-          <Input icon="serach" placeholder="Search..." />
+          <Input icon="search" placeholder="Search..." />
         </div>
       ) : (
         <div>
