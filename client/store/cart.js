@@ -79,7 +79,7 @@ export const deleteFromCartThunk = (orderId, productId, redirectPath) => {
         history.push(redirectPath);
       }
     } catch (error) {
-      console.log('Error deleting a student', error);
+      console.error(error);
     }
   };
 };
@@ -97,7 +97,7 @@ export const updateCartThunk = item => {
       dispatch(action);
       history.push(`/students/${data.id}`);
     } catch (error) {
-      console.log('Error updating a student', error);
+      console.error(error);
     }
   };
 };
@@ -124,14 +124,16 @@ const cartReducer = (state = initialCart, action) => {
       };
     case DELETE_FROM_CART:
       return {
-        ...state.filter(
+        ...state,
+        items: state.items.filter(
           (order, product) =>
             order.id !== action.orderId && product.id !== action.productId
         )
       };
     case UPDATE_CART:
       return {
-        ...state.map(item => {
+        ...state,
+        items: state.items.map(item => {
           if (item.id !== action.item.id) {
             return item;
           } else {
