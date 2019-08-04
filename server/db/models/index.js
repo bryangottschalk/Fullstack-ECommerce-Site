@@ -4,6 +4,7 @@ const Review = require('./review');
 const Order = require('./order');
 const ProductOrder = require('./productOrder');
 const Category = require('./category');
+
 /**
  * If we had any associations to make, this would be a great place to put them!
  * ex. if we had another model called BlogPost, we might say:

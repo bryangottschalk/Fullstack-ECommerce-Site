@@ -23,12 +23,17 @@ const addProduct = product => ({
 });
 
 //THUNK CREATORS
-export const getAllProductsThunk = () => {
+export const getAllProductsThunk = filterTag => {
   return async dispatch => {
-    const response = await axios.get('/api/products');
-    const allProducts = response.data;
-    const action = getAllProducts(allProducts);
-    dispatch(action);
+    if (filterTag !== '') {
+      const response = await axios.get(`/api/products${filterTag}`);
+      const filteredProducts = response.data;
+      dispatch(getAllProducts(filteredProducts));
+    } else {
+      const response = await axios.get(`/api/products${filterTag}`);
+      const allProducts = response.data;
+      dispatch(getAllProducts(allProducts));
+    }
   };
 };
 

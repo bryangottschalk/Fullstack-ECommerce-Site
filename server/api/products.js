@@ -1,22 +1,35 @@
 const router = require('express').Router();
-const { Product, Review } = require('../db/models');
+const { Product, Review, Category } = require('../db/models');
 module.exports = router;
 
 router.get('/', async (req, res, next) => {
   try {
-    const products = await Product.findAll();
+    if (req.query.categoryId) {
+      const productForOneCategory = await Category.findAll({
+        where: {
+          id: req.query.categoryId
+        },
+        include: [
+          {
+            model: Product
+          }
+        ]
+      });
+      res.json(productForOneCategory[0].products);
+    } else {
+      const products = await Product.findAll();
 
-    products.map(async product => {
-      const productInfo = await Product.findByPk(product.id);
-      const avg = await productInfo.getAverageRating();
+      products.map(async product => {
+        const productInfo = await Product.findByPk(product.id);
+        const avg = await productInfo.getAverageRating();
 
-      await productInfo.update({ avgStar: avg });
+        await productInfo.update({ avgStar: avg });
 
-      // product.dataValues.avgStar = avg;
-      // console.log('dataValues: ', product.dataValues);
-    });
-
-    res.json(products);
+        // product.dataValues.avgStar = avg;
+        // console.log('dataValues: ', product.dataValues);
+      });
+      res.json(products);
+    }
   } catch (err) {
     next(err);
   }
@@ -25,7 +38,13 @@ router.get('/', async (req, res, next) => {
 router.get('/:id', async (req, res, next) => {
   try {
     const product = await Product.findByPk(req.params.id, {
-      include: [{ model: Review }]
+      include: [
+        { model: Review },
+        {
+          model: Category,
+          through: { attributes: [] }
+        }
+      ]
     });
 
     if (!product) {

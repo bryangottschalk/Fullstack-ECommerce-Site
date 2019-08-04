@@ -4,12 +4,14 @@ import ReviewForm from './ReviewForm';
 import ListReviews from './ListReviews';
 import { postReviewThunk } from '../store/reviews';
 import { getSingleProductThunk } from '../store/singleProduct';
-import { Rating, Button, Input } from 'semantic-ui-react';
+import { Rating, Button, Input, Label } from 'semantic-ui-react';
 import { addToCartThunk, setCartIdThunk } from '../store/cart';
+import { getAllProductsThunk } from '../store/allProducts';
+import { NavLink } from 'react-router-dom';
 
 class SingleProduct extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       quantity: ''
     };
@@ -51,10 +53,27 @@ class SingleProduct extends React.Component {
     const { product } = this.props;
     const oldReviews = product.reviews;
     const newReviews = this.props.reviews;
+    const categories = product.categories;
 
     return (
       <div>
         {/* <img src={product.imageUrl} /> */}
+        <div>
+          {categories ? (
+            categories.map(category => (
+              <NavLink
+                to={`/products?categoryId=${category.id}`}
+                key={category.id}
+              >
+                <Label color="teal" tag size="large">
+                  {category.name}
+                </Label>
+              </NavLink>
+            ))
+          ) : (
+            <div>Category info not available</div>
+          )}
+        </div>
         <img src="https://placekitten.com/100/150" />
         <h1>{product.name}</h1>
         <div>
@@ -113,7 +132,8 @@ const mapDispatchToProps = dispatch => ({
   quickAdd: item => dispatch(addToCartThunk(item)),
   setCartId: userId => dispatch(setCartIdThunk(userId)),
   postReview: (formSubmission, productId, redirectPath) =>
-    dispatch(postReviewThunk(formSubmission, productId, redirectPath))
+    dispatch(postReviewThunk(formSubmission, productId, redirectPath)),
+  getCategoryProduct: categoryId => dispatch(getAllProductsThunk(categoryId))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SingleProduct);
