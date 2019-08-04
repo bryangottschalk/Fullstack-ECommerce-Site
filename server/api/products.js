@@ -15,7 +15,7 @@ router.get('/', async (req, res, next) => {
           }
         ]
       });
-      res.json(productForOneCategory[0].products);
+      res.json(productForOneCategory[0]);
     } else {
       const products = await Product.findAll();
 

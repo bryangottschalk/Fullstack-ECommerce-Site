@@ -71,7 +71,7 @@ class SingleProduct extends React.Component {
               </NavLink>
             ))
           ) : (
-            <div>Category info not available</div>
+            <div>Category information not available</div>
           )}
         </div>
         <img src="https://placekitten.com/100/150" />
