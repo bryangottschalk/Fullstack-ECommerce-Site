@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { NavLink } from 'react-router-dom';
+import { NavLink, withRouter } from 'react-router-dom';
 import {
   getAllProductsThunk,
   deleteProductThunk,
@@ -137,4 +137,6 @@ const mapDispatchToProps = dispatch => ({
   fetchCategories: () => dispatch(getAllCategoriesThunk())
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(allProducts);
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(allProducts)
+);

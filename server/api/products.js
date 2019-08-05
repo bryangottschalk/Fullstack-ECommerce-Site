@@ -1,6 +1,45 @@
 const router = require('express').Router();
 const { Product, Review, Category } = require('../db/models');
+// const Sequelize = require('sequelize');
 module.exports = router;
+
+// router.get('/', async (req, res, next) => {
+//   const categoryFilter = req.query.category;
+//   console.log(req.query);
+//   try {
+//     if (req.query.category && req.query.category !== 'null') {
+//       const filteredProducts = await Product.findAll({
+//         include: [
+//           {
+//             model: Category,
+//             where: {
+//               name: {
+//                 [Sequelize.Op.in]: [categoryFilter]
+//               }
+//             }
+//           }
+//         ]
+//       });
+//       res.send(filteredProducts);
+//     } else {
+//       const products = await Product.findAll();
+
+//       products.map(async product => {
+//         const productInfo = await Product.findByPk(product.id);
+//         const avg = await productInfo.getAverageRating();
+
+//         await productInfo.update({ avgStar: avg });
+
+//         // product.dataValues.avgStar = avg;
+//         // console.log('dataValues: ', product.dataValues);
+//       });
+
+//       res.json(products);
+//     }
+//   } catch (error) {
+//     console.log(error);
+//   }
+// });
 
 router.get('/', async (req, res, next) => {
   try {
@@ -24,9 +63,6 @@ router.get('/', async (req, res, next) => {
         const avg = await productInfo.getAverageRating();
 
         await productInfo.update({ avgStar: avg });
-
-        // product.dataValues.avgStar = avg;
-        // console.log('dataValues: ', product.dataValues);
       });
       res.json(products);
     }

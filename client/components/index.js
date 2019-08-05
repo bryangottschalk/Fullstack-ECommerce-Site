@@ -9,7 +9,7 @@ export { default as allUsers } from './allUsers';
 export { default as UserHome } from './user-home';
 export { default as SingleProduct } from './SingleProduct';
 export { default as SingleUser } from './SingleUser';
-export { default as Cart } from './cart';
 export { default as FavoriteProducts } from './favoriteProducts';
+export { default as Cart } from './cart';
 export { Login, Signup } from './auth-form';
 export { default as CategoryProduct } from './categoryProduct';

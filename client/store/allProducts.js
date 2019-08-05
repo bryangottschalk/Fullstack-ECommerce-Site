@@ -85,14 +85,6 @@ export const deleteProductThunk = productId => {
   };
 };
 
-// export const addProductThunk = (product) => {
-//   return async dispatch => {
-//     try {
-//       await axios.post('/api/products')
-//     }
-//   }
-// }
-
 const initialState = { categoryInfo: {}, products: [], categories: [] };
 
 const allProductsReducer = (state = initialState, action) => {

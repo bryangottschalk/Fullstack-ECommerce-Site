@@ -111,7 +111,6 @@ const initialCart = {
 const cartReducer = (state = initialCart, action) => {
   switch (action.type) {
     case ADD_TO_CART:
-      console.log('adding to cart');
       return { ...state, items: [...state.items, action.item] };
     case SET_CART_ID:
       return {
@@ -144,7 +143,6 @@ const cartReducer = (state = initialCart, action) => {
       };
 
     default:
-      console.log('inside default');
       return state;
   }
 };

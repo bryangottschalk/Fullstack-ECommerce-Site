@@ -12,7 +12,7 @@ class SingleProduct extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      quantity: ''
+      quantity: 1
     };
     this.handleChange = this.handleChange.bind(this);
   }
