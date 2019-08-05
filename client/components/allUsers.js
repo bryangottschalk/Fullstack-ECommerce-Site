@@ -50,8 +50,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  deleteUser: (userId, redirectPath) =>
-    dispatch(deleteUserThunk(userId, redirectPath)),
+  deleteUser: userId => dispatch(deleteUserThunk(userId)),
   fetchUsers: () => dispatch(getAllUsersThunk())
 });
 

@@ -36,7 +36,9 @@ export class allProducts extends React.Component {
       quantity: 1,
       unitPrice: product.price,
       productId: product.id,
-      orderId: this.props.cart.id
+      orderId: this.props.cart.id,
+      productName: product.name,
+      imageUrl: product.imageUrl
     });
   }
 

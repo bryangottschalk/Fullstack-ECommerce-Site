@@ -22,14 +22,13 @@ export const getAllUsersThunk = () => {
   };
 };
 
-export const deleteUserThunk = (userId, redirectPath) => {
+export const deleteUserThunk = userId => {
   return async dispatch => {
     try {
       const { status } = await axios.delete(`/api/users/${userId}`);
       if (status === 202) {
         const action = deleteUser(userId);
         dispatch(action);
-        history.push(redirectPath);
       }
     } catch (error) {
       console.error(error);

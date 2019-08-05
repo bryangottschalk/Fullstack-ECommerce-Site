@@ -67,7 +67,7 @@ export const addToCartThunk = item => {
   };
 };
 
-export const deleteFromCartThunk = (orderId, productId, redirectPath) => {
+export const deleteFromCartThunk = (orderId, productId) => {
   return async dispatch => {
     try {
       const { status } = await axios.delete(
@@ -76,7 +76,6 @@ export const deleteFromCartThunk = (orderId, productId, redirectPath) => {
       if (status === 202) {
         const action = deleteFromCart(orderId, productId);
         dispatch(action);
-        history.push(redirectPath);
       }
     } catch (error) {
       console.error(error);

@@ -9,6 +9,10 @@ const Review = db.define('review', {
     },
     allowNull: false
   },
+  userName: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
   star: {
     type: Sequelize.INTEGER,
     defaultValue: 0

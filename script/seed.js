@@ -134,9 +134,11 @@ async function seed() {
   // Seed data for cart items and category items
   for (let i = 1; i <= 10; i++) {
     const price = (1 + Math.random() * 300).toFixed(2);
+    const productName = Faker.commerce.productName();
+    const imageUrl = Faker.image.animals();
     const cartItem = await Product.create({
-      name: Faker.commerce.productName(),
-      imageUrl: Faker.image.animals(),
+      name: productName,
+      imageUrl: imageUrl,
       description: Sentencer.make(
         'This product has {{ a_noun }} and {{ an_adjective }} {{ noun }} in it.'
       ),
@@ -149,7 +151,9 @@ async function seed() {
       category.addProduct(cartItem, {
         through: {
           quantity: Math.ceil(1 + Math.random() * 50),
-          unitPrice: price
+          unitPrice: price,
+          productName: productName,
+          imageUrl: imageUrl
         }
       });
     });
@@ -158,7 +162,9 @@ async function seed() {
       order.addProduct(cartItem, {
         through: {
           quantity: Math.ceil(1 + Math.random() * 50),
-          unitPrice: price
+          unitPrice: price,
+          productName: productName,
+          imageUrl: imageUrl
         }
       });
     });

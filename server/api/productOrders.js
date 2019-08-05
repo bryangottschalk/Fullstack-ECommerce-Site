@@ -36,7 +36,9 @@ router.post('/', async (req, res, next) => {
       const addStuff = await existingOrder.addProduct(newItem, {
         through: {
           quantity: req.body.quantity,
-          unitPrice: req.body.unitPrice
+          unitPrice: req.body.unitPrice,
+          productName: req.body.productName,
+          imageUrl: req.body.imageUrl
         }
       });
       res.json(addStuff);
@@ -45,7 +47,9 @@ router.post('/', async (req, res, next) => {
       const addStuff = await existingOrder.addProduct(newItem, {
         through: {
           quantity: Number(currentQuantity) + Number(req.body.quantity),
-          unitPrice: req.body.unitPrice
+          unitPrice: req.body.unitPrice,
+          productName: req.body.productName,
+          imageUrl: req.body.imageUrl
         }
       });
       res.json(addStuff);
@@ -60,7 +64,7 @@ router.delete('/', async (req, res, next) => {
     if (req.query.orderId && req.query.productId) {
       await ProductOrder.destroy({
         where: {
-          orderId: req.params.orderId,
+          orderId: req.query.orderId,
           productId: req.query.productId
         }
       });
@@ -76,24 +80,14 @@ router.put('/', async (req, res, next) => {
     if (req.query.orderId && req.query.productId) {
       const itemToUpdate = await ProductOrder.findOne({
         where: {
-          orderId: req.params.orderId,
-          productId: req.params.productId
+          orderId: req.query.orderId,
+          productId: req.query.productId
         }
       });
       const updatedItem = await itemToUpdate.update({
         quantity: req.body.quantity
       });
       res.json(updatedItem);
-    }
-
-    if (req.query.orderId && req.query.productId) {
-      await ProductOrder.update({
-        where: {
-          orderId: req.params.orderId,
-          productId: req.query.productId
-        }
-      });
-      res.sendStatus(202);
     }
   } catch (error) {
     next(error);
