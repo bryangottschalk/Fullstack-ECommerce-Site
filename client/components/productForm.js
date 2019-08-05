@@ -3,7 +3,7 @@ import { Form, Message } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { addProductThunk } from '../store/allProducts';
 import { runInThisContext } from 'vm';
-import { getCategoriesThunk } from '.';
+import { getCategoriesThunk } from '../store/categories';
 
 class ProductForm extends React.Component {
   constructor() {
@@ -14,8 +14,7 @@ class ProductForm extends React.Component {
       imageUrl: '',
       price: '',
       inventoryQuantity: '',
-      availability: false,
-      categories: []
+      availability: false
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -26,6 +25,18 @@ class ProductForm extends React.Component {
   }
   componentDidMount() {
     this.props.getCategories();
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.categories !== this.props.categories) {
+      const newCategories = this.props.categories.map(category => {
+        const obj = {};
+        obj.name = category.name;
+        obj.value = false;
+        return obj;
+      });
+      this.setState({ categories: newCategories });
+    }
   }
   handleChange(event) {
     console.log('inside handle change');
@@ -39,7 +50,6 @@ class ProductForm extends React.Component {
     console.log('inside handle submit');
     event.preventDefault();
     this.props.addProduct(this.state);
-    this.setState({ formSucess: true });
   }
 
   handleAvailabilityCheckbox() {
@@ -47,10 +57,37 @@ class ProductForm extends React.Component {
   }
 
   handleCategoryCheckbox(event) {
-    console.log('EVENT TARGET', event.target);
-    this.setState({
-      categories: [...this.state.categories, event.target.name]
+    console.log('CLICKED ON', event.target.innerText);
+    console.log('STATE.categories', this.state.categories);
+
+    const editedCategories = this.state.categories.map(category => {
+      console.log('CATEGORY', category);
+      if (category.name === event.target.innerText) {
+        console.log('-----match-----');
+        console.log('category name', category.name);
+        console.log('category.value', category.value);
+        console.log('!category.value', !category.value);
+        return { category: category.name, value: !category.value };
+      } else {
+        console.log('category inside no match', category);
+        return category;
+      }
     });
+    console.log('edited categories');
+    this.setState({ categories: editedCategories });
+    // const editedCategories = this.state.categories.map(category => {
+    //     //console.log('category', category)
+    //     //console.log('event.target.inneretxt', event.target.innerText)
+    //     if (category.name === event.target.innerText) {
+    //         console.log('inside')
+    //         return { category: category.name, value: !category.value }
+    //     } else {
+    //         return { category: category.name, value: category.value }
+    //     }
+    // })
+    //this.setState({ categories: [] })
+    //console.log('EDITED CATEGORIES', editedCategories)
+
     console.log('this.state', this.state);
   }
 
@@ -64,11 +101,10 @@ class ProductForm extends React.Component {
       availability,
       categories
     } = this.state;
-    console.log('HI');
-    console.log('CATEGORIES', this.props.categories);
+
     return (
       <Form onSubmit={this.handleSubmit} success={this.state.formSuccess}>
-        <Form.Group widths="equal">
+        <Form.Group>
           <Form.Input
             fluid
             label="Name"
@@ -78,6 +114,8 @@ class ProductForm extends React.Component {
             onChange={this.handleChange}
             required
           />
+        </Form.Group>
+        <Form.Group>
           <Form.TextArea
             label="Description"
             placeholder="Tell us more about this product"
@@ -86,6 +124,8 @@ class ProductForm extends React.Component {
             onChange={this.handleChange}
             required
           />
+        </Form.Group>
+        <Form.Group>
           <Form.Input
             fluid
             label="Image URL"
@@ -95,6 +135,8 @@ class ProductForm extends React.Component {
             onChange={this.handleChange}
             value={imageUrl}
           />
+        </Form.Group>
+        <Form.Group>
           <Form.Input
             fluid
             label="Price"
@@ -104,6 +146,8 @@ class ProductForm extends React.Component {
             onChange={this.handleChange}
             required
           />
+        </Form.Group>
+        <Form.Group>
           <Form.Input
             fluid
             label="Inventory Quantity"
@@ -113,21 +157,21 @@ class ProductForm extends React.Component {
             onChange={this.handleChange}
             required
           />
-          <Form.Group widths="equal">
-            <label>Categories</label>
+        </Form.Group>
+
+        <Form.Group widths="equal">
+          <label>Categories</label>
+          {this.props.categories.map(category => (
             <Form.Checkbox
-              label="Cat"
-              name="Cat"
-              value="Cat"
+              key={category.name}
+              label={category.name}
+              name={category.name}
+              value={category.name}
               onChange={this.handleCategoryCheckbox}
             />
-            <Form.Checkbox
-              label="Dog"
-              name="Dog"
-              value="Dog"
-              onChange={this.handleCategoryCheckbox}
-            />
-          </Form.Group>
+          ))}
+        </Form.Group>
+        <Form.Group>
           <Form.Checkbox
             label="Available?"
             name="availability"

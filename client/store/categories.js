@@ -18,7 +18,7 @@ const addCategory = category => ({
 //THUNK CREATORS
 export const getCategoriesThunk = () => {
   return async dispatch => {
-    const { data } = await axios.get(`/api/categories`);
+    const { data } = await axios.get('/api/categories');
     dispatch(getCategories(data));
   };
 };
