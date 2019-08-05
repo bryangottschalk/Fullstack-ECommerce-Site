@@ -73,13 +73,14 @@ const reviewGenerator = () => {
 };
 
 const reviews = reviewGenerator();
+const orderStatus = ['Cart', 'Created', 'Processing', 'Cancelled', 'Completed'];
 
 const orderGenerator = () => {
   let orders = [];
   for (let i = 0; i < 10; i++) {
     orders.push({
       total: (1 + Math.random() * 500).toFixed(2),
-      status: 'Cart',
+      status: orderStatus[Math.floor(Math.random() * 5)],
       shippingAddress: users[i].address[0],
       userId: i + 1
     });

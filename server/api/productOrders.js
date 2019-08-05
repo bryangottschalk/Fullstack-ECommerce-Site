@@ -30,7 +30,8 @@ router.post('/', async (req, res, next) => {
         const newOrder = await ProductOrder.create({
           productId: req.body.productId,
           orderId: req.body.orderId,
-          quantity: req.body.quantity
+          quantity: req.body.quantity,
+          unitPrice: req.body.unitPrice
         });
         res.send(newOrder);
       } else {
@@ -51,7 +52,8 @@ router.post('/', async (req, res, next) => {
       const newProductOrder = await ProductOrder.create({
         productId: req.body.productId,
         orderId: newOrder.id,
-        quantity: req.body.quantity
+        quantity: req.body.quantity,
+        unitPrice: req.body.unitPrice
       });
       res.status(201).send(newOrder);
     }

@@ -97,7 +97,7 @@ export class allProducts extends React.Component {
         <Card.Group itemsPerRow={4}>
           {products.map(product => {
             return (
-              <Card color="teal" key={product.id} id="UsersList">
+              <Card color="teal" key={product.id} id="ProductsList">
                 <Card.Content>
                   <Image src={product.imageUrl} />
 
