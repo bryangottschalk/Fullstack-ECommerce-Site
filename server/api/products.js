@@ -7,7 +7,6 @@ router.get('/', async (req, res, next) => {
   const categoryFilter = req.query.category;
   console.log(req.query);
   try {
-    console.log('typeOf reqQuery', typeof req.query.category);
     if (req.query.category && req.query.category !== 'null') {
       const filteredProducts = await Product.findAll({
         include: [
