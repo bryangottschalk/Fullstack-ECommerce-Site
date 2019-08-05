@@ -19,8 +19,16 @@ import {
 } from 'semantic-ui-react';
 
 export class allProducts extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      category: null
+    };
+    this.handleClick = this.handleClick.bind(this);
+  }
+
   async componentDidMount() {
-    await this.props.fetchProducts();
+    await this.props.fetchProducts(this.props.location.search);
     await this.props.getCategoryInfo(this.props.location.search);
     await this.props.fetchCategories();
   }
@@ -29,6 +37,13 @@ export class allProducts extends React.Component {
     event.preventDefault();
     this.props.deleteProduct(productId);
   };
+
+  handleClick(categoryName) {
+    this.setState({
+      category: categoryName
+    });
+    this.props.fetchProducts(`?categoryId=${categoryName}`);
+  }
 
   async addProduct(product) {
     await this.props.setCartId(this.props.user.id);
@@ -44,22 +59,47 @@ export class allProducts extends React.Component {
 
   render() {
     console.log('PROPS  ', this.props);
+    console.log('this.props.location.search   ', this.props.location.search);
+
     const products = this.props.products;
     const categories = this.props.allCategories;
+    // const categoryName = this.props.category.name;
     return (
       <div>
-        <div>
-          {categories.map(category => (
-            <NavLink
-              to={`/categories?categoryId=${category.id}`}
-              key={category.id}
-            >
-              <Label color="teal" tag size="large">
+        {!this.props.location.search ? (
+          <div>
+            {categories.map(category => (
+              // <NavLink
+              //   to={`/products?categoryId=${category.name}`}
+              //   key={category.id}
+              // >
+              <Label
+                style={{ cursor: 'pointer' }}
+                key={category.id}
+                color="teal"
+                tag
+                size="large"
+                onClick={() => this.handleClick(category.name)}
+              >
                 {category.name}
               </Label>
-            </NavLink>
-          ))}
-        </div>
+              // </NavLink>
+            ))}
+          </div>
+        ) : (
+          <div>
+            Filter:{' '}
+            <Label
+              color="orange"
+              tag
+              size="large"
+              style={{ cursor: 'pointer' }}
+              onClick={() => this.handleClick()}
+            >
+              {this.state.category}
+            </Label>
+          </div>
+        )}
 
         <Card.Group itemsPerRow={5}>
           {products &&

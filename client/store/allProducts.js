@@ -33,10 +33,12 @@ export const getAllProductsThunk = filterTag => {
   return async dispatch => {
     try {
       if (filterTag !== '') {
+        console.log('filterTag: ', filterTag);
+
         const response = await axios.get(`/api/products${filterTag}`);
         const filteredProducts = response.data.products;
-        console.log('response.data.products', response.data.products);
         dispatch(getAllProducts(filteredProducts));
+        history.push(`${filterTag}`);
       } else {
         const response = await axios.get(`/api/products`);
         const allProducts = response.data;

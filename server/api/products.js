@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const { Product, Review, Category } = require('../db/models');
-// const Sequelize = require('sequelize');
+const Sequelize = require('sequelize');
 module.exports = router;
 
 // router.get('/', async (req, res, next) => {
@@ -8,19 +8,19 @@ module.exports = router;
 //   console.log(req.query);
 //   try {
 //     if (req.query.category && req.query.category !== 'null') {
-//       const filteredProducts = await Product.findAll({
-//         include: [
-//           {
-//             model: Category,
-//             where: {
-//               name: {
-//                 [Sequelize.Op.in]: [categoryFilter]
-//               }
-//             }
-//           }
-//         ]
-//       });
-//       res.send(filteredProducts);
+// const filteredProducts = await Product.findAll({
+//   include: [
+//     {
+//       model: Category,
+//       where: {
+//         name: {
+//           [Sequelize.Op.in]: [categoryFilter]
+//         }
+//       }
+//     }
+//   ]
+// });
+// res.send(filteredProducts);
 //     } else {
 //       const products = await Product.findAll();
 
@@ -43,18 +43,34 @@ module.exports = router;
 
 router.get('/', async (req, res, next) => {
   try {
+    console.log('req.query', req.query);
     if (req.query.categoryId) {
-      const productForOneCategory = await Category.findAll({
-        where: {
-          id: req.query.categoryId
-        },
+      console.log('query tag found!!!!!!!!!!');
+      // const productForOneCategory = await Category.findAll({
+      //   where: {
+      //     id: req.query.categoryId
+      //   },
+      //   include: [
+      //     {
+      //       model: Product
+      //     }
+      //   ]
+      // });
+      // res.json(productForOneCategory[0]);
+      const filteredProducts = await Product.findAll({
         include: [
           {
-            model: Product
+            model: Category,
+            where: {
+              name: {
+                [Sequelize.Op.in]: [req.query.categoryId]
+              }
+            }
           }
         ]
       });
-      res.json(productForOneCategory[0]);
+      console.log('filteredProduct:  ', filteredProducts);
+      res.send(filteredProducts);
     } else {
       const products = await Product.findAll();
 
