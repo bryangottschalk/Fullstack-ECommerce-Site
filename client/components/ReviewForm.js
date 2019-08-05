@@ -23,7 +23,12 @@ class ReviewForm extends React.Component {
   }
   handleSubmit(evt) {
     evt.preventDefault();
-    this.props.postReview(this.state, this.props.productId);
+    this.props.postReview(
+      this.state,
+      this.props.productId,
+      this.props.userName,
+      this.props.imageUrl
+    );
     this.setState(initialState);
   }
   render() {
@@ -76,7 +81,7 @@ class ReviewForm extends React.Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-  postReview: (formSubmission, productId) =>
-    dispatch(postReviewThunk(formSubmission, productId))
+  postReview: (formSubmission, productId, userName, imageUrl) =>
+    dispatch(postReviewThunk(formSubmission, productId, userName, imageUrl))
 });
 export default connect(null, mapDispatchToProps)(ReviewForm);

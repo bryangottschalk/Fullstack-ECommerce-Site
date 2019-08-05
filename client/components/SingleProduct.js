@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import ReviewForm from './ReviewForm';
 import ListReviews from './ListReviews';
-import { postReviewThunk } from '../store/reviews';
 import { getSingleProductThunk } from '../store/singleProduct';
 import { Rating, Button, Input, Label } from 'semantic-ui-react';
 import { addToCartThunk, setCartIdThunk } from '../store/cart';
@@ -16,7 +15,6 @@ class SingleProduct extends React.Component {
       quantity: ''
     };
     this.handleChange = this.handleChange.bind(this);
-    this.handleFormSubmit = this.handleFormSubmit.bind(this);
   }
 
   componentDidMount() {
@@ -39,15 +37,6 @@ class SingleProduct extends React.Component {
       productName: product.name,
       imageUrl: product.imageUrl
     });
-  }
-
-  handleFormSubmit(evt, formState) {
-    evt.preventDefault();
-    this.props.postReview(
-      formState,
-      this.props.match.params.id,
-      `/products/${this.props.match.params.id}`
-    );
   }
 
   render() {
@@ -114,7 +103,8 @@ class SingleProduct extends React.Component {
         </Button>
         <ReviewForm
           productId={product.id}
-          handleFormSubmit={this.handleFormSubmit}
+          userName={`${this.props.user.firstName} ${this.props.user.lastName}`}
+          imageUrl={this.props.user.imageUrl}
         />
         <ListReviews oldReviews={oldReviews} newReviews={newReviews} />
       </div>
@@ -133,8 +123,6 @@ const mapDispatchToProps = dispatch => ({
   getProduct: productId => dispatch(getSingleProductThunk(productId)),
   quickAdd: item => dispatch(addToCartThunk(item)),
   setCartId: userId => dispatch(setCartIdThunk(userId)),
-  postReview: (formSubmission, productId, redirectPath) =>
-    dispatch(postReviewThunk(formSubmission, productId, redirectPath)),
   getCategoryProduct: categoryId => dispatch(getAllProductsThunk(categoryId))
 });
 

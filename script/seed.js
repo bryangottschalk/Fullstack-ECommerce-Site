@@ -15,6 +15,7 @@ const {
 
 const userGenerator = () => {
   let users = [];
+
   for (let i = 0; i < 10; i++) {
     let firstName = Random.first();
     let lastName = Random.last();
@@ -34,6 +35,16 @@ const userGenerator = () => {
       address: [Faker.address.streetAddress()],
       password: Faker.internet.password()
     });
+
+    // generat reviews from that user
+    // reviews.push({
+    //   content: Faker.lorem.sentences(),
+    //   star: Math.ceil(Math.random() * 5),
+    //   userId: i + 1,
+    //   productId: i + 1,
+    //   userName: `${firstName} ${lastName}`,
+    //   imageUrl: `https://robohash.org/${firstName}--${lastName}`
+    // });
   }
   return users;
 };
@@ -121,14 +132,18 @@ async function seed() {
     content: Faker.lorem.sentences(),
     star: Math.ceil(Math.random() * 5),
     userId: 1,
-    productId: 1
+    productId: 1,
+    userName: 'Cody Cody',
+    imageUrl: 'https://robohash.org/cody--cody'
   });
 
   await Review.create({
     content: Faker.lorem.sentences(),
     star: Math.ceil(Math.random() * 5),
     userId: 1,
-    productId: 1
+    productId: 1,
+    userName: 'Cody Cody',
+    imageUrl: 'https://robohash.org/cody--cody'
   });
 
   // Seed data for cart items and category items

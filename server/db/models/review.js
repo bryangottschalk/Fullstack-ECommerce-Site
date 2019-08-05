@@ -11,11 +11,15 @@ const Review = db.define('review', {
   },
   userName: {
     type: Sequelize.STRING,
-    allowNull: false
+    allowNull: true
   },
   star: {
     type: Sequelize.INTEGER,
     defaultValue: 0
+  },
+  imageUrl: {
+    type: Sequelize.STRING,
+    allowNull: true
   }
 });
 

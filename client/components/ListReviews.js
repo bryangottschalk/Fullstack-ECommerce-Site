@@ -1,5 +1,5 @@
 import React from 'react';
-import { Rating } from 'semantic-ui-react';
+import { Rating, Image } from 'semantic-ui-react';
 
 const ListReviews = props => {
   const { oldReviews, newReviews } = props;
@@ -13,6 +13,10 @@ const ListReviews = props => {
           oldReviews.map(review => {
             return (
               <li key={review.id}>
+                <div>{review.userName}</div>
+                <div>
+                  <Image src={review.imageUrl} size="tiny" />
+                </div>
                 <h2>
                   Stars:{' '}
                   <Rating
