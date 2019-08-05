@@ -48,6 +48,16 @@ export const deleteProductThunk = (productId, redirectpath) => {
   };
 };
 
+export const addProductThunk = product => {
+  return async dispatch => {
+    try {
+      await axios.post('/api/products', product);
+      dispatch(addProduct(product));
+    } catch (error) {
+      console.error(error);
+    }
+  };
+};
 // export const addProductThunk = (product) => {
 //   return async dispatch => {
 //     try {
@@ -64,6 +74,8 @@ const allProductsReducer = (state = initialState, action) => {
       return action.products;
     case DELETE_PRODUCT:
       return [...state.filter(product => product.id !== action.productId)];
+    case ADD_PRODUCT:
+      return [...state, action.product];
     default:
       return state;
   }
