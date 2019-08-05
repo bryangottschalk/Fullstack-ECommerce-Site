@@ -15,7 +15,8 @@ import {
   Rating,
   Icon,
   Grid,
-  Label
+  Label,
+  Input
 } from 'semantic-ui-react';
 
 export class allProducts extends React.Component {
@@ -43,7 +44,6 @@ export class allProducts extends React.Component {
   }
 
   render() {
-    console.log('PROPS  ', this.props);
     const products = this.props.products;
     const categories = this.props.allCategories;
     return (
@@ -59,6 +59,7 @@ export class allProducts extends React.Component {
               </Label>
             </NavLink>
           ))}
+          <Input icon="search" placeholder="Search..." />
         </div>
 
         <Card.Group itemsPerRow={5}>

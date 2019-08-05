@@ -32,7 +32,6 @@ const Navbar = ({ handleClick, isLoggedIn }) => (
           <a href="#" onClick={handleClick}>
             <Button>Logout</Button>
           </a>
-          <Input icon="search" placeholder="Search..." />
         </div>
       ) : (
         <div>
@@ -52,7 +51,6 @@ const Navbar = ({ handleClick, isLoggedIn }) => (
           <NavLink to="/cart">
             <Button>Cart</Button>
           </NavLink>
-          <Input icon="search" placeholder="Search..." />
         </div>
       )}
     </nav>
