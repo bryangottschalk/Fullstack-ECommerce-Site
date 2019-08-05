@@ -4,7 +4,7 @@ import ReviewForm from './ReviewForm';
 import ListReviews from './ListReviews';
 import { postReviewThunk } from '../store/reviews';
 import { getSingleProductThunk } from '../store/singleProduct';
-import { Dropdown, Button } from 'semantic-ui-react';
+import { Dropdown, Button, Grid, Icon } from 'semantic-ui-react';
 import { addToCartThunk, setCartIdThunk } from '../store/cart';
 
 class SingleProduct extends React.Component {
@@ -78,22 +78,30 @@ class SingleProduct extends React.Component {
         <h1>{product.name}</h1>
         <h3>{`$${product.price}`}</h3>
         <h3>{product.description}</h3>
-
-        <Button
-          className="addToCart"
-          onClick={() => this.addProduct(product)}
-          type="button"
-        >
-          Add To Cart
-        </Button>
-        <Dropdown
-          onChange={this.handleChange}
-          placeholder="qty"
-          fluid
-          selection
-          options={qtyOptions}
-          value={this.state.quantity}
-        />
+        <Grid className="singleProductCart" columns={2}>
+          <Grid.Column className="forButton">
+            <Button
+              className="addToCart"
+              onClick={() => this.addProduct(product)}
+              type="button"
+            >
+              <Button.Content hidden>Add</Button.Content>
+              <Button.Content visible>
+                <Icon name="shop" />
+              </Button.Content>
+            </Button>
+          </Grid.Column>
+          <Grid.Column className="forQty">
+            <Dropdown
+              onChange={this.handleChange}
+              placeholder="qty"
+              fluid
+              selection
+              options={qtyOptions}
+              value={this.state.quantity}
+            />
+          </Grid.Column>
+        </Grid>
         <ReviewForm
           productId={product.id}
           handleFormSubmit={this.handleFormSubmit}

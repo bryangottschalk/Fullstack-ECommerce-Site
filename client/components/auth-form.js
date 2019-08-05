@@ -13,7 +13,8 @@ class AuthForm extends React.Component {
 
     return (
       <div>
-        <form
+        <Form
+          className="signUpForm"
           onSubmit={name === 'login' ? handleLogin : handleSignUp}
           name={name}
         >
@@ -35,19 +36,24 @@ class AuthForm extends React.Component {
                 <label htmlFor="firstName">
                   <small>First Name</small>
                 </label>
-                <input name="firstName" type="text" />
+                <input
+                  className="signUp"
+                  name="firstName"
+                  type="text"
+                  required
+                />
               </div>
               <div>
                 <label htmlFor="lastName">
                   <small>Last Name</small>
                 </label>
-                <input name="lastName" type="text" />
+                <input className="signUp" name="lastName" type="text" />
               </div>
               <div>
                 <label htmlFor="address">
                   <small>Address</small>
                 </label>
-                <input name="address" type="text" />
+                <input className="signUp" name="address" type="text" />
               </div>
             </div>
           )}
@@ -55,7 +61,7 @@ class AuthForm extends React.Component {
             <Button type="submit">{displayName}</Button>
           </div>
           {error && error.response && <div> {error.response.data} </div>}
-        </form>
+        </Form>
         <a href="/auth/google">{displayName} with Google</a>
       </div>
     );

@@ -7,16 +7,21 @@ import { Button, Header, Input } from 'semantic-ui-react';
 
 const Navbar = ({ handleClick, isLoggedIn }) => (
   <div>
-    <Header as="h1"> Graceshopper App! </Header>
+    <NavLink to="/">
+      <Header className="mainHeader" as="h1" size="huge" textAlign="center">
+        {' '}
+        PETS{' '}
+      </Header>
+    </NavLink>
     <nav>
       {isLoggedIn ? (
         <div>
           {/* The navbar will show these links after you log in */}
           <NavLink to="/home">
-            <Button type="button">Home</Button>
+            <Button color="orange">Home</Button>
           </NavLink>
           <NavLink to="/products">
-            <Button>All Products</Button>
+            <Button color="orange">All Products</Button>
           </NavLink>
           <NavLink to="/cart">
             <Button>Cart</Button>
@@ -27,11 +32,14 @@ const Navbar = ({ handleClick, isLoggedIn }) => (
           <a href="#" onClick={handleClick}>
             <Button>Logout</Button>
           </a>
-          <Input icon="serach" placeholder="Search..." />
+          <Input icon="search" placeholder="Search..." />
         </div>
       ) : (
         <div>
           {/* The navbar will show these links before you log in */}
+          <NavLink to="/">
+            <Button color="orange">Home</Button>
+          </NavLink>
           <NavLink to="/products">
             <Button color="orange">All Products</Button>
           </NavLink>

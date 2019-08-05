@@ -6,7 +6,9 @@ import { Card, Button } from 'semantic-ui-react';
 
 export class FavoriteProducts extends React.Component {
   render() {
-    console.log('PORPs', this.props);
+    console.log('PORPs!!!!', this.props);
+    const one = this.props;
+    console.log('one', one);
     return (
       <div>
         <h3>Our Favorites</h3>
