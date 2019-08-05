@@ -1,20 +1,32 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { NavLink } from 'react-router-dom';
+import { NavLink, withRouter } from 'react-router-dom';
 import { getAllProductsThunk, deleteProductThunk } from '../store/allProducts';
 import { addToCartThunk, setCartIdThunk } from '../store/cart';
-import { Button, Card, Image, Rating, Icon, Grid } from 'semantic-ui-react';
+import {
+  Button,
+  Card,
+  Image,
+  Rating,
+  Icon,
+  Grid,
+  Dropdown,
+  Header
+} from 'semantic-ui-react';
 
 export class allProducts extends React.Component {
   constructor() {
     super();
+    this.state = {
+      category: null
+    };
 
     this.addProduct = this.addProduct.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
 
   async componentDidMount() {
-    await this.props.fetchProducts();
-    await this.props.setCartId(this.props.user.id);
+    await this.props.fetchProducts(this.state.category);
   }
 
   async addProduct(product) {
@@ -26,11 +38,63 @@ export class allProducts extends React.Component {
     this.props.deleteProduct(productId, '/products');
   };
 
+  async handleChange(event, { value }) {
+    await this.setState({
+      category: value
+    });
+    this.props.fetchProducts(this.state.category);
+  }
+
   render() {
+    console.log('PROPS', this.props);
     const products = this.props.products;
+    const categoryOptions = [
+      {
+        key: 'Dog',
+        text: 'Dog',
+        value: 'Dog'
+      },
+      {
+        key: 'Cat',
+        text: 'Cat',
+        value: 'Cat'
+      },
+      {
+        key: 'Reptile',
+        text: 'Reptile',
+        value: 'Reptile'
+      },
+      {
+        key: 'Small Pet',
+        text: 'Small Pet',
+        value: 'Small Pet'
+      },
+      {
+        key: 'Supplies',
+        text: 'Supplies',
+        value: 'Supplies'
+      },
+      {
+        key: 'Food',
+        text: 'Food',
+        value: 'Food'
+      }
+    ];
     return (
       <div>
-        <Card.Group itemsPerRow={6}>
+        <Header size="large" textAlign="center">
+          All Products
+        </Header>
+        <Dropdown
+          className="categorySelection"
+          onChange={this.handleChange}
+          placeholder="Category"
+          fluid
+          selection
+          options={categoryOptions}
+          value={this.state.category}
+        />
+        <Card.Group itemsPerRow={4}>
           {products.map(product => {
             return (
               <Card color="teal" key={product.id} id="ProductsList">
@@ -38,7 +102,10 @@ export class allProducts extends React.Component {
                   <Image src={product.imageUrl} />
 
                   <Card.Header>
-                    <NavLink to={`products/${product.id}`}>
+                    <NavLink
+                      className="productTitle"
+                      to={`products/${product.id}`}
+                    >
                       {product.name}{' '}
                     </NavLink>
                   </Card.Header>
@@ -57,9 +124,8 @@ export class allProducts extends React.Component {
                       'N/A'
                     )}
                   </Card.Meta>
-
                   <Grid>
-                    <Grid.Column width={6}>
+                    <Grid.Column width={4}>
                       <Button
                         color="linkedin"
                         animated="vertical"
@@ -97,7 +163,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  fetchProducts: () => dispatch(getAllProductsThunk()),
+  fetchProducts: category => dispatch(getAllProductsThunk(category)),
   quickAdd: (item, order, quantity) =>
     dispatch(addToCartThunk(item, order, quantity)),
   setCartId: userId => dispatch(setCartIdThunk(userId)),
@@ -105,4 +171,6 @@ const mapDispatchToProps = dispatch => ({
     dispatch(deleteProductThunk(productId, redirectPath))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(allProducts);
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(allProducts)
+);

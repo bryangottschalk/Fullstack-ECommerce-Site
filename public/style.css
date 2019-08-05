@@ -19,3 +19,39 @@ form div {
   margin: 1em;
   display: inline-block;
 }
+
+.signUpForm {
+  display: flex;
+  flex-direction: column;
+  width: 350px;
+}
+
+.ui.grid {
+  width: 250px;
+}
+
+.ui.fluid.selection.dropdown {
+  padding: 11px 21px;
+}
+
+.ui.fluid.selection.dropdown.categorySelection {
+  width: 200px;
+  margin: 10px 0px 20px 0px;
+}
+
+.ui.image {
+  padding: 5px 0px 5px 0px;
+}
+
+.productTitle {
+  font-weight: 400;
+}
+
+.ui.huge.center.aligned.header.mainHeader {
+  padding: 10px 0px 0px 0px;
+}
+
+input {
+  width: 322;
+  height: 38;
+}
