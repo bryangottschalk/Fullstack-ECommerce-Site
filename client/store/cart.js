@@ -33,6 +33,7 @@ const updateCart = item => ({
   item
 });
 
+// Use rest-ful way of getting the order
 export const getCartThunk = cartId => {
   return async dispatch => {
     try {
@@ -45,6 +46,7 @@ export const getCartThunk = cartId => {
   };
 };
 
+// Use rest-ful way of getting the order
 export const setCartIdThunk = userId => {
   return async dispatch => {
     try {
