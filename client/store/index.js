@@ -10,6 +10,7 @@ import singleProductReducer from './singleProduct';
 import cartReducer from './cart';
 import typeReducer from './userType';
 import productReviewsReducer from './reviews';
+import categoriesReducer from './categories';
 
 const reducer = combineReducers({
   user,
@@ -19,7 +20,8 @@ const reducer = combineReducers({
   singleUserReducer,
   cartReducer,
   typeReducer,
-  productReviewsReducer
+  productReviewsReducer,
+  categories: categoriesReducer
 });
 const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({ collapsed: true }))

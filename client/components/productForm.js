@@ -2,6 +2,8 @@ import React from 'react';
 import { Form, Message } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { addProductThunk } from '../store/allProducts';
+import { runInThisContext } from 'vm';
+import { getCategoriesThunk } from '.';
 
 class ProductForm extends React.Component {
   constructor() {
@@ -12,12 +14,18 @@ class ProductForm extends React.Component {
       imageUrl: '',
       price: '',
       inventoryQuantity: '',
-      availability: true,
-      categories: [],
-      formSuccess: false
+      availability: false,
+      categories: []
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.handleAvailabilityCheckbox = this.handleAvailabilityCheckbox.bind(
+      this
+    );
+    this.handleCategoryCheckbox = this.handleCategoryCheckbox.bind(this);
+  }
+  componentDidMount() {
+    this.props.getCategories();
   }
   handleChange(event) {
     console.log('inside handle change');
@@ -26,11 +34,26 @@ class ProductForm extends React.Component {
       [event.target.name]: event.target.value
     });
   }
+
   handleSubmit(event) {
     console.log('inside handle submit');
     event.preventDefault();
     this.props.addProduct(this.state);
+    this.setState({ formSucess: true });
   }
+
+  handleAvailabilityCheckbox() {
+    this.setState({ availability: !this.state.availability });
+  }
+
+  handleCategoryCheckbox(event) {
+    console.log('EVENT TARGET', event.target);
+    this.setState({
+      categories: [...this.state.categories, event.target.name]
+    });
+    console.log('this.state', this.state);
+  }
+
   render() {
     const {
       name,
@@ -42,6 +65,7 @@ class ProductForm extends React.Component {
       categories
     } = this.state;
     console.log('HI');
+    console.log('CATEGORIES', this.props.categories);
     return (
       <Form onSubmit={this.handleSubmit} success={this.state.formSuccess}>
         <Form.Group widths="equal">
@@ -89,43 +113,42 @@ class ProductForm extends React.Component {
             onChange={this.handleChange}
             required
           />
-          <Form.Checkbox label="Available?" />
+          <Form.Group widths="equal">
+            <label>Categories</label>
+            <Form.Checkbox
+              label="Cat"
+              name="Cat"
+              value="Cat"
+              onChange={this.handleCategoryCheckbox}
+            />
+            <Form.Checkbox
+              label="Dog"
+              name="Dog"
+              value="Dog"
+              onChange={this.handleCategoryCheckbox}
+            />
+          </Form.Group>
+          <Form.Checkbox
+            label="Available?"
+            name="availability"
+            value={availability}
+            onChange={this.handleAvailabilityCheckbox}
+          />
         </Form.Group>
-        {/* <Message success header='Form Completed' content="You're all signed up for the newsletter" /> */}
+
         <Form.Button>Submit</Form.Button>
       </Form>
-      // <div>
-      //     <form className="ui form">
-      //         <div className="field">
-      //             <label> Product name</label>
-      //             <input type="text" name="product-name" placeholder="Product name" value={this.state.name} />
-      //         </div>
-      //         <div className="field">
-      //             <label>Description</label>
-      //             <textarea value={this.state.description} />
-      //         </div>
-      //         <div className="field">
-      //             <label>Image url</label>
-      //             <input type="text" name="image-url" placeholder="Image url" value={this.state.imageUrl} />
-      //         </div>
-      //         <div className="field">
-      //             <label>Price</label>
-      //             <input type="text" name="price" placeholder="Price" value={this.state.price} />
-      //         </div>
-      //         {/* <div className="ui checkbox">
-      //             <input type="checkbox" name="available" tabIndex="0" className="hidden" />
-      //             <label>Available</label>
-      //         </div>
-      //          */}
-
-      //     </form>
-      // </div>
     );
   }
 }
-
+const mapStateToProps = state => {
+  return {
+    categories: state.categories
+  };
+};
 const mapDispatchToProps = dispatch => ({
-  addProduct: product => dispatch(addProductThunk(product))
+  addProduct: product => dispatch(addProductThunk(product)),
+  getCategories: () => dispatch(getCategoriesThunk())
 });
 
-export default connect(null, mapDispatchToProps)(ProductForm);
+export default connect(mapStateToProps, mapDispatchToProps)(ProductForm);
