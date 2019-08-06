@@ -66,6 +66,9 @@ class SingleProduct extends React.Component {
         </div>
         <img src={product.imageUrl} />
         <h1>{product.name}</h1>
+        <NavLink to={`/products/${product.id}/edit`}>
+          <Button>EDIT PRODUCT</Button>
+        </NavLink>
         <div>
           RATING:
           {product.avgStar !== null ? (

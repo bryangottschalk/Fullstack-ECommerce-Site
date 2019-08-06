@@ -6,6 +6,8 @@ const GET_ALL_PRODUCTS = 'GET_ALL_PRODUCTS';
 const DELETE_PRODUCT = 'DELETE_PRODUCT';
 const GET_CATEGORY_INFO = 'GET_CATEGORY_NAME';
 const GET_ALL_CATEGORIES = 'GET_ALL_CATEGORIES';
+const ADD_PRODUCT = 'ADD_PRODUCT';
+const EDIT_PRODUCT = 'EDIT_PRODUCT';
 
 //ACTION CREATORS
 const getAllProducts = products => ({
@@ -28,6 +30,17 @@ const getAllCategories = categories => ({
   categories
 });
 
+const addProduct = product => ({
+  type: ADD_PRODUCT,
+  product
+});
+
+const editProduct = product => {
+  return {
+    type: EDIT_PRODUCT,
+    product
+  };
+};
 //THUNK CREATORS
 export const getAllProductsThunk = filterTag => {
   return async dispatch => {
@@ -96,6 +109,38 @@ export const deleteProductThunk = productId => {
   };
 };
 
+export const addProductThunk = product => {
+  return async dispatch => {
+    try {
+      await axios.post('/api/products', product);
+      dispatch(addProduct(product));
+    } catch (error) {
+      console.error(error);
+    }
+  };
+};
+
+export const editProductThunk = product => {
+  return async dispatch => {
+    try {
+      console.log('INSIDE EDIT PRODUCT THUNK');
+      console.log('PRODUCT ID', product.id);
+      const { data } = await axios.put(`/api/products/${product.id}`, product);
+      dispatch(editProduct(data));
+    } catch (error) {
+      console.error(error);
+    }
+  };
+};
+// export const addProductThunk = (product) => {
+//   return async dispatch => {
+//     try {
+//       await axios.post('/api/products')
+//     }
+//   }
+// }
+
+//const initialState = [];
 const initialState = { categoryInfo: {}, products: [], categories: [] };
 
 const allProductsReducer = (state = initialState, action) => {
@@ -106,12 +151,25 @@ const allProductsReducer = (state = initialState, action) => {
       return { ...state, categories: action.categories };
     case GET_CATEGORY_INFO:
       return { ...state, categoryInfo: action.categoryInfo };
+    case ADD_PRODUCT:
+      return { ...state, products: [...state.products, action.product] };
     case DELETE_PRODUCT:
       return {
         ...state,
         products: state.products.filter(
           product => product.id !== action.productId
         )
+      };
+    case EDIT_PRODUCT:
+      return {
+        ...state,
+        products: state.products.map(product => {
+          if (product.id === action.product.id) {
+            return action.product;
+          } else {
+            return product;
+          }
+        })
       };
     default:
       return state;
