@@ -13,42 +13,53 @@ import {
   SingleUser,
   Cart,
   FavoriteProducts,
-  CategoryProduct
+  NotFound
 } from './components';
 
 /**
  * COMPONENT
  */
+
 class Routes extends Component {
   componentDidMount() {
     this.props.loadInitialData();
   }
 
   render() {
-    const { isLoggedIn } = this.props;
-
+    const { isLoggedIn, isAdmin } = this.props;
     return (
       <Switch>
         {/* Routes placed here are available to all visitors */}
-        {/* <Route exact path="/" component={FavoriteProducts} /> */}
+        <Route exact path="/" component={FavoriteProducts} />
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
         <Route exact path="/products/:id" component={SingleProduct} />
-        <Route exact path="/users/:id" component={SingleUser} />
         <Route exact path="/products" component={allProducts} />
         <Route exact path="/users" component={allUsers} />
         <Route path="/cart" component={Cart} />
-        {isLoggedIn && (
-          <Switch>
-            {/* Routes placed here are only available after logging in */}
-            <Route path="/home" component={UserHome} />
-            <Route path="/products" component={allProducts} />
-            <Route path="/users" component={allUsers} />
-          </Switch>
-        )}
-        {/* Displays our Login component as a fallback */}
-        {/* <Route component={Login} /> */}
-        <Route component={FavoriteProducts} />
+
+        {isLoggedIn &&
+          isAdmin && (
+            <Switch>
+              {/* Routes placed here are only available to admin users after logging in */}
+              <Route path="/home" component={UserHome} />
+              <Route exact path="/users/:id" component={SingleUser} />
+              <Route exact path="/users" component={allUsers} />
+              <Route component={NotFound} />
+              {/* Once we create an orders component it can go here <Route exact path="/orders" component={Orders} /> */}
+            </Switch>
+          )}
+
+        {isLoggedIn &&
+          !isAdmin && (
+            <Switch>
+              {/* Routes placed here are available to all users after logging in */}
+              {/* once MyAccount component is created <Route exact path="/myaccount" component={myAccount} /> */}
+            </Switch>
+          )}
+
+        {/* Displays our 404 component as a fallback */}
+        <Route component={NotFound} />
       </Switch>
     );
   }
@@ -61,7 +72,8 @@ const mapState = state => {
   return {
     // Being 'logged in' for our purposes will be defined has having a state.user that has a truthy id.
     // Otherwise, state.user will be an empty object, and state.user.id will be falsey
-    isLoggedIn: !!state.user.id
+    isLoggedIn: !!state.user.id,
+    isAdmin: state.user.isAdmin
   };
 };
 

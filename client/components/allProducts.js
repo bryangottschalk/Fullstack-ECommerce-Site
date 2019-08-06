@@ -64,9 +64,6 @@ export class allProducts extends React.Component {
   }
 
   render() {
-    console.log('PROPS  ', this.props);
-    console.log('the current state is: ', this.state);
-
     const products = this.props.products;
     const categories = this.props.allCategories;
     // const categoryName = this.props.category.name;
@@ -85,7 +82,6 @@ export class allProducts extends React.Component {
               >
                 {category.name}
               </Label>
-              // </NavLink>
             ))}
           </div>
         ) : (

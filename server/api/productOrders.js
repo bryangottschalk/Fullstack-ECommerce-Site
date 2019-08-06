@@ -1,8 +1,9 @@
 const router = require('express').Router();
 const { ProductOrder, Order, Product } = require('../db/models');
+const isAdmin = require('../middleware');
 module.exports = router;
 
-router.get('/', async (req, res, next) => {
+router.get('/', isAdmin, async (req, res, next) => {
   try {
     if (req.query.orderId) {
       const orderForOneUser = await ProductOrder.findAll({
