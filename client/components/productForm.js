@@ -1,7 +1,11 @@
 import React from 'react';
 import { Form, Message } from 'semantic-ui-react';
 import { connect } from 'react-redux';
-import { addProductThunk } from '../store/allProducts';
+import {
+  addProductThunk,
+  getAllProductsThunk,
+  editProductThunk
+} from '../store/allProducts';
 import { runInThisContext } from 'vm';
 import { getCategoriesThunk } from '../store/categories';
 
@@ -25,6 +29,11 @@ class ProductForm extends React.Component {
   }
   componentDidMount() {
     this.props.getCategories();
+    console.log('PROPS IN PRODUCT FORM CDM', this.props);
+    // if (this.props.type === "edit") {
+    //   console.log('PROPS PRODUCTS', this.props.products.products)
+
+    // }
   }
 
   componentDidUpdate(prevProps) {
@@ -37,7 +46,20 @@ class ProductForm extends React.Component {
       });
       this.setState({ categories: newCategories });
     }
+    if (prevProps.product !== this.props.product) {
+      console.log('component did update props,', this.props.product);
+      const product = this.props.product;
+      this.setState({
+        id: product.id,
+        name: product.name,
+        description: product.description,
+        imageUrl: product.imageUrl,
+        price: product.price,
+        inventoryQuantity: product.inventoryQuantity
+      });
+    }
   }
+
   handleChange(event) {
     console.log('inside handle change');
     console.log('event.target', event.target);
@@ -49,46 +71,37 @@ class ProductForm extends React.Component {
   handleSubmit(event) {
     console.log('inside handle submit');
     event.preventDefault();
-    this.props.addProduct(this.state);
+    if (this.props.type === 'edit') {
+      console.log('--------EDIT TYPE-------');
+      console.log('STATE IN EDIT HANDLE SUBMIT', this.state);
+      this.props.editProduct(this.state);
+    } else {
+      this.props.addProduct(this.state);
+    }
   }
 
   handleAvailabilityCheckbox() {
     this.setState({ availability: !this.state.availability });
   }
 
-  handleCategoryCheckbox(event) {
+  async handleCategoryCheckbox(event) {
     console.log('CLICKED ON', event.target.innerText);
     console.log('STATE.categories', this.state.categories);
-
-    const editedCategories = this.state.categories.map(category => {
-      console.log('CATEGORY', category);
-      if (category.name === event.target.innerText) {
-        console.log('-----match-----');
-        console.log('category name', category.name);
-        console.log('category.value', category.value);
-        console.log('!category.value', !category.value);
-        return { category: category.name, value: !category.value };
-      } else {
-        console.log('category inside no match', category);
-        return category;
-      }
+    const target = event.target.innerText;
+    await this.setState(state => {
+      console.log('-------------------');
+      console.log('INSIDE SET STATE');
+      state.categories.map(cat => {
+        if (cat.name === target) {
+          console.log('NEW OBJ, ', { category: cat.name, value: !cat.value });
+          return { category: cat.name, value: !cat.value };
+        } else {
+          return { category: cat.name, value: cat.value };
+        }
+      });
     });
-    console.log('edited categories');
-    this.setState({ categories: editedCategories });
-    // const editedCategories = this.state.categories.map(category => {
-    //     //console.log('category', category)
-    //     //console.log('event.target.inneretxt', event.target.innerText)
-    //     if (category.name === event.target.innerText) {
-    //         console.log('inside')
-    //         return { category: category.name, value: !category.value }
-    //     } else {
-    //         return { category: category.name, value: category.value }
-    //     }
-    // })
-    //this.setState({ categories: [] })
-    //console.log('EDITED CATEGORIES', editedCategories)
-
-    console.log('this.state', this.state);
+    console.log('AFTER SET STATE');
+    console.log('STATE', this.state);
   }
 
   render() {
@@ -101,7 +114,8 @@ class ProductForm extends React.Component {
       availability,
       categories
     } = this.state;
-
+    console.log('this.state', this.state);
+    console.log('PRODUCT FORM PROPS IN RENDER', this.props);
     return (
       <Form onSubmit={this.handleSubmit} success={this.state.formSuccess}>
         <Form.Group>
@@ -187,11 +201,13 @@ class ProductForm extends React.Component {
 }
 const mapStateToProps = state => {
   return {
-    categories: state.categories
+    categories: state.categories,
+    products: state.allProductsReducer
   };
 };
 const mapDispatchToProps = dispatch => ({
   addProduct: product => dispatch(addProductThunk(product)),
+  editProduct: product => dispatch(editProductThunk(product)),
   getCategories: () => dispatch(getCategoriesThunk())
 });
 

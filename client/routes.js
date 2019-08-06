@@ -15,7 +15,8 @@ import {
   FavoriteProducts,
   ProductForm,
   CategoryProduct,
-  NotFound
+  NotFound,
+  EditProduct
 } from './components';
 
 /**
@@ -36,6 +37,7 @@ class Routes extends Component {
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
         <Route exact path="/products/:id" component={SingleProduct} />
+        <Route exact path="/products/:id/edit" component={EditProduct} />
         <Route exact path="/products" component={allProducts} />
         <Route exact path="/users" component={allUsers} />
         <Route path="/cart" component={Cart} />

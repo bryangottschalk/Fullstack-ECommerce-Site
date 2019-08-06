@@ -7,6 +7,7 @@ const DELETE_PRODUCT = 'DELETE_PRODUCT';
 const GET_CATEGORY_INFO = 'GET_CATEGORY_NAME';
 const GET_ALL_CATEGORIES = 'GET_ALL_CATEGORIES';
 const ADD_PRODUCT = 'ADD_PRODUCT';
+const EDIT_PRODUCT = 'EDIT_PRODUCT';
 
 //ACTION CREATORS
 const getAllProducts = products => ({
@@ -33,6 +34,13 @@ const addProduct = product => ({
   type: ADD_PRODUCT,
   product
 });
+
+const editProduct = product => {
+  return {
+    type: EDIT_PRODUCT,
+    product
+  };
+};
 //THUNK CREATORS
 export const getAllProductsThunk = filterTag => {
   return async dispatch => {
@@ -106,6 +114,19 @@ export const addProductThunk = product => {
     }
   };
 };
+
+export const editProductThunk = product => {
+  return async dispatch => {
+    try {
+      console.log('INSIDE EDIT PRODUCT THUNK');
+      console.log('PRODUCT ID', product.id);
+      const { data } = await axios.put(`/api/products/${product.id}`, product);
+      dispatch(editProduct(data));
+    } catch (error) {
+      console.error(error);
+    }
+  };
+};
 // export const addProductThunk = (product) => {
 //   return async dispatch => {
 //     try {
@@ -133,6 +154,17 @@ const allProductsReducer = (state = initialState, action) => {
         products: state.products.filter(
           product => product.id !== action.productId
         )
+      };
+    case EDIT_PRODUCT:
+      return {
+        ...state,
+        products: state.products.map(product => {
+          if (product.id === action.product.id) {
+            return action.product;
+          } else {
+            return product;
+          }
+        })
       };
     default:
       return state;
