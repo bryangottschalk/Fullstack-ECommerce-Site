@@ -15,13 +15,20 @@ import {
   Rating,
   Icon,
   Grid,
-  Label,
-  Input
+  Label
 } from 'semantic-ui-react';
 
 export class allProducts extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      category: null
+    };
+    this.handleClick = this.handleClick.bind(this);
+  }
+
   async componentDidMount() {
-    await this.props.fetchProducts();
+    await this.props.fetchProducts(this.props.location.search);
     await this.props.getCategoryInfo(this.props.location.search);
     await this.props.fetchCategories();
   }
@@ -30,6 +37,19 @@ export class allProducts extends React.Component {
     event.preventDefault();
     this.props.deleteProduct(productId);
   };
+
+  handleClick(categoryName) {
+    if (categoryName === '') {
+      this.setState({
+        category: null
+      });
+    } else {
+      this.setState({
+        category: categoryName
+      });
+    }
+    this.props.fetchProducts(categoryName);
+  }
 
   async addProduct(product) {
     await this.props.setCartId(this.props.user.id);
@@ -46,21 +66,38 @@ export class allProducts extends React.Component {
   render() {
     const products = this.props.products;
     const categories = this.props.allCategories;
+    // const categoryName = this.props.category.name;
     return (
       <div>
-        <div>
-          {categories.map(category => (
-            <NavLink
-              to={`/categories?categoryId=${category.id}`}
-              key={category.id}
-            >
-              <Label color="teal" tag size="large">
+        {!this.state.category ? (
+          <div style={{ marginBottom: '10px' }}>
+            {categories.map(category => (
+              <Label
+                style={{ cursor: 'pointer' }}
+                key={category.id}
+                color="teal"
+                tag
+                size="large"
+                onClick={() => this.handleClick(category.name)}
+              >
                 {category.name}
               </Label>
-            </NavLink>
-          ))}
-          <Input icon="search" placeholder="Search..." />
-        </div>
+            ))}
+          </div>
+        ) : (
+          <div style={{ marginBottom: '10px' }}>
+            Filter:{' '}
+            <Label
+              color="orange"
+              tag
+              size="large"
+              style={{ cursor: 'pointer' }}
+              onClick={() => this.handleClick('')}
+            >
+              {this.state.category}
+            </Label>
+          </div>
+        )}
 
         <Card.Group itemsPerRow={5}>
           {products &&

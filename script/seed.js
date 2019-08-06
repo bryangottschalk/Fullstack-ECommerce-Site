@@ -105,7 +105,6 @@ const categories = [
   { name: 'Dog' },
   { name: 'Cat' },
   { name: 'Reptile' },
-  { name: 'Small Pet' },
   { name: 'Food' },
   { name: 'Supplies' }
 ];
