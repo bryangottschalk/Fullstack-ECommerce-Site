@@ -111,7 +111,7 @@ router.delete('/:productId', isAdmin, async (req, res, next) => {
   }
 });
 
-router.post('/', async (req, res, next) => {
+router.post('/', isAdmin, async (req, res, next) => {
   try {
     const newProduct = await Product.create(req.body);
     res.json(newProduct);
