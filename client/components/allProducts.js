@@ -15,7 +15,8 @@ import {
   Rating,
   Icon,
   Grid,
-  Label
+  Label,
+  Input
 } from 'semantic-ui-react';
 
 export class allProducts extends React.Component {
@@ -96,6 +97,7 @@ export class allProducts extends React.Component {
             >
               {this.state.category}
             </Label>
+            <Input icon="search" placeholder="Search..." />
           </div>
         )}
 
