@@ -39,8 +39,6 @@ class Routes extends Component {
         <Route exact path="/categories" component={CategoryProduct} />
         <Route path="/cart" component={Cart} />
 
-        {/* {!isLoggedIn && !isAdmin && <Route component={NotFound} />} */}
-
         {isLoggedIn &&
           isAdmin && (
             <Switch>
