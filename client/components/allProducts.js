@@ -165,7 +165,7 @@ export class allProducts extends React.Component {
                     <Grid>
                       <Grid.Column width={6}>
                         <Button
-                          color="linkedin"
+                          color="teal"
                           animated="vertical"
                           className="addToCart"
                           onClick={() => this.addProduct(product)}

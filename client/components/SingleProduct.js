@@ -65,7 +65,7 @@ class SingleProduct extends React.Component {
             <div>Category information not available</div>
           )}
         </div>
-        <img src="https://placekitten.com/100/150" />
+        <img src={product.imageUrl} />
         <h1>{product.name}</h1>
         <div>
           RATING:
