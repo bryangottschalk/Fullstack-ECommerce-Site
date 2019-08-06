@@ -3,37 +3,55 @@ import { connect } from 'react-redux';
 import { getAllOrdersThunk } from '../store/pastOrders';
 import { NavLink } from 'react-router-dom';
 
-import {
-  Button,
-  Card,
-  Image,
-  Rating,
-  Icon,
-  Grid,
-  Label,
-  Input
-} from 'semantic-ui-react';
+import { Card, Image } from 'semantic-ui-react';
 import user from '../store/user';
 
 class CompanyOrders extends React.Component {
   constructor() {
     super();
-    this.state = {};
+    this.state = {
+      selectedFilter: 'All Orders'
+    };
   }
-  componentDidMount() {
-    this.props.getAllOrders();
+  async componentDidMount() {
+    await this.props.getAllOrders();
   }
+
+  handleChange = event => {
+    this.setState({
+      selectedFilter: event.target.value
+    });
+  };
+  filterCompanyOrders = (allOrders, status) => {
+    return allOrders.filter(order => {
+      if (status === 'All Orders') {
+        return allOrders;
+      }
+      return order.status === status;
+    });
+  };
+
   render() {
     const { companyOrders } = this.props;
+    const filteredOrders = this.filterCompanyOrders(
+      companyOrders,
+      this.state.selectedFilter
+    );
 
-    // console.log('props on company orders', this.props);
-    // console.log('state in company orders', this.state);
     return (
       <div>
         <h1>Company Orders:</h1>
+        <h2>Filter by status:</h2>
+        <select onChange={this.handleChange}>
+          <option value="All Orders">All Orders</option>
+          <option value="Cart">Cart</option>
+          <option value="Created">Created</option>
+          <option value="Processing">Processing</option>
+          <option value="Cancelled">Cancelled</option>
+        </select>
         <Card.Group itemsPerRow={5}>
-          {companyOrders &&
-            companyOrders.map(order => {
+          {filteredOrders &&
+            filteredOrders.map(order => {
               return (
                 <Card key={order.id}>
                   <div>

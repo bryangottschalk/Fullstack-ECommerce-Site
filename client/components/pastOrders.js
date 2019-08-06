@@ -20,7 +20,6 @@ export class pastOrders extends React.Component {
 
   render() {
     const pastOrders = this.props.pastOrders;
-    console.log('past orders', pastOrders);
 
     return (
       <div>
