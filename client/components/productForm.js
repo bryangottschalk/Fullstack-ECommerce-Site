@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Message } from 'semantic-ui-react';
+import { Form, Message, Container, Input } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import {
   addProductThunk,
@@ -116,9 +116,10 @@ class ProductForm extends React.Component {
     console.log('this.state', this.state);
     console.log('PRODUCT FORM PROPS IN RENDER', this.props);
     return (
-      <Form onSubmit={this.handleSubmit} success={this.state.formSuccess}>
-        <Form.Group>
+      <Container>
+        <Form onSubmit={this.handleSubmit} success={this.state.formSuccess}>
           <Form.Input
+            width={10}
             fluid
             label="Name"
             placeholder="Name"
@@ -127,9 +128,9 @@ class ProductForm extends React.Component {
             onChange={this.handleChange}
             required
           />
-        </Form.Group>
-        <Form.Group>
-          <Form.TextArea
+
+          <Form.Input
+            width={10}
             label="Description"
             placeholder="Tell us more about this product"
             name="description"
@@ -137,9 +138,9 @@ class ProductForm extends React.Component {
             onChange={this.handleChange}
             required
           />
-        </Form.Group>
-        <Form.Group>
+
           <Form.Input
+            width={10}
             fluid
             label="Image URL"
             placeholder="Image URL"
@@ -148,9 +149,9 @@ class ProductForm extends React.Component {
             onChange={this.handleChange}
             value={imageUrl}
           />
-        </Form.Group>
-        <Form.Group>
+
           <Form.Input
+            width={10}
             fluid
             label="Price"
             placeholder="Price"
@@ -159,9 +160,9 @@ class ProductForm extends React.Component {
             onChange={this.handleChange}
             required
           />
-        </Form.Group>
-        <Form.Group>
+
           <Form.Input
+            width={10}
             fluid
             label="Inventory Quantity"
             placeholder="Quantity"
@@ -170,31 +171,31 @@ class ProductForm extends React.Component {
             onChange={this.handleChange}
             required
           />
-        </Form.Group>
 
-        <Form.Group widths="equal">
-          <label>Categories</label>
-          {this.props.categories.map(category => (
+          {/* <Form.Group widths="equal">
+            <label>Categories</label>
+            {this.props.categories.map(category => (
+              <Form.Checkbox
+                key={category.name}
+                label={category.name}
+                name={category.name}
+                value={category.name}
+                onChange={this.handleCategoryCheckbox}
+              />
+            ))}
+          </Form.Group> */}
+          <Form.Group>
             <Form.Checkbox
-              key={category.name}
-              label={category.name}
-              name={category.name}
-              value={category.name}
-              onChange={this.handleCategoryCheckbox}
+              label="Available?"
+              name="availability"
+              value={availability}
+              onChange={this.handleAvailabilityCheckbox}
             />
-          ))}
-        </Form.Group>
-        <Form.Group>
-          <Form.Checkbox
-            label="Available?"
-            name="availability"
-            value={availability}
-            onChange={this.handleAvailabilityCheckbox}
-          />
-        </Form.Group>
+          </Form.Group>
 
-        <Form.Button>Submit</Form.Button>
-      </Form>
+          <Form.Button>Submit</Form.Button>
+        </Form>
+      </Container>
     );
   }
 }

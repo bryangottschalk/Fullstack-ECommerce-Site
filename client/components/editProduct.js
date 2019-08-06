@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import ProductForm from './productForm';
 import { getSingleProductThunk } from '../store/singleProduct';
-
+import { Form, Message, Container, Input } from 'semantic-ui-react';
 class EditProduct extends React.Component {
   componentDidMount() {
     this.props.getSingleProduct(this.props.match.params.id);
@@ -10,10 +10,10 @@ class EditProduct extends React.Component {
   render() {
     const productToEdit = this.props.singleProduct;
     return (
-      <div>
+      <Container center>
         <h2>Edit product</h2>
         <ProductForm type="edit" product={productToEdit} />
-      </div>
+      </Container>
     );
   }
 }
