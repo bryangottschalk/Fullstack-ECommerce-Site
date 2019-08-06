@@ -226,7 +226,7 @@ const mapDispatchToProps = dispatch => ({
   fetchProducts: filterTag => dispatch(getAllProductsThunk(filterTag || '')),
   deleteProduct: productId => dispatch(deleteProductThunk(productId)),
   quickAdd: item => dispatch(addToCartThunk(item)),
-  setCartId: id => dispatch(setCartIdThunk(id)),
+  setCartId: id => dispatch(setCartIdThunk(id || '')),
   getCategoryInfo: category => dispatch(getCategoryInfoThunk(category)),
   fetchCategories: () => dispatch(getAllCategoriesThunk())
 });

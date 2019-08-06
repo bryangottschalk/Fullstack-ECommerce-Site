@@ -132,7 +132,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   getProduct: productId => dispatch(getSingleProductThunk(productId)),
   quickAdd: item => dispatch(addToCartThunk(item)),
-  setCartId: userId => dispatch(setCartIdThunk(userId)),
+  setCartId: userId => dispatch(setCartIdThunk(userId || '')),
   getCategoryProduct: categoryTag => dispatch(getAllProductsThunk(categoryTag))
 });
 
