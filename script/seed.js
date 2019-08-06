@@ -10,7 +10,8 @@ const {
   Review,
   Order,
   Product,
-  Category
+  Category,
+  ProductOrder
 } = require('../server/db/models');
 
 const userGenerator = () => {
@@ -122,6 +123,51 @@ async function seed() {
     creditCardNumber: 999999999,
     imageUrl: `https://robohash.org/cody--cody`
   });
+
+  //************PAST ORDERS DATA SEEDS*************
+
+  await Order.create({
+    total: 100.21,
+    status: 'Created',
+    shippingAddress: '123 Sunset Road',
+    userId: 1,
+    imageUrl: 'http://lorempixel.com/640/480/animals'
+  });
+
+  await Order.create({
+    total: 23.55,
+    status: 'Created',
+    shippingAddress: '123 Sunset Road',
+    userId: 1,
+    imageUrl: 'http://lorempixel.com/640/480/animals'
+  });
+
+  // await ProductOrder.create({
+  //   productName: 'test1',
+  //   quantity: 2,
+  //   unitPrice: 5,
+  //   productId: 12,
+  //   orderId: 11,
+  //   imageUrl: 'http://lorempixel.com/640/480/animals'
+  // });
+
+  // await ProductOrder.create({
+  //   productName: 'test2',
+  //   quantity: 3,
+  //   unitPrice: 10,
+  //   productId: 15,
+  //   orderId: 11,
+  //   imageUrl: 'http://lorempixel.com/640/480/animals'
+  // });
+  // await ProductOrder.create({
+  //   productName: 'test3',
+  //   quantity: 1,
+  //   unitPrice: 10,
+  //   productId: 13,
+  //   orderId: 12,
+  //   imageUrl: 'http://lorempixel.com/640/480/animals'
+  // });
+  ////////////////////////////////////////////////////////////////////////
 
   await Promise.all(users.map(user => User.create(user)));
   await Promise.all(products.map(product => Product.create(product)));

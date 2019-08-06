@@ -40,7 +40,6 @@ class SingleProduct extends React.Component {
   }
 
   render() {
-    console.log('PROPS  ', this.props);
     const { product } = this.props;
     const oldReviews = product.reviews;
     const newReviews = this.props.reviews;

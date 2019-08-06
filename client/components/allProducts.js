@@ -88,7 +88,6 @@ export class allProducts extends React.Component {
   }
 
   render() {
-    console.log('thisStateSearch', this.state.search);
     const products = this.props.products;
     const categories = this.props.allCategories;
     return (
@@ -177,13 +176,15 @@ export class allProducts extends React.Component {
                         </Button>
                       </Grid.Column>
                       <Grid.Column>
-                        <Button
-                          content="Delete"
-                          negative
-                          onClick={event =>
-                            this.handleDelete(event, product.id)
-                          }
-                        />
+                        {this.props.isAdmin && (
+                          <Button
+                            content="Delete"
+                            negative
+                            onClick={event =>
+                              this.handleDelete(event, product.id)
+                            }
+                          />
+                        )}
                       </Grid.Column>
                     </Grid>
                   </Card.Content>
@@ -201,7 +202,8 @@ const mapStateToProps = state => ({
   user: state.user,
   cart: state.cartReducer,
   category: state.allProductsReducer.categoryInfo,
-  allCategories: state.allProductsReducer.categories
+  allCategories: state.allProductsReducer.categories,
+  isAdmin: state.user.isAdmin
 });
 
 const mapDispatchToProps = dispatch => ({
