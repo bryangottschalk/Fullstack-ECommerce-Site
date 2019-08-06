@@ -29,6 +29,9 @@ const Navbar = ({ handleClick, isLoggedIn }) => (
           <NavLink to="/myaccount">
             <Button>My Account</Button>
           </NavLink>
+          <NavLink to="/productForm">
+            <Button>Create new product</Button>
+          </NavLink>
           <a href="#" onClick={handleClick}>
             <Button>Logout</Button>
           </a>

@@ -29,11 +29,6 @@ class ProductForm extends React.Component {
   }
   componentDidMount() {
     this.props.getCategories();
-    console.log('PROPS IN PRODUCT FORM CDM', this.props);
-    // if (this.props.type === "edit") {
-    //   console.log('PROPS PRODUCTS', this.props.products.products)
-
-    // }
   }
 
   componentDidUpdate(prevProps) {
@@ -46,8 +41,8 @@ class ProductForm extends React.Component {
       });
       this.setState({ categories: newCategories });
     }
+
     if (prevProps.product !== this.props.product) {
-      console.log('component did update props,', this.props.product);
       const product = this.props.product;
       this.setState({
         id: product.id,
@@ -61,8 +56,6 @@ class ProductForm extends React.Component {
   }
 
   handleChange(event) {
-    console.log('inside handle change');
-    console.log('event.target', event.target);
     this.setState({
       [event.target.name]: event.target.value
     });
@@ -72,12 +65,18 @@ class ProductForm extends React.Component {
     console.log('inside handle submit');
     event.preventDefault();
     if (this.props.type === 'edit') {
-      console.log('--------EDIT TYPE-------');
-      console.log('STATE IN EDIT HANDLE SUBMIT', this.state);
       this.props.editProduct(this.state);
     } else {
       this.props.addProduct(this.state);
     }
+    this.setState({
+      name: '',
+      description: '',
+      imageUrl: '',
+      price: '',
+      inventoryQuantity: '',
+      availability: false
+    });
   }
 
   handleAvailabilityCheckbox() {
