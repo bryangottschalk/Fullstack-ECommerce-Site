@@ -74,6 +74,7 @@ export const addToCartThunk = item => {
     try {
       const { data } = await axios.post('/api/productOrders', item);
       dispatch(addToCart(data));
+      console.log('stuff got back from res: ', data);
     } catch (error) {
       console.error(error);
     }
@@ -122,7 +123,16 @@ const initialCart = {
 const cartReducer = (state = initialCart, action) => {
   switch (action.type) {
     case ADD_TO_CART:
-      return { ...state, items: [...state.items, action.item] };
+      return {
+        ...state,
+        items: [
+          ...state.items.filter(item => item.id !== action.item.id),
+          action.item
+        ]
+      };
+
+    // { ...state, items: [...state.items, action.item] };
+
     case SET_CART_ID:
       return {
         ...state,

@@ -47,15 +47,10 @@ router.post('/', async (req, res, next) => {
         res.json(addStuff);
       } else {
         const currentQuantity = existingEntryOnCart.dataValues.quantity;
-        const addStuff = await existingOrder.addProduct(newItem, {
-          through: {
-            quantity: Number(currentQuantity) + Number(req.body.quantity),
-            unitPrice: req.body.unitPrice,
-            productName: req.body.productName,
-            imageUrl: req.body.imageUrl
-          }
+        const updatedItem = await existingEntryOnCart.update({
+          quantity: Number(currentQuantity) + Number(req.body.quantity)
         });
-        res.json(addStuff);
+        res.json(updatedItem);
       }
     } else {
       // user logged in
@@ -81,15 +76,10 @@ router.post('/', async (req, res, next) => {
         res.json(addStuff);
       } else {
         const currentQuantity = existingEntryOnCart.dataValues.quantity;
-        const addStuff = await existingOrder.addProduct(newItem, {
-          through: {
-            quantity: Number(currentQuantity) + Number(req.body.quantity),
-            unitPrice: req.body.unitPrice,
-            productName: req.body.productName,
-            imageUrl: req.body.imageUrl
-          }
+        const updatedItem = await existingEntryOnCart.update({
+          quantity: Number(currentQuantity) + Number(req.body.quantity)
         });
-        res.json(addStuff);
+        res.json(updatedItem);
       }
     }
   } catch (error) {
@@ -105,25 +95,6 @@ router.delete('/:productOrderId', async (req, res, next) => {
       }
     });
     res.sendStatus(202);
-  } catch (error) {
-    next(error);
-  }
-});
-
-router.put('/', async (req, res, next) => {
-  try {
-    if (req.query.orderId && req.query.productId) {
-      const itemToUpdate = await ProductOrder.findOne({
-        where: {
-          orderId: req.query.orderId,
-          productId: req.query.productId
-        }
-      });
-      const updatedItem = await itemToUpdate.update({
-        quantity: req.body.quantity
-      });
-      res.json(updatedItem);
-    }
   } catch (error) {
     next(error);
   }
