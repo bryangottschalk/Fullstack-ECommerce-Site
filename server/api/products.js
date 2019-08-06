@@ -6,9 +6,7 @@ module.exports = router;
 
 router.get('/', async (req, res, next) => {
   try {
-    console.log('req.query', req.query);
     if (req.query.categoryTag) {
-      console.log('query tag found!!!!!!!!!!');
       const filteredProducts = await Product.findAll({
         include: [
           {
@@ -21,8 +19,16 @@ router.get('/', async (req, res, next) => {
           }
         ]
       });
-      // console.log('filteredProduct:  ', filteredProducts);
       res.send(filteredProducts);
+    } else if (req.query.searchTag) {
+      const searchedProducts = await Product.findAll({
+        where: {
+          name: {
+            [Sequelize.Op.iLike]: '%' + req.query.searchTag + '%'
+          }
+        }
+      });
+      res.send(searchedProducts);
     } else {
       const products = await Product.findAll();
 
