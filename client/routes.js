@@ -20,6 +20,7 @@ import {
 /**
  * COMPONENT
  */
+
 class Routes extends Component {
   componentDidMount() {
     this.props.loadInitialData();
@@ -27,7 +28,6 @@ class Routes extends Component {
 
   render() {
     const { isLoggedIn, isAdmin } = this.props;
-    console.log('props here', this.props);
     return (
       <Switch>
         {/* Routes placed here are available to all visitors */}
@@ -39,6 +39,8 @@ class Routes extends Component {
         <Route exact path="/categories" component={CategoryProduct} />
         <Route path="/cart" component={Cart} />
 
+        {/* {!isLoggedIn && !isAdmin && <Route component={NotFound} />} */}
+
         {isLoggedIn &&
           isAdmin && (
             <Switch>
@@ -46,6 +48,7 @@ class Routes extends Component {
               <Route path="/home" component={UserHome} />
               <Route exact path="/users/:id" component={SingleUser} />
               <Route exact path="/users" component={allUsers} />
+              <Route component={NotFound} />
               {/* Once we create an orders component it can go here <Route exact path="/orders" component={Orders} /> */}
             </Switch>
           )}
