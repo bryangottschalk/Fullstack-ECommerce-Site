@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import ReviewForm from './ReviewForm';
 import ListReviews from './ListReviews';
 import { getSingleProductThunk } from '../store/singleProduct';
-import { Rating, Button, Input, Label } from 'semantic-ui-react';
+import { Rating, Button, Input, Label, Modal, Header } from 'semantic-ui-react';
 import { addToCartThunk, setCartIdThunk } from '../store/cart';
 import { getAllProductsThunk } from '../store/allProducts';
 import { NavLink } from 'react-router-dom';
@@ -46,7 +46,7 @@ class SingleProduct extends React.Component {
     const categories = product.categories;
 
     return (
-      <div>
+      <div className="singleProduct">
         {/* <img src={product.imageUrl} /> */}
         <div>
           {categories ? (
@@ -92,14 +92,25 @@ class SingleProduct extends React.Component {
           min="0"
           step="1"
         />{' '}
-        <Button
-          className="addToCart"
-          color="teal"
-          onClick={() => this.addProduct(product)}
-          type="button"
+        <Modal
+          trigger={
+            <Button
+              className="addToCart"
+              color="teal"
+              onClick={() => this.addProduct(product)}
+              type="button"
+            >
+              Add To Cart
+            </Button>
+          }
+          basic
+          size="small"
         >
-          Add To Cart
-        </Button>
+          <Header icon="shopping cart" content="Added to your cart!!" />
+          <Modal.Content>
+            <p>very cool.</p>
+          </Modal.Content>
+        </Modal>
         <ReviewForm
           productId={product.id}
           userName={`${this.props.user.firstName} ${this.props.user.lastName}`}
