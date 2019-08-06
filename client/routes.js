@@ -12,11 +12,13 @@ import {
   SingleProduct,
   SingleUser,
   Cart,
+  PastOrders,
   FavoriteProducts,
   ProductForm,
   CategoryProduct,
   NotFound,
-  EditProduct
+  EditProduct,
+  CompanyOrders
 } from './components';
 
 /**
@@ -49,6 +51,8 @@ class Routes extends Component {
               <Route path="/home" component={UserHome} />
               <Route exact path="/users/:id" component={SingleUser} />
               <Route exact path="/users" component={allUsers} />
+              <Route path="/orders" component={CompanyOrders} />
+              <Route exact path="/myaccount" component={PastOrders} />
               <Route component={NotFound} />
               {/* Once we create an orders component it can go here <Route exact path="/orders" component={Orders} /> */}
             </Switch>
@@ -58,7 +62,7 @@ class Routes extends Component {
           !isAdmin && (
             <Switch>
               {/* Routes placed here are available to all users after logging in */}
-              {/* once MyAccount component is created <Route exact path="/myaccount" component={myAccount} /> */}
+              {/* <Route exact path="/myaccount" component={MyAccount} /> */}
             </Switch>
           )}
 

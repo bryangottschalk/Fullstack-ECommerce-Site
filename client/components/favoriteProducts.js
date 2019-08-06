@@ -10,8 +10,8 @@ export class FavoriteProducts extends React.Component {
     return (
       <div>
         <div>
-          <Header size="large" textAlign="center">
-            HELLO
+          <Header size="large" textAlign="center" color="orange">
+            Your new best friend awaits!
           </Header>
         </div>
         <div className="homeImages">

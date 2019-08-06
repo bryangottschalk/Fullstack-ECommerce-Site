@@ -53,6 +53,7 @@ class ReviewForm extends React.Component {
                   onChange={this.handleChange}
                   name="content"
                   type="text"
+                  placeholder="Add your review!"
                   value={content}
                 />
               </li>
@@ -65,13 +66,16 @@ class ReviewForm extends React.Component {
                   onChange={this.handleChange}
                   name="star"
                   type="number"
+                  icon="star outline"
                   value={star}
                   min="0"
                   max="5"
                   step="1"
                 />
               </li>
-              <Button type="submit">Submit</Button>
+              <Button type="submit" size="mini" basic color="teal">
+                Submit
+              </Button>
             </ul>
           </form>
         </div>

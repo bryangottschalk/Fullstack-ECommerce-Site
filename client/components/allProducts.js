@@ -16,7 +16,9 @@ import {
   Icon,
   Grid,
   Label,
-  Form
+  Form,
+  Modal,
+  Header
 } from 'semantic-ui-react';
 
 export class allProducts extends React.Component {
@@ -88,7 +90,6 @@ export class allProducts extends React.Component {
   }
 
   render() {
-    console.log('thisStateSearch', this.state.search);
     const products = this.props.products;
     const categories = this.props.allCategories;
     return (
@@ -164,26 +165,42 @@ export class allProducts extends React.Component {
 
                     <Grid>
                       <Grid.Column width={6}>
-                        <Button
-                          color="linkedin"
-                          animated="vertical"
-                          className="addToCart"
-                          onClick={() => this.addProduct(product)}
+                        <Modal
+                          trigger={
+                            <Button
+                              color="teal"
+                              animated="vertical"
+                              className="addToCart"
+                              onClick={() => this.addProduct(product)}
+                            >
+                              <Button.Content hidden>Add</Button.Content>
+                              <Button.Content visible>
+                                <Icon name="shop" />
+                              </Button.Content>
+                            </Button>
+                          }
+                          basic
+                          size="small"
                         >
-                          <Button.Content hidden>Add</Button.Content>
-                          <Button.Content visible>
-                            <Icon name="shop" />
-                          </Button.Content>
-                        </Button>
+                          <Header
+                            icon="shopping cart"
+                            content="Added To Your Cart!!"
+                          />
+                          <Modal.Content>
+                            <p>very cool.</p>
+                          </Modal.Content>
+                        </Modal>
                       </Grid.Column>
                       <Grid.Column>
-                        <Button
-                          content="Delete"
-                          negative
-                          onClick={event =>
-                            this.handleDelete(event, product.id)
-                          }
-                        />
+                        {this.props.isAdmin && (
+                          <Button
+                            content="Delete"
+                            negative
+                            onClick={event =>
+                              this.handleDelete(event, product.id)
+                            }
+                          />
+                        )}
                       </Grid.Column>
                     </Grid>
                   </Card.Content>
@@ -201,14 +218,15 @@ const mapStateToProps = state => ({
   user: state.user,
   cart: state.cartReducer,
   category: state.allProductsReducer.categoryInfo,
-  allCategories: state.allProductsReducer.categories
+  allCategories: state.allProductsReducer.categories,
+  isAdmin: state.user.isAdmin
 });
 
 const mapDispatchToProps = dispatch => ({
   fetchProducts: filterTag => dispatch(getAllProductsThunk(filterTag || '')),
   deleteProduct: productId => dispatch(deleteProductThunk(productId)),
   quickAdd: item => dispatch(addToCartThunk(item)),
-  setCartId: id => dispatch(setCartIdThunk(id)),
+  setCartId: id => dispatch(setCartIdThunk(id || '')),
   getCategoryInfo: category => dispatch(getCategoryInfoThunk(category)),
   fetchCategories: () => dispatch(getAllCategoriesThunk())
 });

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import ReviewForm from './ReviewForm';
 import ListReviews from './ListReviews';
 import { getSingleProductThunk } from '../store/singleProduct';
-import { Rating, Button, Input, Label } from 'semantic-ui-react';
+import { Rating, Button, Input, Label, Modal, Header } from 'semantic-ui-react';
 import { addToCartThunk, setCartIdThunk } from '../store/cart';
 import { getAllProductsThunk } from '../store/allProducts';
 import { NavLink } from 'react-router-dom';
@@ -40,15 +40,14 @@ class SingleProduct extends React.Component {
   }
 
   render() {
-    console.log('PROPS  ', this.props);
     const { product } = this.props;
     const oldReviews = product.reviews;
     const newReviews = this.props.reviews;
     const categories = product.categories;
 
     return (
-      <div>
-        <img src={product.imageUrl} />
+      <div className="singleProduct">
+        {/* <img src={product.imageUrl} /> */}
         <div>
           {categories ? (
             categories.map(category => (
@@ -65,7 +64,7 @@ class SingleProduct extends React.Component {
             <div>Category information not available</div>
           )}
         </div>
-        <img src="https://placekitten.com/100/150" />
+        <img src={product.imageUrl} />
         <h1>{product.name}</h1>
         <NavLink to={`/products/${product.id}/edit`}>
           <Button>EDIT PRODUCT</Button>
@@ -96,14 +95,25 @@ class SingleProduct extends React.Component {
           min="0"
           step="1"
         />{' '}
-        <Button
-          className="addToCart"
-          color="teal"
-          onClick={() => this.addProduct(product)}
-          type="button"
+        <Modal
+          trigger={
+            <Button
+              className="addToCart"
+              color="teal"
+              onClick={() => this.addProduct(product)}
+              type="button"
+            >
+              Add To Cart
+            </Button>
+          }
+          basic
+          size="small"
         >
-          Add To Cart
-        </Button>
+          <Header icon="shopping cart" content="Added to your cart!!" />
+          <Modal.Content>
+            <p>very cool.</p>
+          </Modal.Content>
+        </Modal>
         <ReviewForm
           productId={product.id}
           userName={`${this.props.user.firstName} ${this.props.user.lastName}`}
@@ -125,7 +135,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   getProduct: productId => dispatch(getSingleProductThunk(productId)),
   quickAdd: item => dispatch(addToCartThunk(item)),
-  setCartId: userId => dispatch(setCartIdThunk(userId)),
+  setCartId: userId => dispatch(setCartIdThunk(userId || '')),
   getCategoryProduct: categoryTag => dispatch(getAllProductsThunk(categoryTag))
 });
 

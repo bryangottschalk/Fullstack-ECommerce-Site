@@ -55,3 +55,7 @@ input {
   width: 322;
   height: 38;
 }
+
+.singleProduct {
+  padding: 15px;
+}

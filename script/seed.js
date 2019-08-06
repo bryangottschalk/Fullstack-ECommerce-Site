@@ -105,8 +105,8 @@ const categories = [
   { name: 'Dog' },
   { name: 'Cat' },
   { name: 'Reptile' },
-  { name: 'Hamsters' },
-  { name: 'Red Pandas' }
+  { name: 'Panda' },
+  { name: 'Hamster' }
 ];
 
 async function seed() {
@@ -114,13 +114,28 @@ async function seed() {
   console.log('db synced!');
   await User.create({
     email: 'cody.cody@email.com',
-    isAdmin: true,
     password: '123',
     firstName: 'cody',
     lastName: 'cody',
     address: ['123 Road'],
     creditCardNumber: 999999999,
     imageUrl: `https://robohash.org/cody--cody`
+  });
+
+  await Order.create({
+    total: 100.21,
+    status: 'Created',
+    shippingAddress: '123 Sunset Road',
+    userId: 1,
+    imageUrl: 'http://lorempixel.com/640/480/animals'
+  });
+
+  await Order.create({
+    total: 23.55,
+    status: 'Created',
+    shippingAddress: '123 Sunset Road',
+    userId: 1,
+    imageUrl: 'http://lorempixel.com/640/480/animals'
   });
 
   await Promise.all(users.map(user => User.create(user)));
@@ -147,7 +162,7 @@ async function seed() {
   });
 
   // Seed data for cart items and category items
-  for (let i = 1; i <= 18; i++) {
+  for (let i = 1; i <= 10; i++) {
     const price = (1 + Math.random() * 300).toFixed(2);
     const productName = Faker.name.firstName();
     const imageUrl = Faker.image.animals();
