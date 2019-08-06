@@ -55,7 +55,7 @@ const productGenerator = () => {
   let products = [];
   for (let i = 0; i < 10; i++) {
     products.push({
-      name: Faker.commerce.productName(),
+      name: Faker.name.firstName(),
       imageUrl: Faker.image.animals(),
       description: Sentencer.make(
         'This product has {{ a_noun }} and {{ an_adjective }} {{ noun }} in it.'
@@ -105,8 +105,8 @@ const categories = [
   { name: 'Dog' },
   { name: 'Cat' },
   { name: 'Reptile' },
-  { name: 'Food' },
-  { name: 'Supplies' }
+  { name: 'Hamsters' },
+  { name: 'Red Pandas' }
 ];
 
 async function seed() {
@@ -147,9 +147,9 @@ async function seed() {
   });
 
   // Seed data for cart items and category items
-  for (let i = 1; i <= 10; i++) {
+  for (let i = 1; i <= 18; i++) {
     const price = (1 + Math.random() * 300).toFixed(2);
-    const productName = Faker.commerce.productName();
+    const productName = Faker.name.firstName();
     const imageUrl = Faker.image.animals();
     const cartItem = await Product.create({
       name: productName,

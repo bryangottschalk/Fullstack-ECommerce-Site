@@ -10,7 +10,7 @@ const Navbar = ({ handleClick, isLoggedIn }) => (
     <NavLink to="/">
       <Header className="mainHeader" as="h1" size="huge" textAlign="center">
         {' '}
-        PETS{' '}
+        Cody and Co.{' '}
       </Header>
     </NavLink>
     <nav>
