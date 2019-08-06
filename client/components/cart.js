@@ -4,7 +4,6 @@ import { NavLink } from 'react-router-dom';
 import {
   getCartThunk,
   deleteFromCartThunk,
-  updateCartThunk,
   setCartIdThunk
 } from '../store/cart';
 import {
@@ -32,9 +31,9 @@ export class Cart extends React.Component {
     await this.props.getCart(this.props.cart.id);
   }
 
-  deleteFromCart = (event, orderId, productId) => {
+  deleteFromCart = (event, productOrderId) => {
     event.preventDefault();
-    this.props.deleteFromCart(orderId, productId);
+    this.props.deleteFromCart(productOrderId);
   };
 
   handleChange(event) {
@@ -50,9 +49,6 @@ export class Cart extends React.Component {
 
     this.setState = { active: 'Confirm' };
   }
-  // updateCart = newItem => {
-  //   this.props.updateCart(newItem);
-  // };
 
   render() {
     console.log('PROPS  ', this.props);
@@ -145,13 +141,7 @@ export class Cart extends React.Component {
                           color="red"
                           size="large"
                           name="delete"
-                          onClick={event =>
-                            this.deleteFromCart(
-                              event,
-                              this.props.cart.id,
-                              item.productId
-                            )
-                          }
+                          onClick={event => this.deleteFromCart(event, item.id)}
                         />
                       </Table.Cell>
                     </Table.Row>
@@ -215,10 +205,9 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   getCart: cartId => dispatch(getCartThunk(cartId)),
-  setCartId: id => dispatch(setCartIdThunk(id)),
-  deleteFromCart: (orderId, productId) =>
-    dispatch(deleteFromCartThunk(orderId, productId)),
-  updateCart: newItem => dispatch(updateCartThunk(newItem))
+  setCartId: id => dispatch(setCartIdThunk(id || '')),
+  deleteFromCart: productOrderId =>
+    dispatch(deleteFromCartThunk(productOrderId))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Cart);
