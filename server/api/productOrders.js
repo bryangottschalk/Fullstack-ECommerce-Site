@@ -22,54 +22,89 @@ router.get('/', async (req, res, next) => {
 
 router.post('/', async (req, res, next) => {
   try {
-    const existingEntryOnCart = await ProductOrder.findOne({
-      where: {
-        orderId: req.body.orderId,
-        productId: req.body.productId
+    // console.log('AAAAAA orderId:    ', req.body.orderId);
+    if (req.user === undefined) {
+      // user not logged in
+      const existingEntryOnCart = await ProductOrder.findOne({
+        where: {
+          orderId: req.session.cartId,
+          productId: req.body.productId
+        }
+      });
+
+      const existingOrder = await Order.findByPk(req.body.orderId);
+      const newItem = await Product.findByPk(req.body.productId);
+
+      if (existingEntryOnCart === null) {
+        const addStuff = await existingOrder.addProduct(newItem, {
+          through: {
+            quantity: req.body.quantity,
+            unitPrice: req.body.unitPrice,
+            productName: req.body.productName,
+            imageUrl: req.body.imageUrl
+          }
+        });
+        res.json(addStuff);
+      } else {
+        const currentQuantity = existingEntryOnCart.dataValues.quantity;
+        const addStuff = await existingOrder.addProduct(newItem, {
+          through: {
+            quantity: Number(currentQuantity) + Number(req.body.quantity),
+            unitPrice: req.body.unitPrice,
+            productName: req.body.productName,
+            imageUrl: req.body.imageUrl
+          }
+        });
+        res.json(addStuff);
       }
-    });
-
-    const existingOrder = await Order.findByPk(req.body.orderId);
-    const newItem = await Product.findByPk(req.body.productId);
-
-    if (existingEntryOnCart === null) {
-      const addStuff = await existingOrder.addProduct(newItem, {
-        through: {
-          quantity: req.body.quantity,
-          unitPrice: req.body.unitPrice,
-          productName: req.body.productName,
-          imageUrl: req.body.imageUrl
-        }
-      });
-      res.json(addStuff);
     } else {
-      const currentQuantity = existingEntryOnCart.dataValues.quantity;
-      const addStuff = await existingOrder.addProduct(newItem, {
-        through: {
-          quantity: Number(currentQuantity) + Number(req.body.quantity),
-          unitPrice: req.body.unitPrice,
-          productName: req.body.productName,
-          imageUrl: req.body.imageUrl
+      // user logged in
+      const existingEntryOnCart = await ProductOrder.findOne({
+        where: {
+          orderId: req.body.orderId,
+          productId: req.body.productId
         }
       });
-      res.json(addStuff);
+
+      const existingOrder = await Order.findByPk(req.body.orderId);
+      const newItem = await Product.findByPk(req.body.productId);
+
+      if (existingEntryOnCart === null) {
+        const addStuff = await existingOrder.addProduct(newItem, {
+          through: {
+            quantity: req.body.quantity,
+            unitPrice: req.body.unitPrice,
+            productName: req.body.productName,
+            imageUrl: req.body.imageUrl
+          }
+        });
+        res.json(addStuff);
+      } else {
+        const currentQuantity = existingEntryOnCart.dataValues.quantity;
+        const addStuff = await existingOrder.addProduct(newItem, {
+          through: {
+            quantity: Number(currentQuantity) + Number(req.body.quantity),
+            unitPrice: req.body.unitPrice,
+            productName: req.body.productName,
+            imageUrl: req.body.imageUrl
+          }
+        });
+        res.json(addStuff);
+      }
     }
   } catch (error) {
     next(error);
   }
 });
 
-router.delete('/', async (req, res, next) => {
+router.delete('/:productOrderId', async (req, res, next) => {
   try {
-    if (req.query.orderId && req.query.productId) {
-      await ProductOrder.destroy({
-        where: {
-          orderId: req.query.orderId,
-          productId: req.query.productId
-        }
-      });
-      res.sendStatus(202);
-    }
+    await ProductOrder.destroy({
+      where: {
+        id: req.params.productOrderId
+      }
+    });
+    res.sendStatus(202);
   } catch (error) {
     next(error);
   }

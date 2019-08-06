@@ -32,9 +32,9 @@ export class Cart extends React.Component {
     await this.props.getCart(this.props.cart.id);
   }
 
-  deleteFromCart = (event, orderId, productId) => {
+  deleteFromCart = (event, productOrderId) => {
     event.preventDefault();
-    this.props.deleteFromCart(orderId, productId);
+    this.props.deleteFromCart(productOrderId);
   };
 
   handleChange(event) {
@@ -145,13 +145,7 @@ export class Cart extends React.Component {
                           color="red"
                           size="large"
                           name="delete"
-                          onClick={event =>
-                            this.deleteFromCart(
-                              event,
-                              this.props.cart.id,
-                              item.productId
-                            )
-                          }
+                          onClick={event => this.deleteFromCart(event, item.id)}
                         />
                       </Table.Cell>
                     </Table.Row>
@@ -215,9 +209,9 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   getCart: cartId => dispatch(getCartThunk(cartId)),
-  setCartId: id => dispatch(setCartIdThunk(id)),
-  deleteFromCart: (orderId, productId) =>
-    dispatch(deleteFromCartThunk(orderId, productId)),
+  setCartId: id => dispatch(setCartIdThunk(id || '')),
+  deleteFromCart: productOrderId =>
+    dispatch(deleteFromCartThunk(productOrderId)),
   updateCart: newItem => dispatch(updateCartThunk(newItem))
 });
 
