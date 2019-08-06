@@ -10,8 +10,7 @@ const {
   Review,
   Order,
   Product,
-  Category,
-  ProductOrder
+  Category
 } = require('../server/db/models');
 
 const userGenerator = () => {
@@ -91,7 +90,7 @@ const orderGenerator = () => {
   let orders = [];
   for (let i = 0; i < 10; i++) {
     orders.push({
-      total: 1,
+      total: (1 + Math.random() * 500).toFixed(2),
       status: orderStatus[Math.floor(Math.random() * 5)],
       shippingAddress: users[i].address[0],
       userId: i + 1
@@ -106,8 +105,8 @@ const categories = [
   { name: 'Dog' },
   { name: 'Cat' },
   { name: 'Reptile' },
-  { name: 'Hamsters' },
-  { name: 'Red Pandas' }
+  { name: 'Panda' },
+  { name: 'Hamster' }
 ];
 
 async function seed() {
@@ -115,7 +114,6 @@ async function seed() {
   console.log('db synced!');
   await User.create({
     email: 'cody.cody@email.com',
-    isAdmin: true,
     password: '123',
     firstName: 'cody',
     lastName: 'cody',
@@ -123,51 +121,6 @@ async function seed() {
     creditCardNumber: 999999999,
     imageUrl: `https://robohash.org/cody--cody`
   });
-
-  //************PAST ORDERS DATA SEEDS*************
-
-  await Order.create({
-    total: 100.21,
-    status: 'Created',
-    shippingAddress: '123 Sunset Road',
-    userId: 1,
-    imageUrl: 'http://lorempixel.com/640/480/animals'
-  });
-
-  await Order.create({
-    total: 23.55,
-    status: 'Created',
-    shippingAddress: '123 Sunset Road',
-    userId: 1,
-    imageUrl: 'http://lorempixel.com/640/480/animals'
-  });
-
-  // await ProductOrder.create({
-  //   productName: 'test1',
-  //   quantity: 2,
-  //   unitPrice: 5,
-  //   productId: 12,
-  //   orderId: 11,
-  //   imageUrl: 'http://lorempixel.com/640/480/animals'
-  // });
-
-  // await ProductOrder.create({
-  //   productName: 'test2',
-  //   quantity: 3,
-  //   unitPrice: 10,
-  //   productId: 15,
-  //   orderId: 11,
-  //   imageUrl: 'http://lorempixel.com/640/480/animals'
-  // });
-  // await ProductOrder.create({
-  //   productName: 'test3',
-  //   quantity: 1,
-  //   unitPrice: 10,
-  //   productId: 13,
-  //   orderId: 12,
-  //   imageUrl: 'http://lorempixel.com/640/480/animals'
-  // });
-  ////////////////////////////////////////////////////////////////////////
 
   await Promise.all(users.map(user => User.create(user)));
   await Promise.all(products.map(product => Product.create(product)));
@@ -193,7 +146,7 @@ async function seed() {
   });
 
   // Seed data for cart items and category items
-  for (let i = 1; i <= 18; i++) {
+  for (let i = 1; i <= 10; i++) {
     const price = (1 + Math.random() * 300).toFixed(2);
     const productName = Faker.name.firstName();
     const imageUrl = Faker.image.animals();
