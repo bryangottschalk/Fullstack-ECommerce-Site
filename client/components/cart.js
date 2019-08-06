@@ -4,7 +4,6 @@ import { NavLink } from 'react-router-dom';
 import {
   getCartThunk,
   deleteFromCartThunk,
-  updateCartThunk,
   setCartIdThunk
 } from '../store/cart';
 import {
@@ -50,9 +49,6 @@ export class Cart extends React.Component {
 
     this.setState = { active: 'Confirm' };
   }
-  // updateCart = newItem => {
-  //   this.props.updateCart(newItem);
-  // };
 
   render() {
     console.log('PROPS  ', this.props);
@@ -211,8 +207,7 @@ const mapDispatchToProps = dispatch => ({
   getCart: cartId => dispatch(getCartThunk(cartId)),
   setCartId: id => dispatch(setCartIdThunk(id || '')),
   deleteFromCart: productOrderId =>
-    dispatch(deleteFromCartThunk(productOrderId)),
-  updateCart: newItem => dispatch(updateCartThunk(newItem))
+    dispatch(deleteFromCartThunk(productOrderId))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Cart);

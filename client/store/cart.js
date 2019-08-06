@@ -5,7 +5,6 @@ const SET_CART_ID = 'SET_CART_ID';
 const GET_CART = 'GET_CART';
 const ADD_TO_CART = 'ADD_TO_CART';
 const DELETE_FROM_CART = 'DELETE_FROM_CART';
-const UPDATE_CART = 'UPDATE_CART';
 
 const setCartId = id => ({
   type: SET_CART_ID,
@@ -25,11 +24,6 @@ export const addToCart = item => ({
 const deleteFromCart = productOrderId => ({
   type: DELETE_FROM_CART,
   productOrderId
-});
-
-const updateCart = item => ({
-  type: UPDATE_CART,
-  item
 });
 
 // Use rest-ful way of getting the order
@@ -53,13 +47,13 @@ export const setCartIdThunk = userId => {
         // console.log('userID is undefined!!!!!');
         const { data } = await axios.get(`/api/orders/?userId=${undefined}`);
 
-        console.log('Your cart Id is:   ', data[0].id);
+        // console.log('Your cart Id is:   ', data[0].id);
 
         dispatch(setCartId(data[0].id));
       } else {
         const { data } = await axios.get(`/api/orders/?userId=${userId}`);
 
-        console.log('Your cart Id is:   ', data[0].id);
+        // console.log('Your cart Id is:   ', data[0].id);
 
         dispatch(setCartId(data[0].id));
       }
@@ -97,24 +91,6 @@ export const deleteFromCartThunk = productOrderId => {
   };
 };
 
-export const updateCartThunk = item => {
-  return async dispatch => {
-    try {
-      const { data } = await axios.put(
-        `/api/productOrders?orderId=${item.orderId}&productId=${
-          item.productId
-        }`,
-        item
-      );
-      const action = updateCart(data);
-      dispatch(action);
-      history.push(`/students/${data.id}`);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-};
-
 const initialCart = {
   id: null,
   items: []
@@ -130,9 +106,6 @@ const cartReducer = (state = initialCart, action) => {
           action.item
         ]
       };
-
-    // { ...state, items: [...state.items, action.item] };
-
     case SET_CART_ID:
       return {
         ...state,
@@ -148,18 +121,6 @@ const cartReducer = (state = initialCart, action) => {
         ...state,
         items: state.items.filter(item => item.id !== action.productOrderId)
       };
-    case UPDATE_CART:
-      return {
-        ...state,
-        items: state.items.map(item => {
-          if (item.id !== action.item.id) {
-            return item;
-          } else {
-            return action.item;
-          }
-        })
-      };
-
     default:
       return state;
   }

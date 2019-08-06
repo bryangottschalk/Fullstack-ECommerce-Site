@@ -33,14 +33,40 @@ router.get('/', async (req, res, next) => {
       }
     } else if (req.query.userId) {
       // there is an userID and there is a query tag
-      const order = await Order.findOrCreate({
-        where: {
-          userId: req.query.userId,
-          status: 'Cart'
-        },
-        defaults: { total: 0.0 }
-      });
-      res.json(order);
+      if (req.session.cartId) {
+        const oldCartOrder = await Order.findOne({
+          where: {
+            status: 'Cart',
+            userId: req.query.userId
+          }
+        });
+
+        // If the user has an old cart
+        if (oldCartOrder) {
+          await oldCartOrder.update({
+            userId: null
+          });
+        }
+
+        // Assign the cart to the user
+        const cartToUpdate = await Order.findByPk(Number(req.session.cartId));
+        const AssignSessionCartToUser = await cartToUpdate.update({
+          userId: req.query.userId
+        });
+        res.json(AssignSessionCartToUser);
+      } else {
+        // No order for user stored in session
+        const order = await Order.findOrCreate({
+          where: {
+            userId: req.query.userId,
+            status: 'Cart'
+          },
+          defaults: { total: 0.0 }
+        });
+        res.json(order);
+      }
+
+      console.log('session.cartId: ', req.session.cartId);
     } else {
       const orders = await Order.findAll();
       res.json(orders);
