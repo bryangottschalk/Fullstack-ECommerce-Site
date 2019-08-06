@@ -10,7 +10,8 @@ const {
   Review,
   Order,
   Product,
-  Category
+  Category,
+  ProductOrder
 } = require('../server/db/models');
 
 const userGenerator = () => {
@@ -55,7 +56,7 @@ const productGenerator = () => {
   let products = [];
   for (let i = 0; i < 10; i++) {
     products.push({
-      name: Faker.commerce.productName(),
+      name: Faker.name.firstName(),
       imageUrl: Faker.image.animals(),
       description: Sentencer.make(
         'This product has {{ a_noun }} and {{ an_adjective }} {{ noun }} in it.'
@@ -105,8 +106,8 @@ const categories = [
   { name: 'Dog' },
   { name: 'Cat' },
   { name: 'Reptile' },
-  { name: 'Food' },
-  { name: 'Supplies' }
+  { name: 'Hamsters' },
+  { name: 'Red Pandas' }
 ];
 
 async function seed() {
@@ -122,6 +123,51 @@ async function seed() {
     creditCardNumber: 999999999,
     imageUrl: `https://robohash.org/cody--cody`
   });
+
+  //************PAST ORDERS DATA SEEDS*************
+
+  await Order.create({
+    total: 100.21,
+    status: 'Created',
+    shippingAddress: '123 Sunset Road',
+    userId: 1,
+    imageUrl: 'http://lorempixel.com/640/480/animals'
+  });
+
+  await Order.create({
+    total: 23.55,
+    status: 'Created',
+    shippingAddress: '123 Sunset Road',
+    userId: 1,
+    imageUrl: 'http://lorempixel.com/640/480/animals'
+  });
+
+  // await ProductOrder.create({
+  //   productName: 'test1',
+  //   quantity: 2,
+  //   unitPrice: 5,
+  //   productId: 12,
+  //   orderId: 11,
+  //   imageUrl: 'http://lorempixel.com/640/480/animals'
+  // });
+
+  // await ProductOrder.create({
+  //   productName: 'test2',
+  //   quantity: 3,
+  //   unitPrice: 10,
+  //   productId: 15,
+  //   orderId: 11,
+  //   imageUrl: 'http://lorempixel.com/640/480/animals'
+  // });
+  // await ProductOrder.create({
+  //   productName: 'test3',
+  //   quantity: 1,
+  //   unitPrice: 10,
+  //   productId: 13,
+  //   orderId: 12,
+  //   imageUrl: 'http://lorempixel.com/640/480/animals'
+  // });
+  ////////////////////////////////////////////////////////////////////////
 
   await Promise.all(users.map(user => User.create(user)));
   await Promise.all(products.map(product => Product.create(product)));
@@ -147,9 +193,9 @@ async function seed() {
   });
 
   // Seed data for cart items and category items
-  for (let i = 1; i <= 10; i++) {
+  for (let i = 1; i <= 18; i++) {
     const price = (1 + Math.random() * 300).toFixed(2);
-    const productName = Faker.commerce.productName();
+    const productName = Faker.name.firstName();
     const imageUrl = Faker.image.animals();
     const cartItem = await Product.create({
       name: productName,

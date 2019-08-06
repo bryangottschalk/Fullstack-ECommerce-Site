@@ -68,7 +68,7 @@ router.get('/', async (req, res, next) => {
 
       console.log('session.cartId: ', req.session.cartId);
     } else {
-      const orders = await Order.findAll();
+      const orders = await Order.findAll({ include: [{ all: true }] });
       res.json(orders);
     }
   } catch (error) {

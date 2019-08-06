@@ -32,16 +32,21 @@ const getAllCategories = categories => ({
 export const getAllProductsThunk = filterTag => {
   return async dispatch => {
     try {
-      if (filterTag !== '') {
-        console.log('filterTag: ', filterTag);
-
+      if (filterTag[0] === '1') {
         const response = await axios.get(
-          `/api/products?categoryTag=${filterTag}`
+          `/api/products?categoryTag=${filterTag.substring(1)}`
         );
         const filteredProducts = response.data;
-
         dispatch(getAllProducts(filteredProducts));
         history.push(`/products?categoryTag=${filterTag}`);
+      } else if (filterTag[0] === '2') {
+        const searchTag = filterTag.substring(1).trim();
+        const response = await axios.get(
+          `/api/products?searchTag=${searchTag}`
+        );
+        const searchedProducts = response.data;
+        dispatch(getAllProducts(searchedProducts));
+        history.push(`/products?searchTag=${searchTag}`);
       } else {
         const response = await axios.get(`/api/products`);
         const allProducts = response.data;
