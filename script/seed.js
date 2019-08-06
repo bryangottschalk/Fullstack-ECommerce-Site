@@ -122,6 +122,22 @@ async function seed() {
     imageUrl: `https://robohash.org/cody--cody`
   });
 
+  await Order.create({
+    total: 100.21,
+    status: 'Created',
+    shippingAddress: '123 Sunset Road',
+    userId: 1,
+    imageUrl: 'http://lorempixel.com/640/480/animals'
+  });
+
+  await Order.create({
+    total: 23.55,
+    status: 'Created',
+    shippingAddress: '123 Sunset Road',
+    userId: 1,
+    imageUrl: 'http://lorempixel.com/640/480/animals'
+  });
+
   await Promise.all(users.map(user => User.create(user)));
   await Promise.all(products.map(product => Product.create(product)));
   await Promise.all(orders.map(order => Order.create(order)));
