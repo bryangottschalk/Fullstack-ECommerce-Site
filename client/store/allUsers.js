@@ -11,24 +11,27 @@ const deleteUser = userId => ({ type: DELETE_USER, userId });
 
 export const getAllUsersThunk = () => {
   return async dispatch => {
-    const response = await axios.get('/api/users');
-    const allUsers = response.data;
-    const action = getAllUsers(allUsers);
-    dispatch(action);
+    try {
+      const response = await axios.get('/api/users');
+      const allUsers = response.data;
+      const action = getAllUsers(allUsers);
+      dispatch(action);
+    } catch (error) {
+      console.error(error);
+    }
   };
 };
 
-export const deleteUserThunk = (userId, redirectPath) => {
+export const deleteUserThunk = userId => {
   return async dispatch => {
     try {
       const { status } = await axios.delete(`/api/users/${userId}`);
       if (status === 202) {
         const action = deleteUser(userId);
         dispatch(action);
-        history.push(redirectPath);
       }
     } catch (error) {
-      console.log('Error deleting the user');
+      console.error(error);
     }
   };
 };

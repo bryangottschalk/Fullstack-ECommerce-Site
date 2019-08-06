@@ -2,14 +2,15 @@ import React from 'react';
 import { connect } from 'react-redux';
 import ReviewForm from './ReviewForm';
 import ListReviews from './ListReviews';
-import { postReviewThunk } from '../store/reviews';
 import { getSingleProductThunk } from '../store/singleProduct';
-import { Dropdown, Button, Grid, Icon } from 'semantic-ui-react';
+import { Rating, Button, Input, Label } from 'semantic-ui-react';
 import { addToCartThunk, setCartIdThunk } from '../store/cart';
+import { getAllProductsThunk } from '../store/allProducts';
+import { NavLink } from 'react-router-dom';
 
 class SingleProduct extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       quantity: 1
     };
@@ -18,93 +19,92 @@ class SingleProduct extends React.Component {
 
   componentDidMount() {
     this.props.getProduct(this.props.match.params.id);
-    this.handleFormSubmit = this.handleFormSubmit.bind(this);
   }
 
-  handleChange(event, { value }) {
+  handleChange(evt) {
     this.setState({
-      quantity: value
+      [evt.target.name]: evt.target.value
     });
   }
 
   async addProduct(product) {
-    await this.props.quickAdd(product, this.props.cart.id, this.state.quantity);
-  }
-
-  handleFormSubmit(evt, formState) {
-    evt.preventDefault();
-    this.props.postReview(
-      formState,
-      this.props.match.params.id,
-      `/products/${this.props.match.params.id}`
-    );
+    await this.props.setCartId(this.props.user.id);
+    await this.props.quickAdd({
+      quantity: this.state.quantity,
+      unitPrice: product.price,
+      productId: product.id,
+      orderId: this.props.cart.id,
+      productName: product.name,
+      imageUrl: product.imageUrl
+    });
   }
 
   render() {
+    console.log('PROPS  ', this.props);
     const { product } = this.props;
     const oldReviews = product.reviews;
     const newReviews = this.props.reviews;
-    const qtyOptions = [
-      {
-        key: '1',
-        text: '1',
-        value: 1
-      },
-      {
-        key: '2',
-        text: '2',
-        value: 2
-      },
-      {
-        key: '3',
-        text: '3',
-        value: 3
-      },
-      {
-        key: '4',
-        text: '4',
-        value: 4
-      },
-      {
-        key: '5',
-        text: '5',
-        value: 5
-      }
-    ];
+    const categories = product.categories;
+
     return (
       <div>
         {/* <img src={product.imageUrl} /> */}
+        <div>
+          {categories ? (
+            categories.map(category => (
+              <NavLink
+                to={`/products?categoryId=${category.id}`}
+                key={category.id}
+              >
+                <Label color="teal" tag size="large">
+                  {category.name}
+                </Label>
+              </NavLink>
+            ))
+          ) : (
+            <div>Category information not available</div>
+          )}
+        </div>
         <img src="https://placekitten.com/100/150" />
         <h1>{product.name}</h1>
+        <div>
+          RATING:
+          {product.avgStar !== null ? (
+            <Rating
+              icon="star"
+              defaultRating={Math.floor(1 + Math.random() * 5)}
+              maxRating={5}
+              size="huge"
+              disabled
+            />
+          ) : (
+            'N/A'
+          )}{' '}
+          {product.avgStar}
+        </div>
         <h3>{`$${product.price}`}</h3>
         <h3>{product.description}</h3>
-        <Grid className="singleProductCart" columns={2}>
-          <Grid.Column className="forButton">
-            <Button
-              className="addToCart"
-              onClick={() => this.addProduct(product)}
-              type="button"
-            >
-              <Button.Content hidden>Add</Button.Content>
-              <Button.Content visible>
-                <Icon name="shop" />
-              </Button.Content>
-            </Button>
-          </Grid.Column>
-          <Grid.Column className="forQty">
-            <Dropdown
-              onChange={this.handleChange}
-              placeholder="qty"
-              fluid
-              selection
-              options={qtyOptions}
-              value={this.state.quantity}
-            />
-          </Grid.Column>
-        </Grid>
+        <Input
+          onChange={this.handleChange}
+          name="quantity"
+          type="number"
+          value={this.state.quantity}
+          placeholder="Enter quantity"
+          min="0"
+          step="1"
+        />{' '}
+        <Button
+          className="addToCart"
+          color="teal"
+          onClick={() => this.addProduct(product)}
+          type="button"
+        >
+          Add To Cart
+        </Button>
         <ReviewForm
           productId={product.id}
-          handleFormSubmit={this.handleFormSubmit}
+          userName={`${this.props.user.firstName} ${this.props.user.lastName}`}
+          imageUrl={this.props.user.imageUrl}
         />
         <ListReviews oldReviews={oldReviews} newReviews={newReviews} />
       </div>
@@ -112,22 +112,18 @@ class SingleProduct extends React.Component {
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    product: state.singleProductReducer,
-    user: state.user,
-    cart: state.cartReducer,
-    reviews: state.productReviewsReducer
-  };
-};
+const mapStateToProps = state => ({
+  product: state.singleProductReducer,
+  user: state.user,
+  cart: state.cartReducer,
+  reviews: state.productReviewsReducer
+});
 
 const mapDispatchToProps = dispatch => ({
   getProduct: productId => dispatch(getSingleProductThunk(productId)),
-  quickAdd: (item, order, quantity) =>
-    dispatch(addToCartThunk(item, order, quantity)),
+  quickAdd: item => dispatch(addToCartThunk(item)),
   setCartId: userId => dispatch(setCartIdThunk(userId)),
-  postReview: (formSubmission, productId, redirectPath) =>
-    dispatch(postReviewThunk(formSubmission, productId, redirectPath))
+  getCategoryProduct: categoryId => dispatch(getAllProductsThunk(categoryId))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SingleProduct);

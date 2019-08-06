@@ -15,6 +15,7 @@ const {
 
 const userGenerator = () => {
   let users = [];
+
   for (let i = 0; i < 10; i++) {
     let firstName = Random.first();
     let lastName = Random.last();
@@ -34,6 +35,16 @@ const userGenerator = () => {
       address: [Faker.address.streetAddress()],
       password: Faker.internet.password()
     });
+
+    // generat reviews from that user
+    // reviews.push({
+    //   content: Faker.lorem.sentences(),
+    //   star: Math.ceil(Math.random() * 5),
+    //   userId: i + 1,
+    //   productId: i + 1,
+    //   userName: `${firstName} ${lastName}`,
+    //   imageUrl: `https://robohash.org/${firstName}--${lastName}`
+    // });
   }
   return users;
 };
@@ -104,6 +115,7 @@ async function seed() {
   console.log('db synced!');
   await User.create({
     email: 'cody.cody@email.com',
+    isAdmin: true,
     password: '123',
     firstName: 'cody',
     lastName: 'cody',
@@ -121,22 +133,28 @@ async function seed() {
     content: Faker.lorem.sentences(),
     star: Math.ceil(Math.random() * 5),
     userId: 1,
-    productId: 1
+    productId: 1,
+    userName: 'Cody Cody',
+    imageUrl: 'https://robohash.org/cody--cody'
   });
 
   await Review.create({
     content: Faker.lorem.sentences(),
     star: Math.ceil(Math.random() * 5),
     userId: 1,
-    productId: 1
+    productId: 1,
+    userName: 'Cody Cody',
+    imageUrl: 'https://robohash.org/cody--cody'
   });
 
   // Seed data for cart items and category items
   for (let i = 1; i <= 10; i++) {
     const price = (1 + Math.random() * 300).toFixed(2);
+    const productName = Faker.commerce.productName();
+    const imageUrl = Faker.image.animals();
     const cartItem = await Product.create({
-      name: Faker.commerce.productName(),
-      imageUrl: Faker.image.animals(),
+      name: productName,
+      imageUrl: imageUrl,
       description: Sentencer.make(
         'This product has {{ a_noun }} and {{ an_adjective }} {{ noun }} in it.'
       ),
@@ -149,7 +167,9 @@ async function seed() {
       category.addProduct(cartItem, {
         through: {
           quantity: Math.ceil(1 + Math.random() * 50),
-          unitPrice: price
+          unitPrice: price,
+          productName: productName,
+          imageUrl: imageUrl
         }
       });
     });
@@ -158,7 +178,9 @@ async function seed() {
       order.addProduct(cartItem, {
         through: {
           quantity: Math.ceil(1 + Math.random() * 50),
-          unitPrice: price
+          unitPrice: price,
+          productName: productName,
+          imageUrl: imageUrl
         }
       });
     });

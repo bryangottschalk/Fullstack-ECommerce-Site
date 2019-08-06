@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { NavLink, withRouter } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import {
   getAllProductsThunk,
   deleteProductThunk,
@@ -15,20 +15,19 @@ import {
   Rating,
   Icon,
   Grid,
-  Label,
-  Input
+  Label
 } from 'semantic-ui-react';
 
-export class allProducts extends React.Component {
+export class categoryProduct extends React.Component {
   async componentDidMount() {
-    await this.props.fetchProducts();
+    await this.props.fetchProducts(this.props.location.search);
     await this.props.getCategoryInfo(this.props.location.search);
     await this.props.fetchCategories();
   }
 
   handleDelete = (event, productId) => {
     event.preventDefault();
-    this.props.deleteProduct(productId);
+    this.props.deleteProduct(productId, '/products');
   };
 
   async addProduct(product) {
@@ -44,22 +43,19 @@ export class allProducts extends React.Component {
   }
 
   render() {
+    console.log('PROPS  ', this.props);
     const products = this.props.products;
-    const categories = this.props.allCategories;
+    const categoryName = this.props.category.name;
+
     return (
       <div>
         <div>
-          {categories.map(category => (
-            <NavLink
-              to={`/categories?categoryId=${category.id}`}
-              key={category.id}
-            >
-              <Label color="teal" tag size="large">
-                {category.name}
-              </Label>
-            </NavLink>
-          ))}
-          <Input icon="search" placeholder="Search..." />
+          Filter:{' '}
+          <NavLink to="/products">
+            <Label color="orange" tag size="large">
+              {categoryName}
+            </Label>
+          </NavLink>
         </div>
 
         <Card.Group itemsPerRow={5}>
@@ -105,9 +101,7 @@ export class allProducts extends React.Component {
                         <Button
                           content="Delete"
                           negative
-                          onClick={event =>
-                            this.handleDelete(event, product.id)
-                          }
+                          onClick={() => this.props.deleteProduct(product.id)}
                         />
                       </Grid.Column>
                     </Grid>
@@ -138,6 +132,4 @@ const mapDispatchToProps = dispatch => ({
   fetchCategories: () => dispatch(getAllCategoriesThunk())
 });
 
-export default withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(allProducts)
-);
+export default connect(mapStateToProps, mapDispatchToProps)(categoryProduct);
