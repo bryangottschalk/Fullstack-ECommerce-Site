@@ -10,7 +10,7 @@ const Navbar = ({ handleClick, isLoggedIn }) => (
     <NavLink to="/">
       <Header className="mainHeader" as="h1" size="huge" textAlign="center">
         {' '}
-        PETS{' '}
+        Cody and Co.{' '}
       </Header>
     </NavLink>
     <nav>
@@ -35,7 +35,6 @@ const Navbar = ({ handleClick, isLoggedIn }) => (
           <a href="#" onClick={handleClick}>
             <Button>Logout</Button>
           </a>
-          <Input icon="search" placeholder="Search..." />
         </div>
       ) : (
         <div>
@@ -55,7 +54,6 @@ const Navbar = ({ handleClick, isLoggedIn }) => (
           <NavLink to="/cart">
             <Button>Cart</Button>
           </NavLink>
-          <Input icon="search" placeholder="Search..." />
         </div>
       )}
     </nav>

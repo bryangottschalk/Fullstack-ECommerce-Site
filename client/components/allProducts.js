@@ -15,16 +15,21 @@ import {
   Rating,
   Icon,
   Grid,
-  Label
+  Label,
+  Form
 } from 'semantic-ui-react';
 
 export class allProducts extends React.Component {
   constructor() {
     super();
     this.state = {
-      category: null
+      category: null,
+      search: '',
+      searching: false
     };
     this.handleClick = this.handleClick.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
 
   async componentDidMount() {
@@ -48,7 +53,26 @@ export class allProducts extends React.Component {
         category: categoryName
       });
     }
-    this.props.fetchProducts(categoryName);
+    this.props.fetchProducts(`1${categoryName}`);
+  }
+
+  handleSubmit(event) {
+    event.preventDefault();
+    this.props.fetchProducts(`2${this.state.search}`);
+    this.setState({
+      searching: true
+    });
+  }
+
+  handleChange(event) {
+    this.setState({
+      [event.target.name]: event.target.value
+    });
+    if (event.target.value === '') {
+      this.setState({
+        searching: false
+      });
+    }
   }
 
   async addProduct(product) {
@@ -64,9 +88,9 @@ export class allProducts extends React.Component {
   }
 
   render() {
+    console.log('thisStateSearch', this.state.search);
     const products = this.props.products;
     const categories = this.props.allCategories;
-    // const categoryName = this.props.category.name;
     return (
       <div>
         {!this.state.category ? (
@@ -98,6 +122,20 @@ export class allProducts extends React.Component {
             </Label>
           </div>
         )}
+        <Form onSubmit={this.handleSubmit}>
+          <Form.Field>
+            <input
+              onChange={this.handleChange}
+              name="search"
+              type="text"
+              placeholder="Search..."
+              value={this.state.search}
+            />
+            <Button size="mini" type="submit">
+              Search
+            </Button>
+          </Form.Field>
+        </Form>
 
         <Card.Group itemsPerRow={5}>
           {products &&
