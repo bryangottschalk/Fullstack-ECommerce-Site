@@ -115,6 +115,7 @@ async function seed() {
   console.log('db synced!');
   await User.create({
     email: 'cody.cody@email.com',
+    isAdmin: true,
     password: '123',
     firstName: 'cody',
     lastName: 'cody',

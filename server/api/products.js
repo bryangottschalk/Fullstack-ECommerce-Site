@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const { Product, Review, Category } = require('../db/models');
 // const Sequelize = require('sequelize');
+const isAdmin = require('../middleware');
 module.exports = router;
 
 // router.get('/', async (req, res, next) => {
@@ -97,7 +98,7 @@ router.get('/:id', async (req, res, next) => {
   }
 });
 
-router.delete('/:productId', async (req, res, next) => {
+router.delete('/:productId', isAdmin, async (req, res, next) => {
   try {
     await Product.destroy({
       where: {
@@ -110,7 +111,7 @@ router.delete('/:productId', async (req, res, next) => {
   }
 });
 
-router.post('/', async (req, res, next) => {
+router.post('/', isAdmin, async (req, res, next) => {
   try {
     const newProduct = await Product.create(req.body);
     res.json(newProduct);
