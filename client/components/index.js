@@ -14,5 +14,4 @@ export { default as Cart } from './cart';
 export { default as NotFound } from './NotFound';
 export { default as PastOrders } from './PastOrders';
 export { default as CompanyOrders } from './CompanyOrders';
-export { default as MyAccount } from './MyAccount';
 export { Login, Signup } from './auth-form';
