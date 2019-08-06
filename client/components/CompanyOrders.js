@@ -52,6 +52,7 @@ class CompanyOrders extends React.Component {
         <Card.Group itemsPerRow={5}>
           {filteredOrders &&
             filteredOrders.map(order => {
+              console.log('ORDERRRRR', order);
               return (
                 <Card key={order.id}>
                   <div>
