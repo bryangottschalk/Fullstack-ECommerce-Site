@@ -53,7 +53,7 @@ class SingleProduct extends React.Component {
           {categories ? (
             categories.map(category => (
               <NavLink
-                to={`/products?categoryId=${category.id}`}
+                to={`/products?categoryTag=${category.Name}`}
                 key={category.id}
               >
                 <Label color="teal" tag size="large">
@@ -123,7 +123,7 @@ const mapDispatchToProps = dispatch => ({
   getProduct: productId => dispatch(getSingleProductThunk(productId)),
   quickAdd: item => dispatch(addToCartThunk(item)),
   setCartId: userId => dispatch(setCartIdThunk(userId)),
-  getCategoryProduct: categoryId => dispatch(getAllProductsThunk(categoryId))
+  getCategoryProduct: categoryTag => dispatch(getAllProductsThunk(categoryTag))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SingleProduct);

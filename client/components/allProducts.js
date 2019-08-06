@@ -39,10 +39,16 @@ export class allProducts extends React.Component {
   };
 
   handleClick(categoryName) {
-    this.setState({
-      category: categoryName
-    });
-    this.props.fetchProducts(`?categoryId=${categoryName}`);
+    if (categoryName === '') {
+      this.setState({
+        category: null
+      });
+    } else {
+      this.setState({
+        category: categoryName
+      });
+    }
+    this.props.fetchProducts(categoryName);
   }
 
   async addProduct(product) {
@@ -59,20 +65,16 @@ export class allProducts extends React.Component {
 
   render() {
     console.log('PROPS  ', this.props);
-    console.log('this.props.location.search   ', this.props.location.search);
+    console.log('the current state is: ', this.state);
 
     const products = this.props.products;
     const categories = this.props.allCategories;
     // const categoryName = this.props.category.name;
     return (
       <div>
-        {!this.props.location.search ? (
-          <div>
+        {!this.state.category ? (
+          <div style={{ marginBottom: '10px' }}>
             {categories.map(category => (
-              // <NavLink
-              //   to={`/products?categoryId=${category.name}`}
-              //   key={category.id}
-              // >
               <Label
                 style={{ cursor: 'pointer' }}
                 key={category.id}
@@ -87,14 +89,14 @@ export class allProducts extends React.Component {
             ))}
           </div>
         ) : (
-          <div>
+          <div style={{ marginBottom: '10px' }}>
             Filter:{' '}
             <Label
               color="orange"
               tag
               size="large"
               style={{ cursor: 'pointer' }}
-              onClick={() => this.handleClick()}
+              onClick={() => this.handleClick('')}
             >
               {this.state.category}
             </Label>

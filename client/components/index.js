@@ -12,4 +12,3 @@ export { default as SingleUser } from './SingleUser';
 export { default as FavoriteProducts } from './favoriteProducts';
 export { default as Cart } from './cart';
 export { Login, Signup } from './auth-form';
-export { default as CategoryProduct } from './categoryProduct';

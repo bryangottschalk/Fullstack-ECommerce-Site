@@ -44,32 +44,21 @@ module.exports = router;
 router.get('/', async (req, res, next) => {
   try {
     console.log('req.query', req.query);
-    if (req.query.categoryId) {
+    if (req.query.categoryTag) {
       console.log('query tag found!!!!!!!!!!');
-      // const productForOneCategory = await Category.findAll({
-      //   where: {
-      //     id: req.query.categoryId
-      //   },
-      //   include: [
-      //     {
-      //       model: Product
-      //     }
-      //   ]
-      // });
-      // res.json(productForOneCategory[0]);
       const filteredProducts = await Product.findAll({
         include: [
           {
             model: Category,
             where: {
               name: {
-                [Sequelize.Op.in]: [req.query.categoryId]
+                [Sequelize.Op.in]: [req.query.categoryTag]
               }
             }
           }
         ]
       });
-      console.log('filteredProduct:  ', filteredProducts);
+      // console.log('filteredProduct:  ', filteredProducts);
       res.send(filteredProducts);
     } else {
       const products = await Product.findAll();
