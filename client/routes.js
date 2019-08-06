@@ -15,6 +15,7 @@ import {
   PastOrders,
   FavoriteProducts,
   CategoryProduct,
+  CompanyOrders,
   NotFound
 } from './components';
 
@@ -47,6 +48,7 @@ class Routes extends Component {
               <Route path="/home" component={UserHome} />
               <Route exact path="/users/:id" component={SingleUser} />
               <Route exact path="/users" component={allUsers} />
+              <Route path="/orders" component={CompanyOrders} />
               <Route component={NotFound} />
               {/* Once we create an orders component it can go here <Route exact path="/orders" component={Orders} /> */}
             </Switch>

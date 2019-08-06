@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { getPastOrdersThunk } from '../store/pastOrders';
-import { PastOrdersCard } from './pastOrdersCard';
+import { PastOrdersCard } from './PastOrdersCard';
 import {
   Container,
   Button,

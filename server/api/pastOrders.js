@@ -16,3 +16,13 @@ router.get('/', async (req, res, next) => {
     next(error);
   }
 });
+
+router.get('/allOrders', async (req, res, next) => {
+  try {
+    const allOrders = await Order.findAll();
+    console.log(allOrders);
+    res.json(allOrders);
+  } catch (error) {
+    next(error);
+  }
+});

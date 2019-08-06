@@ -4,7 +4,7 @@ const isAdmin = require('../middleware');
 
 module.exports = router;
 
-router.get('/', isAdmin, async (req, res, next) => {
+router.get('/', async (req, res, next) => {
   try {
     if (req.query.userId) {
       const order = await Order.findOrCreate({
@@ -16,7 +16,7 @@ router.get('/', isAdmin, async (req, res, next) => {
       });
       res.json(order);
     } else {
-      const orders = await Order.findAll();
+      const orders = await Order.findAll({ include: [{ all: true }] });
       res.json(orders);
     }
   } catch (error) {
