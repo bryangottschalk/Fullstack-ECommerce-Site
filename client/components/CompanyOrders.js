@@ -87,7 +87,6 @@ class CompanyOrders extends React.Component {
 
 const mapStateToProps = state => ({
   companyOrders: state.pastOrdersReducer
-  // user: state.user
 });
 
 const mapDispatchToProps = dispatch => {
