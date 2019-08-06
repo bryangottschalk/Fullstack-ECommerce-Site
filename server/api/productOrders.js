@@ -3,7 +3,7 @@ const { ProductOrder, Order, Product } = require('../db/models');
 const isAdmin = require('../middleware');
 module.exports = router;
 
-router.get('/', isAdmin, async (req, res, next) => {
+router.get('/', async (req, res, next) => {
   try {
     if (req.query.orderId) {
       const orderForOneUser = await ProductOrder.findAll({
@@ -60,7 +60,7 @@ router.post('/', async (req, res, next) => {
   }
 });
 
-router.delete('/', async (req, res, next) => {
+router.delete('/', isAdmin, async (req, res, next) => {
   try {
     if (req.query.orderId && req.query.productId) {
       await ProductOrder.destroy({
