@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { logout } from '../store';
-import { Button, Header, Input } from 'semantic-ui-react';
+import { Button, Header } from 'semantic-ui-react';
 
 const Navbar = ({ handleClick, isLoggedIn, isAdmin }) => (
   <div>
@@ -18,48 +18,72 @@ const Navbar = ({ handleClick, isLoggedIn, isAdmin }) => (
         <div>
           {/* The navbar will show these links after you log in */}
           <NavLink to="/home">
-            <Button color="orange">Home</Button>
+            <Button basic color="orange">
+              Home
+            </Button>
           </NavLink>
           <NavLink to="/products">
-            <Button color="orange">All Products</Button>
+            <Button basic color="orange">
+              All Products
+            </Button>
           </NavLink>
           <NavLink to="/cart">
-            <Button>Cart</Button>
+            <Button basic color="orange">
+              Cart
+            </Button>
           </NavLink>
           <NavLink to="/myaccount">
-            <Button>My Account</Button>
+            <Button basic color="orange">
+              My Account
+            </Button>
           </NavLink>
           {isAdmin && (
             <NavLink to="/orders">
-              <Button>Company Orders</Button>
+              <Button basic color="orange">
+                Company Orders
+              </Button>
             </NavLink>
           )}
           {isAdmin && (
             <NavLink to="/users">
-              <Button>All Users</Button>
+              <Button basic color="orange">
+                All Users
+              </Button>
             </NavLink>
           )}
           <a href="#" onClick={handleClick}>
-            <Button>Logout</Button>
+            <Button basic color="orange">
+              Logout
+            </Button>
           </a>
         </div>
       ) : (
         <div>
           {/* The navbar will show these links before you log in */}
           <NavLink to="/">
-            <Button color="orange">Home</Button>
+            <Button basic color="orange">
+              Home
+            </Button>
           </NavLink>
           <NavLink to="/products">
-            <Button color="orange">All Products</Button>
+            <Button basic color="orange">
+              All Products
+            </Button>
           </NavLink>
           <NavLink to="/login">
-            <Button>Login</Button>
+            <Button basic color="orange">
+              Login
+            </Button>
           </NavLink>
           <NavLink to="/signup">
-            <Button>Sign Up</Button>
+            <Button basic color="orange">
+              Sign Up
+            </Button>
           </NavLink>
           <NavLink to="/cart">
-            <Button>Cart</Button>
+            <Button basic color="orange">
+              Cart
+            </Button>
           </NavLink>
         </div>
       )}

@@ -16,7 +16,9 @@ import {
   Icon,
   Grid,
   Label,
-  Form
+  Form,
+  Modal,
+  Header
 } from 'semantic-ui-react';
 
 export class allProducts extends React.Component {
@@ -163,17 +165,31 @@ export class allProducts extends React.Component {
 
                     <Grid>
                       <Grid.Column width={6}>
-                        <Button
-                          color="linkedin"
-                          animated="vertical"
-                          className="addToCart"
-                          onClick={() => this.addProduct(product)}
+                        <Modal
+                          trigger={
+                            <Button
+                              color="teal"
+                              animated="vertical"
+                              className="addToCart"
+                              onClick={() => this.addProduct(product)}
+                            >
+                              <Button.Content hidden>Add</Button.Content>
+                              <Button.Content visible>
+                                <Icon name="shop" />
+                              </Button.Content>
+                            </Button>
+                          }
+                          basic
+                          size="small"
                         >
-                          <Button.Content hidden>Add</Button.Content>
-                          <Button.Content visible>
-                            <Icon name="shop" />
-                          </Button.Content>
-                        </Button>
+                          <Header
+                            icon="shopping cart"
+                            content="Added To Your Cart!!"
+                          />
+                          <Modal.Content>
+                            <p>very cool.</p>
+                          </Modal.Content>
+                        </Modal>
                       </Grid.Column>
                       <Grid.Column>
                         {this.props.isAdmin && (
