@@ -5,7 +5,7 @@ import { NavLink } from 'react-router-dom';
 import { logout } from '../store';
 import { Button, Header, Input } from 'semantic-ui-react';
 
-const Navbar = ({ handleClick, isLoggedIn }) => (
+const Navbar = ({ handleClick, isLoggedIn, isAdmin }) => (
   <div>
     <NavLink to="/">
       <Header className="mainHeader" as="h1" size="huge" textAlign="center">
@@ -29,9 +29,11 @@ const Navbar = ({ handleClick, isLoggedIn }) => (
           <NavLink to="/myaccount">
             <Button>My Account</Button>
           </NavLink>
-          <NavLink to="/orders">
-            <Button>Company Orders</Button>
-          </NavLink>
+          {isAdmin && (
+            <NavLink to="/orders">
+              <Button>Company Orders</Button>
+            </NavLink>
+          )}
           <a href="#" onClick={handleClick}>
             <Button>Logout</Button>
           </a>
@@ -66,7 +68,8 @@ const Navbar = ({ handleClick, isLoggedIn }) => (
  */
 const mapState = state => {
   return {
-    isLoggedIn: !!state.user.id
+    isLoggedIn: !!state.user.id,
+    isAdmin: state.user.isAdmin
   };
 };
 
@@ -85,5 +88,6 @@ export default connect(mapState, mapDispatch)(Navbar);
  */
 Navbar.propTypes = {
   handleClick: PropTypes.func.isRequired,
-  isLoggedIn: PropTypes.bool.isRequired
+  isLoggedIn: PropTypes.bool.isRequired,
+  isAdmin: PropTypes.bool.isRequired
 };

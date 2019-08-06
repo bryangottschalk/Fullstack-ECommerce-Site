@@ -61,7 +61,8 @@ class CompanyOrders extends React.Component {
                     </h3>
                     <h3>Email: {order.user.email}</h3>
                     <h3>Address: {order.shippingAddress || `N/A`}</h3>
-                    <h3>Total {`$${order.total}`}</h3>
+                    <h3>Total: {`$${order.total}`}</h3>
+                    <h3>Status: {order.status}</h3>
                     <ul>
                       {order.products.map(product => {
                         return (
