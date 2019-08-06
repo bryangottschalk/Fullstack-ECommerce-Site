@@ -1,8 +1,9 @@
 const router = require('express').Router();
 const { User } = require('../db/models');
+const isAdmin = require('../middleware');
 module.exports = router;
 
-router.get('/', async (req, res, next) => {
+router.get('/', isAdmin, async (req, res, next) => {
   try {
     const users = await User.findAll({
       // explicitly select only the id and email fields - even though
@@ -16,7 +17,7 @@ router.get('/', async (req, res, next) => {
   }
 });
 
-router.delete('/:userId', async (req, res, next) => {
+router.delete('/:userId', isAdmin, async (req, res, next) => {
   try {
     await User.destroy({
       where: {
@@ -29,7 +30,7 @@ router.delete('/:userId', async (req, res, next) => {
   }
 });
 
-router.get('/:id', async (req, res, next) => {
+router.get('/:id', isAdmin, async (req, res, next) => {
   try {
     const user = await User.findByPk(req.params.id);
     if (!user) {

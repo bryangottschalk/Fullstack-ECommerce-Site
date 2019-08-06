@@ -105,7 +105,6 @@ const categories = [
   { name: 'Dog' },
   { name: 'Cat' },
   { name: 'Reptile' },
-  { name: 'Small Pet' },
   { name: 'Food' },
   { name: 'Supplies' }
 ];
@@ -115,6 +114,7 @@ async function seed() {
   console.log('db synced!');
   await User.create({
     email: 'cody.cody@email.com',
+    isAdmin: true,
     password: '123',
     firstName: 'cody',
     lastName: 'cody',
