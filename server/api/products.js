@@ -92,3 +92,14 @@ router.post('/', isAdmin, async (req, res, next) => {
     next(err);
   }
 });
+
+//PUT /api/products/:productId
+router.put('/:productId', async (req, res, next) => {
+  try {
+    const productToEdit = await Product.findByPk(Number(req.params.productId));
+    const product = await productToEdit.update(req.body);
+    res.json(product);
+  } catch (err) {
+    next(err);
+  }
+});

@@ -11,6 +11,7 @@ import cartReducer from './cart';
 import typeReducer from './userType';
 import pastOrdersReducer from './pastOrders';
 import productReviewsReducer from './reviews';
+import categoriesReducer from './categories';
 
 const reducer = combineReducers({
   user,
@@ -21,6 +22,7 @@ const reducer = combineReducers({
   cartReducer,
   typeReducer,
   productReviewsReducer,
+  categories: categoriesReducer,
   pastOrdersReducer
 });
 const middleware = composeWithDevTools(

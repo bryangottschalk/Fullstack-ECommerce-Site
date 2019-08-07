@@ -1,5 +1,6 @@
 import axios from 'axios';
 import history from '../history';
+import Axios from 'axios';
 
 // action types
 const GET_SINGLE_PRODUCT = 'GET_SINGLE_PRODUCT';
@@ -16,7 +17,11 @@ export const getSingleProduct = product => {
 export const getSingleProductThunk = productId => {
   return async dispatch => {
     try {
+      console.log(
+        '************************** SINGLE PRODUCT THUNK **********************'
+      );
       const { data } = await axios.get(`/api/products/${productId}`);
+      console.log('DATA FROM SINGLE PRODUCT THUNK', data);
       const action = getSingleProduct(data);
       dispatch(action);
     } catch (error) {
@@ -32,8 +37,8 @@ export const getSingleProductThunk = productId => {
 };
 
 //reducer
-const initialState = { products: [] };
-
+// const initialState = { products: [] } - bryan did this;
+const initialState = {};
 export const singleProductReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_SINGLE_PRODUCT:

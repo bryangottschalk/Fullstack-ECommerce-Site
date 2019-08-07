@@ -170,16 +170,16 @@ export class Cart extends React.Component {
         )}
         {/* {this.state.status === 'Confirm' && ( */}
         <div>
-          <Segment textAlign="right">
-            <div>
+          <Segment style={{ fontSize: '19px' }} textAlign="right">
+            <div style={{ marginBottom: '6px' }}>
               Cart Subtotal: ${' '}
               {cart.items
                 .map(item => item.unitPrice * item.quantity)
                 .reduce((prev, current) => prev + current, 0)
                 .toFixed(2)}
             </div>
-            <div>Shipping: Free</div>
-            <div>
+            <div style={{ marginBottom: '6px' }}>Shipping: Free</div>
+            <div style={{ marginBottom: '6px' }}>
               You pay:{' '}
               <span style={{ fontWeight: 'bold' }}>
                 ${' '}
