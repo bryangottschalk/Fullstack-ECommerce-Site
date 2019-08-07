@@ -13,93 +13,88 @@ const {
   Category
 } = require('../server/db/models');
 
-const userGenerator = () => {
-  let users = [];
+// const userGenerator = () => {
+//   let users = [];
 
-  for (let i = 0; i < 10; i++) {
-    let firstName = Random.first();
-    let lastName = Random.last();
-    let emailName = (
-      firstName.toLowerCase().trim() +
-      '.' +
-      lastName.toLowerCase().trim()
-    ).replace(/\s/g, '');
-    users.push({
-      firstName: firstName,
-      lastName: lastName,
-      email: `${emailName}@gmail.com`,
-      imageUrl: `https://robohash.org/${firstName}--${lastName}`,
-      isAdmin: false,
-      creditCardNumber: ccGenerator.GenCC()[0],
-      passwordResetTriggered: false,
-      address: [Faker.address.streetAddress()],
-      password: Faker.internet.password()
-    });
+//   for (let i = 0; i < 500; i++) {
+//     let firstName = Random.first();
+//     let lastName = Random.last();
+//     let emailName = (
+//       firstName.toLowerCase().trim() +
+//       '.' +
+//       lastName.toLowerCase().trim()
+//     ).replace(/\s/g, '');
+//     users.push({
+//       firstName: firstName,
+//       lastName: lastName,
+//       email: `${emailName}@gmail.com`,
+//       imageUrl: `https://robohash.org/${firstName}--${lastName}`,
+//       isAdmin: false,
+//       creditCardNumber: ccGenerator.GenCC()[0],
+//       passwordResetTriggered: false,
+//       address: [Faker.address.streetAddress()],
+//       password: Faker.internet.password()
+//     });
+//   }
+//   return users;
+// };
 
-    // generat reviews from that user
-    // reviews.push({
-    //   content: Faker.lorem.sentences(),
-    //   star: Math.ceil(Math.random() * 5),
-    //   userId: i + 1,
-    //   productId: i + 1,
-    //   userName: `${firstName} ${lastName}`,
-    //   imageUrl: `https://robohash.org/${firstName}--${lastName}`
-    // });
-  }
-  return users;
-};
+// const users = userGenerator();
 
-const users = userGenerator();
+// const productGenerator = () => {
+//   let products = [];
+//   for (let i = 0; i < 500; i++) {
+//     products.push({
+//       name: Faker.name.firstName(),
+//       imageUrl: Faker.image.animals(),
+//       description: Sentencer.make(
+//         'This product has {{ a_noun }} and {{ an_adjective }} {{ noun }} in it.'
+//       ),
+//       price: (1 + Math.random() * 300).toFixed(2),
+//       inventoryQuantity: Math.ceil(1 + Math.random() * 200),
+//       availability: true
+//     });
+//   }
+//   return products;
+// };
 
-const productGenerator = () => {
-  let products = [];
-  for (let i = 0; i < 10; i++) {
-    products.push({
-      name: Faker.name.firstName(),
-      imageUrl: Faker.image.animals(),
-      description: Sentencer.make(
-        'This product has {{ a_noun }} and {{ an_adjective }} {{ noun }} in it.'
-      ),
-      price: (1 + Math.random() * 300).toFixed(2),
-      inventoryQuantity: Math.ceil(1 + Math.random() * 200),
-      availability: true
-    });
-  }
-  return products;
-};
+// const products = productGenerator();
 
-const products = productGenerator();
+// const reviewGenerator = () => {
+//   let reviews = [];
+//   for (let i = 0; i < 500; i++) {
+//     let firstName = Random.first();
+//     let lastName = Random.last();
+//     reviews.push({
+//       content: Faker.lorem.sentences(),
+//       star: Math.ceil(Math.random() * 5),
+//       userId: i + 1,
+//       productId: i + 1,
+//       userName: `${firstName} ${lastName}`,
+//       imageUrl: `https://robohash.org/${firstName}--${lastName}`
+//     });
+//   }
+//   return reviews;
+// };
 
-const reviewGenerator = () => {
-  let reviews = [];
-  for (let i = 0; i < 10; i++) {
-    reviews.push({
-      content: Faker.lorem.sentences(),
-      star: Math.ceil(Math.random() * 5),
-      userId: i + 1,
-      productId: i + 1
-    });
-  }
-  return reviews;
-};
+// const reviews = reviewGenerator();
 
-const reviews = reviewGenerator();
-const orderStatus = ['Cart', 'Created', 'Processing', 'Cancelled', 'Completed'];
+// const orderStatus = ['Cart', 'Created', 'Processing', 'Cancelled', 'Completed'];
 
-const orderGenerator = () => {
-  let orders = [];
-  for (let i = 0; i < 10; i++) {
-    orders.push({
-      total: (1 + Math.random() * 500).toFixed(2),
-      status: orderStatus[Math.floor(Math.random() * 5)],
-      shippingAddress: users[i].address[0],
-      userId: i + 1
-    });
-  }
-  return orders;
-};
+// const orderGenerator = () => {
+//   let orders = [];
+//   for (let i = 0; i < 500; i++) {
+//     orders.push({
+//       total: (1 + Math.random() * 200).toFixed(2),
+//       status: orderStatus[1 + Math.floor(Math.random() * 4)],
+//       shippingAddress: users[i].address[0],
+//       userId: i + 1
+//     });
+//   }
+//   return orders;
+// };
 
-const orders = orderGenerator();
+// const orders = orderGenerator();
 
 const categories = [
   { name: 'Dog' },
@@ -108,6 +103,10 @@ const categories = [
   { name: 'Panda' },
   { name: 'Hamster' }
 ];
+
+const orderStatus = ['Cart', 'Created', 'Processing', 'Cancelled', 'Completed'];
+
+const categoryArray = ['Dog', 'Cat', 'Reptile', 'Panda', 'Hamster'];
 
 async function seed() {
   await db.sync({ force: true });
@@ -119,7 +118,8 @@ async function seed() {
     lastName: 'cody',
     address: ['123 Road'],
     creditCardNumber: 999999999,
-    imageUrl: `https://robohash.org/cody--cody`
+    imageUrl: `https://robohash.org/cody--cody`,
+    isAdmin: true
   });
 
   await Order.create({
@@ -138,46 +138,63 @@ async function seed() {
     imageUrl: 'http://lorempixel.com/640/480/animals'
   });
 
-  await Promise.all(users.map(user => User.create(user)));
-  await Promise.all(products.map(product => Product.create(product)));
-  await Promise.all(orders.map(order => Order.create(order)));
+  // await Promise.all(users.map(user => User.create(user)));
+  // await Promise.all(products.map(product => Product.create(product)));
+  // await Promise.all(orders.map(order => Order.create(order)));
+
   await Promise.all(categories.map(category => Category.create(category)));
 
-  await Review.create({
-    content: Faker.lorem.sentences(),
-    star: Math.ceil(Math.random() * 5),
-    userId: 1,
-    productId: 1,
-    userName: 'Cody Cody',
-    imageUrl: 'https://robohash.org/cody--cody'
-  });
-
-  await Review.create({
-    content: Faker.lorem.sentences(),
-    star: Math.ceil(Math.random() * 5),
-    userId: 1,
-    productId: 1,
-    userName: 'Cody Cody',
-    imageUrl: 'https://robohash.org/cody--cody'
-  });
-
   // Seed data for cart items and category items
-  for (let i = 1; i <= 10; i++) {
+  for (let i = 1; i <= 250; i++) {
     const price = (1 + Math.random() * 300).toFixed(2);
     const productName = Faker.name.firstName();
-    const imageUrl = Faker.image.animals();
+    const imageUrl = `/images/${Math.ceil(i / 50)}.jpg`;
+    const rating = Math.ceil(Math.random() * 5);
+
     const cartItem = await Product.create({
       name: productName,
       imageUrl: imageUrl,
       description: Sentencer.make(
         'This product has {{ a_noun }} and {{ an_adjective }} {{ noun }} in it.'
       ),
-      price: (1 + Math.random() * 300).toFixed(2),
-      inventoryQuantity: Math.ceil(1 + Math.random() * 200),
-      availability: true
+      price: price,
+      inventoryQuantity: Math.ceil(1 + Math.random() * 50),
+      availability: true,
+      avgStar: rating
     });
 
-    await Category.findByPk(Math.ceil(i / 2)).then(category => {
+    let firstName = Random.first();
+    let lastName = Random.last();
+    let emailName = (
+      firstName.toLowerCase().trim() +
+      '.' +
+      lastName.toLowerCase().trim()
+    ).replace(/\s/g, '');
+    let address = Faker.address.streetAddress();
+
+    await User.create({
+      firstName: firstName,
+      lastName: lastName,
+      email: `${emailName}@gmail.com`,
+      imageUrl: `https://robohash.org/${firstName}--${lastName}`,
+      isAdmin: false,
+      creditCardNumber: ccGenerator.GenCC()[0],
+      passwordResetTriggered: false,
+      address: [address],
+      password: Faker.internet.password()
+    });
+
+    await Review.create({
+      content: 'This product is great! ' + Faker.lorem.sentences(),
+      star: rating,
+      userId: i,
+      productId: i,
+      userName: `${firstName} ${lastName}`,
+      imageUrl: `https://robohash.org/${firstName}--${lastName}`
+    });
+
+    //ProductCategory Table
+    await Category.findByPk(Math.ceil(i / 50)).then(category => {
       category.addProduct(cartItem, {
         through: {
           quantity: Math.ceil(1 + Math.random() * 50),
@@ -188,10 +205,20 @@ async function seed() {
       });
     });
 
+    let quantity = Math.ceil(1 + Math.random() * 2);
+    let total = (quantity * price).toFixed(2);
+    Order.create({
+      total: total,
+      status: orderStatus[1 + Math.floor(Math.random() * 4)],
+      shippingAddress: address,
+      userId: i
+    });
+
+    // Product Order Table
     await Order.findByPk(i).then(order => {
       order.addProduct(cartItem, {
         through: {
-          quantity: Math.ceil(1 + Math.random() * 50),
+          quantity: quantity,
           unitPrice: price,
           productName: productName,
           imageUrl: imageUrl
@@ -200,7 +227,25 @@ async function seed() {
     });
   }
 
-  await Promise.all(reviews.map(review => Review.create(review)));
+  // await Review.create({
+  //   content: Faker.lorem.sentences(),
+  //   star: Math.ceil(Math.random() * 5),
+  //   userId: 1,
+  //   productId: 1,
+  //   userName: 'Cody Cody',
+  //   imageUrl: 'https://robohash.org/cody--cody'
+  // });
+
+  // await Review.create({
+  //   content: Faker.lorem.sentences(),
+  //   star: Math.ceil(Math.random() * 5),
+  //   userId: 1,
+  //   productId: 1,
+  //   userName: 'Andre Mays',
+  //   imageUrl: 'https://robohash.org/andre--mays'
+  // });
+
+  // await Promise.all(reviews.map(review => Review.create(review)));
   console.log(green(`seeded successfully`));
 }
 

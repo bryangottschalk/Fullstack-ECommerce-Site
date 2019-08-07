@@ -47,7 +47,6 @@ class SingleProduct extends React.Component {
 
     return (
       <div>
-        {/* <img src={product.imageUrl} /> */}
         <div>
           {categories ? (
             categories.map(category => (
@@ -64,7 +63,7 @@ class SingleProduct extends React.Component {
             <div>Category information not available</div>
           )}
         </div>
-        <img src="https://placekitten.com/100/150" />
+        <img src={product.imageUrl} />
         <h1>{product.name}</h1>
         <div>
           RATING:
@@ -79,7 +78,6 @@ class SingleProduct extends React.Component {
           ) : (
             'N/A'
           )}{' '}
-          {product.avgStar}
         </div>
         <h3>{`$${product.price}`}</h3>
         <h3>{product.description}</h3>
