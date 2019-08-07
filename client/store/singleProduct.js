@@ -17,9 +17,7 @@ export const getSingleProduct = product => {
 export const getSingleProductThunk = productId => {
   return async dispatch => {
     try {
-      console.log(
-        '************************** SINGLE PRODUCT THUNK **********************'
-      );
+      console.log('productIDDDDD', productId);
       const { data } = await axios.get(`/api/products/${productId}`);
       console.log('DATA FROM SINGLE PRODUCT THUNK', data);
       const action = getSingleProduct(data);

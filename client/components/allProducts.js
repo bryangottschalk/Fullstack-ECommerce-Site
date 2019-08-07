@@ -145,7 +145,7 @@ export class allProducts extends React.Component {
               return (
                 <Card color="teal" key={product.id} id="ProductsList">
                   <Card.Content>
-                    <NavLink to={`products/${product.id}`}>
+                    <NavLink to={`/products/${product.id}`}>
                       <Image src={product.imageUrl} />
                       <Card.Header>{product.name} </Card.Header>
                     </NavLink>

@@ -30,7 +30,6 @@ export class Cart extends React.Component {
   };
 
   handleChange(event) {
-    console.log('event.target.name  ', event.target.name);
     this.setState({
       [event.target.name]: event.target.value
     });
@@ -50,7 +49,6 @@ export class Cart extends React.Component {
         .toFixed(2) * 100
     );
 
-    console.log('&&&&&&&&&&&&&&&&', { token, totalAmount });
     try {
       await this.props.checkedOut(token, totalAmount);
     } catch (error) {
@@ -59,9 +57,6 @@ export class Cart extends React.Component {
   }
 
   render() {
-    console.log('PROPS  ', this.props);
-    console.log('cart.items ', this.props.cart.items);
-
     const { cart } = this.props;
     const { active } = this.state;
     return (
@@ -162,12 +157,6 @@ export class Cart extends React.Component {
                       <StripeCheckout
                         stripeKey="pk_test_xBtNc8mft5ek3QhayIUwlMqb004vi4mwUL"
                         token={this.handleToken}
-                        // amount={Number(
-                        //   cart.items
-                        //     .map(item => item.unitPrice * item.quantity)
-                        //     .reduce((prev, current) => prev + current, 0)
-                        //     .toFixed(2)
-                        // )}
                       />
                     </Table.HeaderCell>
                   </Table.Row>
