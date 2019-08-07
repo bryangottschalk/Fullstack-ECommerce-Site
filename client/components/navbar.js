@@ -37,6 +37,7 @@ const Navbar = ({ handleClick, isLoggedIn, isAdmin }) => (
               My Account
             </Button>
           </NavLink>
+
           {isAdmin && (
             <NavLink to="/orders">
               <Button basic color="orange">
@@ -48,6 +49,13 @@ const Navbar = ({ handleClick, isLoggedIn, isAdmin }) => (
             <NavLink to="/users">
               <Button basic color="orange">
                 All Users
+              </Button>
+            </NavLink>
+          )}
+          {isAdmin && (
+            <NavLink to="/productForm">
+              <Button basic color="orange">
+                Create new product
               </Button>
             </NavLink>
           )}

@@ -14,9 +14,11 @@ import {
   Cart,
   PastOrders,
   FavoriteProducts,
+  ProductForm,
   CategoryProduct,
-  CompanyOrders,
-  NotFound
+  NotFound,
+  EditProduct,
+  CompanyOrders
 } from './components';
 
 /**
@@ -37,10 +39,11 @@ class Routes extends Component {
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
         <Route exact path="/products/:id" component={SingleProduct} />
+        <Route exact path="/products/:id/edit" component={EditProduct} />
         <Route exact path="/products" component={allProducts} />
         <Route exact path="/users" component={allUsers} />
         <Route path="/cart" component={Cart} />
-
+        <Route exact path="/productForm" component={ProductForm} />
         {isLoggedIn &&
           isAdmin && (
             <Switch>
