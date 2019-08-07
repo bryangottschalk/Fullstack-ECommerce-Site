@@ -5,8 +5,8 @@ module.exports = router;
 
 router.get('/', async (req, res, next) => {
   try {
-    // console.log('req.user:   ', req.user);
-    // console.log('req.query.userId:', req.query.userId);
+    console.log('req.user:   ', req.user);
+    console.log('req.query.userId:', req.query.userId);
 
     if (req.user === undefined || req.query.userId === undefined) {
       if (req.session.cartId === undefined) {
