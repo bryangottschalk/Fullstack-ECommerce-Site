@@ -25,7 +25,7 @@ export const getPastOrdersThunk = () => {
 
 export const getAllOrdersThunk = () => {
   return async dispatch => {
-    const { data } = await axios.get('/api/orders');
+    const { data } = await axios.get('/api/orders/all');
     dispatch(getAllOrders(data));
   };
 };
