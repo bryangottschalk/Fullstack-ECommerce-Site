@@ -67,12 +67,16 @@ router.get('/', async (req, res, next) => {
       }
 
       console.log('session.cartId: ', req.session.cartId);
-    } else {
-      // overwriting the cart is not working if we put this part at the top
-      // make a new route for getting all orders
-      const orders = await Order.findAll({ include: [{ all: true }] });
-      res.json(orders);
     }
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.get('/all', async (req, res, next) => {
+  try {
+    const orders = await Order.findAll({ include: [{ all: true }] });
+    res.json(orders);
   } catch (error) {
     next(error);
   }
