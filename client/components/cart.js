@@ -1,29 +1,22 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
+import StripeCheckout from 'react-stripe-checkout';
 import {
   getCartThunk,
   deleteFromCartThunk,
-  setCartIdThunk
+  setCartIdThunk,
+  checkoutThunk
 } from '../store/cart';
-import {
-  Button,
-  Image,
-  Icon,
-  Table,
-  Step,
-  Input,
-  Segment
-} from 'semantic-ui-react';
+import { Image, Icon, Table, Step, Input, Segment } from 'semantic-ui-react';
 
 export class Cart extends React.Component {
   constructor(props) {
     super(props);
-    // this.state = { active: 'Cart', ...this.props.cart };
     this.state = { active: 'Cart' };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    // this.setState = {active : 'blah blah'}
+    this.handleToken = this.handleToken.bind(this);
   }
 
   async componentDidMount() {
@@ -41,13 +34,28 @@ export class Cart extends React.Component {
     this.setState({
       [event.target.name]: event.target.value
     });
-    // this.setState = { items: this.props.cart.items };
   }
 
   handleSubmit(event) {
     event.preventDefault();
 
     this.setState = { active: 'Confirm' };
+  }
+
+  async handleToken(token) {
+    let totalAmount = Number(
+      this.props.cart.items
+        .map(item => item.unitPrice + item.quantity)
+        .reduce((prev, current) => prev + current, 0)
+        .toFixed(2) * 100
+    );
+
+    console.log('&&&&&&&&&&&&&&&&', { token, totalAmount });
+    try {
+      await this.props.checkedOut(token, totalAmount);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   render() {
@@ -147,20 +155,20 @@ export class Cart extends React.Component {
                     </Table.Row>
                   ))}
                 </Table.Body>
-
                 <Table.Footer>
                   <Table.Row>
                     <Table.HeaderCell />
                     <Table.HeaderCell colSpan="5">
-                      <Button
-                        floated="right"
-                        icon
-                        primary
-                        size="huge"
-                        type="submit"
-                      >
-                        Submit
-                      </Button>
+                      <StripeCheckout
+                        stripeKey="pk_test_xBtNc8mft5ek3QhayIUwlMqb004vi4mwUL"
+                        token={this.handleToken}
+                        // amount={Number(
+                        //   cart.items
+                        //     .map(item => item.unitPrice * item.quantity)
+                        //     .reduce((prev, current) => prev + current, 0)
+                        //     .toFixed(2)
+                        // )}
+                      />
                     </Table.HeaderCell>
                   </Table.Row>
                 </Table.Footer>
@@ -207,7 +215,8 @@ const mapDispatchToProps = dispatch => ({
   getCart: cartId => dispatch(getCartThunk(cartId)),
   setCartId: id => dispatch(setCartIdThunk(id || '')),
   deleteFromCart: productOrderId =>
-    dispatch(deleteFromCartThunk(productOrderId))
+    dispatch(deleteFromCartThunk(productOrderId)),
+  checkedOut: (token, total) => dispatch(checkoutThunk(token, total))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Cart);

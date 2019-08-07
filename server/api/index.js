@@ -2,6 +2,7 @@ const router = require('express').Router();
 module.exports = router;
 
 router.use('/users', require('./users'));
+router.use('/checkout', require('./checkout'));
 router.use('/products', require('./products'));
 router.use('/categories', require('./categories'));
 router.use('/productOrders', require('./productOrders'));

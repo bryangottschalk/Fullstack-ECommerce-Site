@@ -18,7 +18,8 @@ import {
   Label,
   Form,
   Modal,
-  Header
+  Header,
+  Input
 } from 'semantic-ui-react';
 
 export class allProducts extends React.Component {
@@ -125,7 +126,7 @@ export class allProducts extends React.Component {
         )}
         <Form onSubmit={this.handleSubmit}>
           <Form.Field>
-            <input
+            <Input
               onChange={this.handleChange}
               name="search"
               type="text"

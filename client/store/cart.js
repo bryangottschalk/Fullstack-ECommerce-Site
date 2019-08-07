@@ -63,6 +63,17 @@ export const setCartIdThunk = userId => {
   };
 };
 
+export const checkoutThunk = async (token, total) => {
+  try {
+    const checkedout = await axios.post('/api/checkout', { token, total });
+    console.log('CHECKK&#^($*#($&&&&&&', checkedout);
+    const { status } = checkedout.data;
+    return status;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 export const addToCartThunk = item => {
   return async dispatch => {
     try {
