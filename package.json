@@ -50,6 +50,7 @@
     "express-session": "^1.15.1",
     "faker": "^4.1.0",
     "history": "^4.9.0",
+    "mini-css-extract-plugin": "^0.7.0",
     "morgan": "^1.9.1",
     "passport": "^0.4.0",
     "passport-google-oauth": "^2.0.0",
@@ -61,6 +62,7 @@
     "react-dom": "^16.8.6",
     "react-redux": "^7.0.1",
     "react-router-dom": "^5.0.0",
+    "react-stripe-checkout": "^2.6.3",
     "redux": "^4.0.1",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0",
@@ -68,7 +70,7 @@
     "sentencer": "^0.2.0",
     "sequelize": "^5.3.1",
     "socket.io": "^2.2.0",
-    "mini-css-extract-plugin": "^0.7.0"
+    "stripe": "^7.6.0"
   },
   "devDependencies": {
     "@babel/core": "^7.4.3",
