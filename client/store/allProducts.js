@@ -64,7 +64,7 @@ export const getAllProductsThunk = filterTag => {
         const response = await axios.get(`/api/products`);
         const allProducts = response.data;
         dispatch(getAllProducts(allProducts));
-        history.push('/products');
+        history.push('/products/');
       }
     } catch (error) {
       console.error(error);
