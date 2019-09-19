@@ -68,20 +68,6 @@ class SingleProduct extends React.Component {
         <NavLink to={`/products/${product.id}/edit`}>
           <Button>EDIT PRODUCT</Button>
         </NavLink>
-        <div>
-          RATING:
-          {product.avgStar !== null ? (
-            <Rating
-              icon="star"
-              defaultRating={Math.floor(1 + Math.random() * 5)}
-              maxRating={5}
-              size="huge"
-              disabled
-            />
-          ) : (
-            'N/A'
-          )}{' '}
-        </div>
         <h3>{`$${product.price}`}</h3>
         <h3>{product.description}</h3>
         <Input

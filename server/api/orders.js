@@ -7,7 +7,14 @@ router.get('/', async (req, res, next) => {
   try {
     console.log('req.user:   ', req.user);
     console.log('req.query.userId:', req.query.userId);
-
+    const order = await Order.findOrCreate({
+      where: {
+        userId: req.query.userId,
+        status: 'Cart'
+      },
+      defaults: { total: 0.0 }
+    });
+    res.json(order);
     if (req.user === undefined || req.query.userId === undefined) {
       if (req.session.cartId === undefined) {
         const newOrder = await Order.create({
@@ -56,14 +63,6 @@ router.get('/', async (req, res, next) => {
         res.json(AssignSessionCartToUser);
       } else {
         // No order for user stored in session
-        const order = await Order.findOrCreate({
-          where: {
-            userId: req.query.userId,
-            status: 'Cart'
-          },
-          defaults: { total: 0.0 }
-        });
-        res.json(order);
       }
 
       console.log('session.cartId: ', req.session.cartId);
