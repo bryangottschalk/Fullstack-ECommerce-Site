@@ -7,7 +7,6 @@ import Routes from './routes';
 
 class App extends React.Component {
   componentDidMount() {
-    console.log('usertype', this.props.userType);
     if (this.props.user.id) {
       this.props.setUser(true);
     }

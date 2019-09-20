@@ -123,8 +123,6 @@ export const addProductThunk = product => {
 export const editProductThunk = product => {
   return async dispatch => {
     try {
-      console.log('INSIDE EDIT PRODUCT THUNK');
-      console.log('PRODUCT ID', product.id);
       const { data } = await axios.put(`/api/products/${product.id}`, product);
       dispatch(editProduct(data));
     } catch (error) {
@@ -132,15 +130,7 @@ export const editProductThunk = product => {
     }
   };
 };
-// export const addProductThunk = (product) => {
-//   return async dispatch => {
-//     try {
-//       await axios.post('/api/products')
-//     }
-//   }
-// }
 
-//const initialState = [];
 const initialState = { categoryInfo: {}, products: [], categories: [] };
 
 const allProductsReducer = (state = initialState, action) => {

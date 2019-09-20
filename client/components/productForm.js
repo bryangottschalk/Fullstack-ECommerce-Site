@@ -62,7 +62,6 @@ class ProductForm extends React.Component {
   }
 
   handleSubmit(event) {
-    console.log('inside handle submit');
     event.preventDefault();
     if (this.props.type === 'edit') {
       this.props.editProduct(this.state);
@@ -84,23 +83,16 @@ class ProductForm extends React.Component {
   }
 
   async handleCategoryCheckbox(event) {
-    console.log('CLICKED ON', event.target.innerText);
-    console.log('STATE.categories', this.state.categories);
     const target = event.target.innerText;
     await this.setState(state => {
-      console.log('-------------------');
-      console.log('INSIDE SET STATE');
       state.categories.map(cat => {
         if (cat.name === target) {
-          console.log('NEW OBJ, ', { category: cat.name, value: !cat.value });
           return { category: cat.name, value: !cat.value };
         } else {
           return { category: cat.name, value: cat.value };
         }
       });
     });
-    console.log('AFTER SET STATE');
-    console.log('STATE', this.state);
   }
 
   render() {
@@ -113,8 +105,6 @@ class ProductForm extends React.Component {
       availability,
       categories
     } = this.state;
-    console.log('this.state', this.state);
-    console.log('PRODUCT FORM PROPS IN RENDER', this.props);
     return (
       <Container>
         <Form onSubmit={this.handleSubmit} success={this.state.formSuccess}>

@@ -10,8 +10,6 @@ import {
 } from 'semantic-ui-react';
 
 export const PastOrdersCard = props => {
-  // console.log('quantity', props.order.products[0].quantity)
-  // console.log('unit price', props.order.products[0].unitPrice)
   return (
     <div>
       <div>ID: {props.order.id}</div>

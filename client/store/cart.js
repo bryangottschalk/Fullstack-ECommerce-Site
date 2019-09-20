@@ -44,11 +44,7 @@ export const setCartIdThunk = userId => {
   return async dispatch => {
     try {
       if (userId === '') {
-        // console.log('userID is undefined!!!!!');
         const { data } = await axios.get(`/api/orders/?userId=${undefined}`);
-
-        // console.log('Your cart Id is:   ', data[0].id);
-
         dispatch(setCartId(data[0].id));
       } else {
         const { data } = await axios.get(`/api/orders/?userId=${userId}`);
@@ -79,7 +75,6 @@ export const addToCartThunk = item => {
     try {
       const { data } = await axios.post('/api/productOrders', item);
       dispatch(addToCart(data));
-      console.log('stuff got back from res: ', data);
     } catch (error) {
       console.error(error);
     }
