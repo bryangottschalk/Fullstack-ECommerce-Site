@@ -51,6 +51,14 @@ form div {
   padding: 10px 0px 0px 0px;
 }
 
+.ui.blue.inverted.button.active {
+  font-family: Futura;
+  font-size: 30px;
+  color: #3ac0ff;
+  border-radius: 0;
+  background-color: white;
+}
+
 input {
   width: 322;
   height: 38;
