@@ -3,7 +3,14 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { logout } from '../store';
-import { Button, Header, Menu, Dropdown, Container } from 'semantic-ui-react';
+import {
+  Button,
+  Header,
+  Menu,
+  Dropdown,
+  Container,
+  Icon
+} from 'semantic-ui-react';
 
 const Navbar = ({ handleClick, isLoggedIn, isAdmin }) => (
   <div style={{ marginBottom: 20 }}>
@@ -82,6 +89,7 @@ const Navbar = ({ handleClick, isLoggedIn, isAdmin }) => (
             </Menu.Item>
           )}
           <Menu.Item as={NavLink} to="/cart">
+            <Icon size="large" className="shopping cart" />
             Cart
           </Menu.Item>
         </Menu.Menu>
