@@ -71,3 +71,8 @@ input {
 .ui.menu {
   margin: 0;
 }
+
+.ui.item.simple.dropdown.adminPortal {
+  font-weight: bold;
+  color: #f2711c;
+}

@@ -23,21 +23,23 @@ const Navbar = ({ handleClick, isLoggedIn, isAdmin }) => (
         <Button inverted color="blue" as={NavLink} to="/">
           CODY & CO
         </Button>
-        {isAdmin && (
-          <Menu.Menu position="right">
-            <Menu.Item as={NavLink} to="/orders">
-              Company Orders
-            </Menu.Item>
-            <Menu.Item as={NavLink} to="/users">
-              All Users
-            </Menu.Item>
-            <Menu.Item as={NavLink} to="/productForm">
-              Create New Product
-            </Menu.Item>
-          </Menu.Menu>
-        )}
 
         <Menu.Menu position="right">
+          {isAdmin && (
+            <Dropdown className="adminPortal" item simple text="Admin Portal">
+              <Dropdown.Menu>
+                <Dropdown.Item as={NavLink} to="/orders">
+                  Company Orders
+                </Dropdown.Item>
+                <Dropdown.Item as={NavLink} to="/users">
+                  All Users
+                </Dropdown.Item>
+                <Dropdown.Item as={NavLink} to="/productForm">
+                  Create New Product
+                </Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+          )}
           <Dropdown item simple text="Adopt a Pet">
             <Dropdown.Menu>
               <Dropdown.Item as={NavLink} to="/products">
@@ -76,7 +78,6 @@ const Navbar = ({ handleClick, isLoggedIn, isAdmin }) => (
           <Menu.Item as={NavLink} to="/cart">
             Cart
           </Menu.Item>
-
           <Menu.Item as={NavLink} to="/signup">
             Sign Up
           </Menu.Item>
