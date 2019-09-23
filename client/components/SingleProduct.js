@@ -28,15 +28,21 @@ class SingleProduct extends React.Component {
   }
 
   async addProduct(product) {
-    await this.props.setCartId(this.props.user.id);
-    await this.props.quickAdd({
-      quantity: this.state.quantity,
-      unitPrice: product.price,
-      productId: product.id,
-      orderId: this.props.cart.id,
-      productName: product.name,
-      imageUrl: product.imageUrl
-    });
+    console.log('USER ID', this.props.userId);
+
+    if (this.props.cart.id) {
+      await this.props.setCartId(this.props.user.id);
+      await this.props.quickAdd({
+        quantity: this.state.quantity,
+        unitPrice: product.price,
+        productId: product.id,
+        orderId: this.props.cart.id,
+        productName: product.name,
+        imageUrl: product.imageUrl
+      });
+    } else {
+      console.log('insert newCart route thunk here');
+    }
   }
 
   render() {

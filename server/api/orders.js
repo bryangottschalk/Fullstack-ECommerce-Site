@@ -3,27 +3,50 @@ const { Order } = require('../db/models');
 
 module.exports = router;
 
+router.post('/newCart', async (req, res, next) => {
+  try {
+    console.log('in newCart route');
+    res.sendStatus(200);
+  } catch (err) {
+    console.log(err);
+    next(err);
+  }
+});
+
+// eslint-disable-next-line complexity
 router.get('/', async (req, res, next) => {
   try {
+    console.log('UPDATED SESSION', req.sessionID);
+    console.log('req.session', req.session);
     console.log('req.user:   ', req.user);
-    console.log('req.query.userId:', req.query.userId);
-    const order = await Order.findOrCreate({
+    console.log('req.query', req.query);
+    const order = await Order.findAll({
       where: {
         userId: req.query.userId,
         status: 'Cart'
       },
       defaults: { total: 0.0 }
     });
-    res.json(order);
+    if (order) {
+      res.json(order);
+    } else {
+      Order.create({
+        status: 'cart',
+        total: 0.0,
+        sessionID: req.sessionID
+      });
+    }
+
     if (req.user === undefined || req.query.userId === undefined) {
+      console.log('on line 20');
       if (req.session.cartId === undefined) {
         const newOrder = await Order.create({
           status: 'Cart',
           total: 0.0
         });
 
-        const newOrderId = newOrder.dataValues.id;
-        req.session.cartId = newOrderId;
+        // const newOrderId = newOrder.dataValues.id;
+        req.session.cartId = req.sessionID;
 
         res.json(newOrder);
       } else {
@@ -63,6 +86,7 @@ router.get('/', async (req, res, next) => {
         res.json(AssignSessionCartToUser);
       } else {
         // No order for user stored in session
+        console.log('in the else on line 68');
       }
 
       console.log('session.cartId: ', req.session.cartId);

@@ -15,7 +15,7 @@ import {
 
 const Navbar = ({ handleClick, isLoggedIn, isAdmin }) => (
   <div style={{ marginBottom: 20 }}>
-    <Menu style={{ 'border-color': 'white', border: 10 }}>
+    <Menu>
       <Container
         as={Menu}
         style={{ border: 0 }}

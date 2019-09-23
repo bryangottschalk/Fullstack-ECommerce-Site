@@ -6,6 +6,9 @@ const Order = db.define('order', {
     type: Sequelize.FLOAT,
     allowNull: true
   },
+  sessionID: {
+    type: Sequelize.STRING
+  },
   status: {
     type: Sequelize.ENUM(
       'Cart',

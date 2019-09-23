@@ -22,36 +22,56 @@ router.get('/', async (req, res, next) => {
 
 router.post('/', async (req, res, next) => {
   try {
-    // console.log('AAAAAA orderId:    ', req.body.orderId);
-    if (req.user === undefined) {
+    console.log('REQ');
+    console.log('req.body', req.body);
+    console.log('req.session in productOrders', req.session);
+    console.log(
+      'HERE req.session.cartId in productOrders',
+      req.session.cookie.id
+    );
+
+    if (!req.body.orderId) {
       // user not logged in
-      const existingEntryOnCart = await ProductOrder.findOne({
+      console.log('in post line 36');
+      let sessionID = req.sessionID;
+
+      const order = await Order.findOrCreate({
         where: {
-          orderId: req.session.cartId,
-          productId: req.body.productId
+          status: 'Cart',
+          total: 0.0,
+          sessionID: req.sessionID
         }
       });
+      console.log('req.body HERE', req.body);
 
-      const existingOrder = await Order.findByPk(req.body.orderId);
-      const newItem = await Product.findByPk(req.body.productId);
+      // const existingEntryOnCart = await ProductOrder.findOne({
+      //   where: {
+      //     orderId: req.session.cartId,
+      //     productId: req.body.productId
+      //   }
+      // });
+      // console.log('TCL: existingEntryOnCart ', existingEntryOnCart);
 
-      if (existingEntryOnCart === null) {
-        const addStuff = await existingOrder.addProduct(newItem, {
-          through: {
-            quantity: req.body.quantity,
-            unitPrice: req.body.unitPrice,
-            productName: req.body.productName,
-            imageUrl: req.body.imageUrl
-          }
-        });
-        res.json(addStuff);
-      } else {
-        const currentQuantity = existingEntryOnCart.dataValues.quantity;
-        const updatedItem = await existingEntryOnCart.update({
-          quantity: Number(currentQuantity) + Number(req.body.quantity)
-        });
-        res.json(updatedItem);
-      }
+      // const existingOrder = await Order.findByPk(req.body.orderId);
+      // const newItem = await Product.findByPk(req.body.productId);
+
+      // if (existingEntryOnCart === null) {
+      //   const addStuff = await existingOrder.addProduct(newItem, {
+      //     through: {
+      //       quantity: req.body.quantity,
+      //       unitPrice: req.body.unitPrice,
+      //       productName: req.body.productName,
+      //       imageUrl: req.body.imageUrl
+      //     }
+      //   });
+      //   res.json(addStuff);
+      // } else {
+      //   const currentQuantity = existingEntryOnCart.dataValues.quantity;
+      //   const updatedItem = await existingEntryOnCart.update({
+      //     quantity: Number(currentQuantity) + Number(req.body.quantity)
+      //   });
+      //   res.json(updatedItem);
+      // }
     } else {
       // user logged in
       const existingEntryOnCart = await ProductOrder.findOne({
