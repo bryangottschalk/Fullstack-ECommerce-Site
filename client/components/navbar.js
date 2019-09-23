@@ -14,13 +14,19 @@ import {
 
 const Navbar = ({ handleClick, isLoggedIn, isAdmin }) => (
   <div style={{ marginBottom: 20 }}>
-    <Menu>
-      <Container>
+    <Menu style={{ 'border-color': 'white', border: 10 }}>
+      <Container as={Menu} style={{ border: 0 }} stackable>
         {/* <Menu.Item as={NavLink} to="/" header>
           <Image size="mini" src="/logo.png" style={{ marginRight: '1.5em' }} />
           Cody & Co. Pet Store
         </Menu.Item> */}
-        <Button inverted color="blue" as={NavLink} to="/">
+        <Button
+          style={{ paddingLeft: 20, textAlign: 'center' }}
+          inverted
+          color="blue"
+          as={NavLink}
+          to="/"
+        >
           CODY & CO
         </Button>
 
