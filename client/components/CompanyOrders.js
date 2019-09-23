@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { getAllOrdersThunk } from '../store/pastOrders';
 import { NavLink } from 'react-router-dom';
 
-import { Card, Image } from 'semantic-ui-react';
+import { Card, Image, Header } from 'semantic-ui-react';
 import user from '../store/user';
 
 class CompanyOrders extends React.Component {
@@ -40,7 +40,9 @@ class CompanyOrders extends React.Component {
 
     return (
       <div>
-        <h1>Company Orders:</h1>
+        <Header size="huge" color="orange">
+          Company Orders
+        </Header>
         <h2>Filter by status:</h2>
         <select onChange={this.handleChange}>
           <option value="All Orders">All Orders</option>

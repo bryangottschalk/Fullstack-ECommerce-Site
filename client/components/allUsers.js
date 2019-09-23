@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
-import { Button } from 'semantic-ui-react';
+import { Button, Header } from 'semantic-ui-react';
 import { getAllUsersThunk, deleteUserThunk } from '../store/allUsers';
 
 export class allUsers extends React.Component {
@@ -18,6 +18,9 @@ export class allUsers extends React.Component {
     const users = this.props.users;
     return (
       <div>
+        <Header size="huge" color="orange">
+          All Users
+        </Header>
         <ul id="UsersList">
           {users.map(user => {
             return (
