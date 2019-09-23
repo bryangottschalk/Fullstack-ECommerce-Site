@@ -4,6 +4,7 @@ import { Navbar } from './components';
 import { connect } from 'react-redux';
 import { setUserStatus, setAdminStatus } from './store/userType';
 import Routes from './routes';
+import { Container } from 'semantic-ui-react';
 
 class App extends React.Component {
   componentDidMount() {
@@ -19,7 +20,9 @@ class App extends React.Component {
     return (
       <div>
         <Navbar />
-        <Routes />
+        <Container>
+          <Routes />
+        </Container>
       </div>
     );
   }

@@ -28,7 +28,8 @@ export class allProducts extends React.Component {
     this.state = {
       category: null,
       search: '',
-      searching: false
+      searching: false,
+      loading: true
     };
     this.handleClick = this.handleClick.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -36,7 +37,11 @@ export class allProducts extends React.Component {
   }
 
   async componentDidMount() {
+    console.log(this.props);
     await this.props.fetchProducts(this.props.location.search);
+    this.setState({
+      loading: false
+    });
     await this.props.getCategoryInfo(this.props.location.search);
     await this.props.fetchCategories();
   }
@@ -91,10 +96,15 @@ export class allProducts extends React.Component {
   }
 
   render() {
+    console.log('props in allProducts render', this.props);
     const products = this.props.products;
     const categories = this.props.allCategories;
     return (
       <div>
+        {!this.props.products.length &&
+          this.state.loading && (
+            <Icon center color="teal" size="massive" loading name="spinner" />
+          )}
         {!this.state.category ? (
           <div style={{ marginBottom: '10px' }}>
             {categories.map(category => (
@@ -139,7 +149,7 @@ export class allProducts extends React.Component {
           </Form.Field>
         </Form>
 
-        <Card.Group itemsPerRow={5}>
+        <Card.Group itemsPerRow={4}>
           {products &&
             products.map(product => {
               return (

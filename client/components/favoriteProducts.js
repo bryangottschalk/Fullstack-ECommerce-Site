@@ -14,7 +14,7 @@ export class FavoriteProducts extends React.Component {
           </Header>
         </div>
         <div className="homeImages">
-          <Image src="cody.jpg" size="big" centered />
+          <Image src="cody.jpg" size="big" centered fluid />
         </div>
       </div>
     );

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Message, Container, Input } from 'semantic-ui-react';
+import { Form, Message, Container, Input, Header } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import {
   addProductThunk,
@@ -107,6 +107,9 @@ class ProductForm extends React.Component {
     } = this.state;
     return (
       <Container>
+        <Header size="huge" color="orange">
+          Create New Product
+        </Header>
         <Form onSubmit={this.handleSubmit} success={this.state.formSuccess}>
           <Form.Input
             width={10}
