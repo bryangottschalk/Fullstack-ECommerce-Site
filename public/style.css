@@ -54,9 +54,9 @@ form div {
 .ui.blue.inverted.button.active {
   font-family: Futura;
   font-size: 30px;
-  color: #3ac0ff;
+  color: white;
   border-radius: 0;
-  background-color: white;
+  background-color: #2185d0;
   padding-left: 0;
 }
 
@@ -71,14 +71,19 @@ input {
 
 .ui.menu {
   margin: 0;
-}
-
-.ui.item.simple.dropdown.adminPortal {
-  font-weight: bold;
-  color: #f2711c;
+  background-color: #2185d0;
+  border-radius: 0;
 }
 
 .ui.big.centered.image {
   margin-top: 0.75em;
   border-radius: 20px;
 }
+
+/*
+for later if a subtitle for nav is neccesary
+.nav-divider {
+  background-color: #0e6eb8;
+  height: 5px;
+}
+*/

@@ -9,7 +9,7 @@ export class FavoriteProducts extends React.Component {
     return (
       <div>
         <div>
-          <Header size="large" textAlign="center" color="orange">
+          <Header size="large" textAlign="center" color="blue">
             Your new best friend awaits!
           </Header>
         </div>

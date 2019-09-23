@@ -9,13 +9,20 @@ import {
   Menu,
   Dropdown,
   Container,
-  Icon
+  Icon,
+  Divider
 } from 'semantic-ui-react';
 
 const Navbar = ({ handleClick, isLoggedIn, isAdmin }) => (
   <div style={{ marginBottom: 20 }}>
     <Menu style={{ 'border-color': 'white', border: 10 }}>
-      <Container as={Menu} style={{ border: 0 }} stackable>
+      <Container
+        as={Menu}
+        style={{ border: 0 }}
+        color="blue"
+        stackable
+        inverted
+      >
         {/* <Menu.Item as={NavLink} to="/" header>
           <Image size="mini" src="/logo.png" style={{ marginRight: '1.5em' }} />
           Cody & Co. Pet Store
@@ -101,6 +108,7 @@ const Navbar = ({ handleClick, isLoggedIn, isAdmin }) => (
         </Menu.Menu>
       </Container>
     </Menu>
+    <div className="nav-divider" />
   </div>
 );
 
