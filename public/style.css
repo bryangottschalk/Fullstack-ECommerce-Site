@@ -57,6 +57,7 @@ form div {
   color: #3ac0ff;
   border-radius: 0;
   background-color: white;
+  padding-left: 0;
 }
 
 input {
@@ -75,4 +76,9 @@ input {
 .ui.item.simple.dropdown.adminPortal {
   font-weight: bold;
   color: #f2711c;
+}
+
+.ui.big.centered.image {
+  margin-top: 0.75em;
+  border-radius: 20px;
 }

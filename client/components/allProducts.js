@@ -139,7 +139,7 @@ export class allProducts extends React.Component {
           </Form.Field>
         </Form>
 
-        <Card.Group itemsPerRow={5}>
+        <Card.Group itemsPerRow={4}>
           {products &&
             products.map(product => {
               return (

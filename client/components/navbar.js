@@ -3,17 +3,10 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { logout } from '../store';
-import {
-  Button,
-  Header,
-  Menu,
-  Dropdown,
-  Container,
-  Image
-} from 'semantic-ui-react';
+import { Button, Header, Menu, Dropdown, Container } from 'semantic-ui-react';
 
 const Navbar = ({ handleClick, isLoggedIn, isAdmin }) => (
-  <div>
+  <div style={{ marginBottom: 20 }}>
     <Menu>
       <Container>
         {/* <Menu.Item as={NavLink} to="/" header>
@@ -75,12 +68,12 @@ const Navbar = ({ handleClick, isLoggedIn, isAdmin }) => (
               </Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
-          <Menu.Item as={NavLink} to="/cart">
-            Cart
-          </Menu.Item>
-          <Menu.Item as={NavLink} to="/signup">
-            Sign Up
-          </Menu.Item>
+          {!isLoggedIn && (
+            <Menu.Item as={NavLink} to="/signup">
+              Sign Up
+            </Menu.Item>
+          )}
+
           {isLoggedIn ? (
             <Menu.Item onClick={handleClick}>Logout</Menu.Item>
           ) : (
@@ -88,6 +81,9 @@ const Navbar = ({ handleClick, isLoggedIn, isAdmin }) => (
               Login
             </Menu.Item>
           )}
+          <Menu.Item as={NavLink} to="/cart">
+            Cart
+          </Menu.Item>
         </Menu.Menu>
       </Container>
     </Menu>
