@@ -67,3 +67,7 @@ input {
 .singleProduct {
   padding: 15px;
 }
+
+.ui.menu {
+  margin: 0;
+}

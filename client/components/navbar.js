@@ -23,9 +23,8 @@ const Navbar = ({ handleClick, isLoggedIn, isAdmin }) => (
         <Button inverted color="blue" as={NavLink} to="/">
           CODY & CO
         </Button>
-
         {isAdmin && (
-          <div>
+          <Menu.Menu position="right">
             <Menu.Item as={NavLink} to="/orders">
               Company Orders
             </Menu.Item>
@@ -35,61 +34,60 @@ const Navbar = ({ handleClick, isLoggedIn, isAdmin }) => (
             <Menu.Item as={NavLink} to="/productForm">
               Create New Product
             </Menu.Item>
-          </div>
+          </Menu.Menu>
         )}
-        {isLoggedIn ? (
-          <Menu.Item onClick={handleClick}>Logout</Menu.Item>
-        ) : (
-          <Menu.Menu position="right">
-            <Dropdown item simple text="Adopt a Pet">
-              <Dropdown.Menu>
-                <Dropdown.Item as={NavLink} to="/products">
-                  All Pets
-                </Dropdown.Item>
-                <Dropdown.Divider />
-                <Dropdown.Item>
-                  <i className="dropdown icon" />
-                  <span className="text">By Species</span>
-                  <Dropdown.Menu>
-                    <Dropdown.Item as={NavLink} to="/products?categoryTag=1Dog">
-                      Dog
-                    </Dropdown.Item>
-                    <Dropdown.Item
-                      as={NavLink}
-                      to="/products?categoryTag=1Reptile"
-                    >
-                      Reptile
-                    </Dropdown.Item>
-                    <Dropdown.Item as={NavLink} to="/products?categoryTag=1Cat">
-                      Cat
-                    </Dropdown.Item>
-                    <Dropdown.Item
-                      as={NavLink}
-                      to="/products?categoryTag=1Panda"
-                    >
-                      Panda
-                    </Dropdown.Item>
-                    <Dropdown.Item
-                      as={NavLink}
-                      to="/products?categoryTag=1Hamster"
-                    >
-                      Hamster
-                    </Dropdown.Item>
-                  </Dropdown.Menu>
-                </Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown>
-            <Menu.Item as={NavLink} to="/cart">
-              Cart
-            </Menu.Item>
+
+        <Menu.Menu position="right">
+          <Dropdown item simple text="Adopt a Pet">
+            <Dropdown.Menu>
+              <Dropdown.Item as={NavLink} to="/products">
+                All Pets
+              </Dropdown.Item>
+              <Dropdown.Divider />
+              <Dropdown.Item>
+                <i className="dropdown icon" />
+                <span className="text">By Species</span>
+                <Dropdown.Menu>
+                  <Dropdown.Item as={NavLink} to="/products?categoryTag=1Dog">
+                    Dog
+                  </Dropdown.Item>
+                  <Dropdown.Item
+                    as={NavLink}
+                    to="/products?categoryTag=1Reptile"
+                  >
+                    Reptile
+                  </Dropdown.Item>
+                  <Dropdown.Item as={NavLink} to="/products?categoryTag=1Cat">
+                    Cat
+                  </Dropdown.Item>
+                  <Dropdown.Item as={NavLink} to="/products?categoryTag=1Panda">
+                    Panda
+                  </Dropdown.Item>
+                  <Dropdown.Item
+                    as={NavLink}
+                    to="/products?categoryTag=1Hamster"
+                  >
+                    Hamster
+                  </Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
+          <Menu.Item as={NavLink} to="/cart">
+            Cart
+          </Menu.Item>
+
+          <Menu.Item as={NavLink} to="/signup">
+            Sign Up
+          </Menu.Item>
+          {isLoggedIn ? (
+            <Menu.Item onClick={handleClick}>Logout</Menu.Item>
+          ) : (
             <Menu.Item as={NavLink} to="/login">
               Login
             </Menu.Item>
-            <Menu.Item as={NavLink} to="/signup">
-              Sign Up
-            </Menu.Item>
-          </Menu.Menu>
-        )}
+          )}
+        </Menu.Menu>
       </Container>
     </Menu>
   </div>
