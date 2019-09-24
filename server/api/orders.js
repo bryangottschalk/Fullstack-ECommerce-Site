@@ -3,18 +3,54 @@ const { Order } = require('../db/models');
 
 module.exports = router;
 
+router.post('/newCart', async (req, res, next) => {
+  try {
+    console.log('in newCart route');
+    res.sendStatus(200);
+  } catch (err) {
+    console.log(err);
+    next(err);
+  }
+});
+
+//new route to get cartId
+router.get('/unauthCart', async (req, res, next) => {
+  try {
+    const order = await Order.findOne({
+      where: {
+        sessionID: req.sessionID
+      }
+    });
+    if (order) {
+      res.json(order.dataValues.id);
+    } else {
+      const err = new Error(`couldn't find unauth cart!`);
+      throw err;
+    }
+  } catch (err) {
+    next(err);
+  }
+});
+
 router.get('/', async (req, res, next) => {
   try {
-    console.log('req.user:   ', req.user);
-    console.log('req.query.userId:', req.query.userId);
-    const order = await Order.findOrCreate({
+    const order = await Order.findAll({
       where: {
         userId: req.query.userId,
         status: 'Cart'
       },
       defaults: { total: 0.0 }
     });
-    res.json(order);
+    if (order) {
+      res.json(order);
+    } else {
+      Order.create({
+        status: 'cart',
+        total: 0.0,
+        sessionID: req.sessionID
+      });
+    }
+
     if (req.user === undefined || req.query.userId === undefined) {
       if (req.session.cartId === undefined) {
         const newOrder = await Order.create({
@@ -22,13 +58,11 @@ router.get('/', async (req, res, next) => {
           total: 0.0
         });
 
-        const newOrderId = newOrder.dataValues.id;
-        req.session.cartId = newOrderId;
+        req.session.cartId = req.sessionID;
 
         res.json(newOrder);
       } else {
         // If req.session.cart is defined
-        console.log('req.session already created', req.session.cartId);
         const order = await Order.findAll({
           where: {
             id: Number(req.session.cartId),
@@ -64,8 +98,6 @@ router.get('/', async (req, res, next) => {
       } else {
         // No order for user stored in session
       }
-
-      console.log('session.cartId: ', req.session.cartId);
     }
   } catch (error) {
     next(error);

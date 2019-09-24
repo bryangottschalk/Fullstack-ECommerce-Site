@@ -37,7 +37,6 @@ export class allProducts extends React.Component {
   }
 
   async componentDidMount() {
-    console.log(this.props);
     await this.props.fetchProducts(this.props.location.search);
     this.setState({
       loading: false
@@ -96,7 +95,6 @@ export class allProducts extends React.Component {
   }
 
   render() {
-    console.log('props in allProducts render', this.props);
     const products = this.props.products;
     const categories = this.props.allCategories;
     return (

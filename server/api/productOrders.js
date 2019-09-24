@@ -22,36 +22,28 @@ router.get('/', async (req, res, next) => {
 
 router.post('/', async (req, res, next) => {
   try {
-    // console.log('AAAAAA orderId:    ', req.body.orderId);
-    if (req.user === undefined) {
-      // user not logged in
-      const existingEntryOnCart = await ProductOrder.findOne({
+    if (!req.body.orderId) {
+      // user not logged in --> find or create an order using sessionID instead
+      // create a ProductOrder entry
+      let sessionID = req.sessionID;
+
+      const order = await Order.findOrCreate({
         where: {
-          orderId: req.session.cartId,
-          productId: req.body.productId
+          status: 'Cart',
+          total: 0.0,
+          sessionID: sessionID
         }
       });
 
-      const existingOrder = await Order.findByPk(req.body.orderId);
-      const newItem = await Product.findByPk(req.body.productId);
-
-      if (existingEntryOnCart === null) {
-        const addStuff = await existingOrder.addProduct(newItem, {
-          through: {
-            quantity: req.body.quantity,
-            unitPrice: req.body.unitPrice,
-            productName: req.body.productName,
-            imageUrl: req.body.imageUrl
-          }
-        });
-        res.json(addStuff);
-      } else {
-        const currentQuantity = existingEntryOnCart.dataValues.quantity;
-        const updatedItem = await existingEntryOnCart.update({
-          quantity: Number(currentQuantity) + Number(req.body.quantity)
-        });
-        res.json(updatedItem);
-      }
+      const productOrder = await ProductOrder.create({
+        productId: req.body.productId,
+        orderId: order[0].dataValues.id,
+        quantity: req.body.quantity,
+        unitPrice: req.body.unitPrice,
+        productName: req.body.productName,
+        imageUrl: req.body.imageUrl
+      });
+      res.json(productOrder);
     } else {
       // user logged in
       const existingEntryOnCart = await ProductOrder.findOne({

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import ReviewForm from './ReviewForm';
 import ListReviews from './ListReviews';
 import { getSingleProductThunk } from '../store/singleProduct';
-import { Rating, Button, Input, Label, Modal, Header } from 'semantic-ui-react';
+import { Button, Input, Label, Modal, Header } from 'semantic-ui-react';
 import { addToCartThunk, setCartIdThunk } from '../store/cart';
 import { getAllProductsThunk } from '../store/allProducts';
 import { NavLink } from 'react-router-dom';
@@ -17,8 +17,9 @@ class SingleProduct extends React.Component {
     this.handleChange = this.handleChange.bind(this);
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     this.props.getProduct(this.props.match.params.id);
+    await this.props.setCartId(this.props.user.id);
   }
 
   handleChange(evt) {
@@ -28,7 +29,6 @@ class SingleProduct extends React.Component {
   }
 
   async addProduct(product) {
-    await this.props.setCartId(this.props.user.id);
     await this.props.quickAdd({
       quantity: this.state.quantity,
       unitPrice: product.price,
