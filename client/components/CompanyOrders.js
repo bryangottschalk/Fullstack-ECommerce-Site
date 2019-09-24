@@ -10,11 +10,12 @@ class CompanyOrders extends React.Component {
   constructor() {
     super();
     this.state = {
-      selectedFilter: 'All Orders'
+      selectedFilter: ''
     };
   }
   async componentDidMount() {
     await this.props.getAllOrders();
+    console.log('got all orders');
   }
 
   handleChange = event => {
@@ -32,11 +33,13 @@ class CompanyOrders extends React.Component {
   };
 
   render() {
+    console.log('selected filter', this.state.selectedFilter);
     const { companyOrders } = this.props;
     const filteredOrders = this.filterCompanyOrders(
       companyOrders,
       this.state.selectedFilter
     );
+    console.log('TCL: render -> filteredOrders', filteredOrders);
 
     return (
       <div>
