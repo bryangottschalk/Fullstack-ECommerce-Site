@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import ReviewForm from './ReviewForm';
 import ListReviews from './ListReviews';
 import { getSingleProductThunk } from '../store/singleProduct';
-import { Rating, Button, Input, Label, Modal, Header } from 'semantic-ui-react';
+import { Button, Input, Label, Modal, Header } from 'semantic-ui-react';
 import { addToCartThunk, setCartIdThunk } from '../store/cart';
 import { getAllProductsThunk } from '../store/allProducts';
 import { NavLink } from 'react-router-dom';

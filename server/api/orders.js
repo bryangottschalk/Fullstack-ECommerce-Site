@@ -32,13 +32,8 @@ router.get('/unauthCart', async (req, res, next) => {
   }
 });
 
-// eslint-disable-next-line complexity
 router.get('/', async (req, res, next) => {
   try {
-    console.log('UPDATED SESSION', req.sessionID);
-    console.log('req.session', req.session);
-    console.log('req.user:   ', req.user);
-    console.log('req.query', req.query);
     const order = await Order.findAll({
       where: {
         userId: req.query.userId,
@@ -57,20 +52,17 @@ router.get('/', async (req, res, next) => {
     }
 
     if (req.user === undefined || req.query.userId === undefined) {
-      console.log('on line 20');
       if (req.session.cartId === undefined) {
         const newOrder = await Order.create({
           status: 'Cart',
           total: 0.0
         });
 
-        // const newOrderId = newOrder.dataValues.id;
         req.session.cartId = req.sessionID;
 
         res.json(newOrder);
       } else {
         // If req.session.cart is defined
-        console.log('req.session already created', req.session.cartId);
         const order = await Order.findAll({
           where: {
             id: Number(req.session.cartId),
@@ -105,10 +97,7 @@ router.get('/', async (req, res, next) => {
         res.json(AssignSessionCartToUser);
       } else {
         // No order for user stored in session
-        console.log('in the else on line 68');
       }
-
-      console.log('session.cartId: ', req.session.cartId);
     }
   } catch (error) {
     next(error);

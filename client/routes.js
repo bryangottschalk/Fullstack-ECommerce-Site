@@ -15,7 +15,6 @@ import {
   PastOrders,
   FavoriteProducts,
   ProductForm,
-  CategoryProduct,
   NotFound,
   EditProduct,
   CompanyOrders

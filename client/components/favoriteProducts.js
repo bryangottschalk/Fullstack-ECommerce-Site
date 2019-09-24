@@ -1,8 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { NavLink } from 'react-router-dom';
 import { getAllProductsThunk } from '../store/allProducts';
-import { Card, Button, Header, Image } from 'semantic-ui-react';
+import { Header, Image } from 'semantic-ui-react';
 
 export class FavoriteProducts extends React.Component {
   render() {
