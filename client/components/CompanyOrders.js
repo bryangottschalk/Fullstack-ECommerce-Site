@@ -52,7 +52,7 @@ class CompanyOrders extends React.Component {
         <h2>Filter by status:</h2>
         <select onChange={this.handleChange}>
           <option value="All Orders">All Orders</option>
-          <option value="Cart">Cart</option>
+          {/* see note above <option value="Cart">Cart</option> */}
           <option value="Created">Created</option>
           <option value="Processing">Processing</option>
           <option value="Cancelled">Cancelled</option>
