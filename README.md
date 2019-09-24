@@ -1,3 +1,5 @@
+[View Deployed Site](https://codyandcopetstore.herokuapp.com "Cody & Co Petstore's Homepage")
+
 # Cody & Co Petstore - Fullstack Ecommerce Site
 
 A fullstack ecommerce web application featuring a filterable product catalog, cart persistence and Stripe powered checkout for unauthenticated and authenticated users, and a route restricted account and order management portal for admin users. 
