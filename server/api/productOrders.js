@@ -22,17 +22,12 @@ router.get('/', async (req, res, next) => {
 
 router.post('/', async (req, res, next) => {
   try {
-    console.log('REQ');
     console.log('req.body', req.body);
-    console.log('req.session in productOrders', req.session);
-    console.log(
-      'HERE req.session.cartId in productOrders',
-      req.session.cookie.id
-    );
 
     if (!req.body.orderId) {
       // user not logged in
-      console.log('in post line 36');
+      // find or create an order
+      // create a ProductOrder entry
       let sessionID = req.sessionID;
 
       const order = await Order.findOrCreate({
@@ -42,17 +37,47 @@ router.post('/', async (req, res, next) => {
           sessionID: req.sessionID
         }
       });
-      console.log('req.body HERE', req.body);
 
+      const productOrder = await ProductOrder.create({
+        productId: req.body.productId,
+        orderId: order[0].dataValues.id,
+        quantity: req.body.quantity,
+        unitPrice: req.body.unitPrice,
+        productName: req.body.productName,
+        imageUrl: req.body.imageUrl
+      });
+      res.json(productOrder);
+      // console.log('ORDER HERE', order)
+      // const orderUserId = order.dataValues.userId;
+      // console.log('TCL: orderUserId', orderUserId);
+
+      // console.log('req.body HERE', req.body);
+
+      // const length = await ProductOrder.count();
+      // where: {orderId: cartOrder.id}
+
+      // console.log('TCL: length', length);
+
+      // const length = await ProductOrder.count({
+      //   where: {orderId: cartOrder.id}
+      // })
+
+      // might need this later
       // const existingEntryOnCart = await ProductOrder.findOne({
       //   where: {
-      //     orderId: req.session.cartId,
+      //     sessionID: sessionID,
       //     productId: req.body.productId
       //   }
       // });
       // console.log('TCL: existingEntryOnCart ', existingEntryOnCart);
 
-      // const existingOrder = await Order.findByPk(req.body.orderId);
+      // const existingOrder = await Order.findOne({
+      //   where: {
+      //     sessionID: sessionID
+      //   }
+      // });
+      // console.log('TCL: existingOrder', existingOrder);
+
       // const newItem = await Product.findByPk(req.body.productId);
 
       // if (existingEntryOnCart === null) {
@@ -65,7 +90,9 @@ router.post('/', async (req, res, next) => {
       //     }
       //   });
       //   res.json(addStuff);
-      // } else {
+      // }
+
+      //else {
       //   const currentQuantity = existingEntryOnCart.dataValues.quantity;
       //   const updatedItem = await existingEntryOnCart.update({
       //     quantity: Number(currentQuantity) + Number(req.body.quantity)

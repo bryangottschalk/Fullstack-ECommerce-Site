@@ -83,7 +83,7 @@ export class allProducts extends React.Component {
   }
 
   async addProduct(product) {
-    await this.props.setCartId(this.props.user.id);
+    // await this.props.setCartId(this.props.user.id);
     await this.props.quickAdd({
       quantity: 1,
       unitPrice: product.price,
