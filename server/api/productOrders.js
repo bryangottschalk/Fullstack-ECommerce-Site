@@ -34,7 +34,7 @@ router.post('/', async (req, res, next) => {
         where: {
           status: 'Cart',
           total: 0.0,
-          sessionID: req.sessionID
+          sessionID: sessionID
         }
       });
 

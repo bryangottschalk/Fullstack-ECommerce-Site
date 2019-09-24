@@ -45,17 +45,11 @@ export const getCartThunk = cartId => {
 export const setCartIdThunk = userId => {
   return async dispatch => {
     try {
-      console.log('USER ID', userId);
       if (!userId) {
-        console.log('before request');
-        const { data } = await axios.get(`/api/orders/?userId=${undefined}`);
-        console.log('TCL: data', data);
-        dispatch(setCartId(data[0].id));
+        const { data } = await axios.get(`/api/orders/unauthCart`);
+        dispatch(setCartId(data));
       } else {
         const { data } = await axios.get(`/api/orders/?userId=${userId}`);
-
-        // console.log('Your cart Id is:   ', data[0].id);
-
         dispatch(setCartId(data[0].id));
       }
     } catch (error) {
@@ -67,7 +61,6 @@ export const setCartIdThunk = userId => {
 export const checkoutThunk = async (token, total) => {
   try {
     const checkedout = await axios.post('/api/checkout', { token, total });
-    console.log('CHECKK&#^($*#($&&&&&&', checkedout);
     const { status } = checkedout.data;
     return status;
   } catch (error) {

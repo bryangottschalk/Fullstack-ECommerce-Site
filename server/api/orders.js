@@ -13,6 +13,25 @@ router.post('/newCart', async (req, res, next) => {
   }
 });
 
+//new route to get cartId
+router.get('/unauthCart', async (req, res, next) => {
+  try {
+    const order = await Order.findOne({
+      where: {
+        sessionID: req.sessionID
+      }
+    });
+    if (order) {
+      res.json(order.dataValues.id);
+    } else {
+      const err = new Error(`couldn't find unauth cart!`);
+      throw err;
+    }
+  } catch (err) {
+    next(err);
+  }
+});
+
 // eslint-disable-next-line complexity
 router.get('/', async (req, res, next) => {
   try {

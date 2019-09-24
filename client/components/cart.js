@@ -9,6 +9,7 @@ import {
   checkoutThunk
 } from '../store/cart';
 import { Image, Icon, Table, Step, Input, Segment } from 'semantic-ui-react';
+import { me } from '../store/user';
 
 export class Cart extends React.Component {
   constructor(props) {
@@ -20,6 +21,7 @@ export class Cart extends React.Component {
   }
 
   async componentDidMount() {
+    await this.props.getUser();
     await this.props.setCartId(this.props.user.id);
     await this.props.getCart(this.props.cart.id);
   }
@@ -201,6 +203,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
+  getUser: () => dispatch(me()),
   getCart: cartId => dispatch(getCartThunk(cartId)),
   setCartId: id => dispatch(setCartIdThunk(id || '')),
   deleteFromCart: productOrderId =>
