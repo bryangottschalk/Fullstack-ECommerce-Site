@@ -25,7 +25,7 @@ npm run seed
 npm run start-dev
 ```
 open http://localhost:3030/
-To log in as an admin (to see the admin functionality for the site), use the email "cody.cody@email.com". All users' passwords are 123.
+To log in as an admin (to see the admin functionality for the site), use the email "cody.cody@email.com" and password "123".
 
 
 ## Team
