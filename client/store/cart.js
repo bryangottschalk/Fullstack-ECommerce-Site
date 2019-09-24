@@ -29,11 +29,9 @@ const deleteFromCart = productOrderId => ({
 // Use rest-ful way of getting the order
 export const getCartThunk = cartId => {
   return async dispatch => {
-    console.log('CART ID', cartId);
     try {
       const { data } = await axios.get(`/api/productOrders?orderId=${cartId}`);
       const action = getCart(data);
-      console.log('TCL: action', action);
       dispatch(action);
     } catch (error) {
       console.error(error);

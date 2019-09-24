@@ -4,13 +4,10 @@ module.exports = router;
 
 router.get('/', async (req, res, next) => {
   try {
-    //for later, findall where status !== "Cart" (right now the data only has carts)
-    console.log('req.user', req.user);
     const pastOrders = await Order.findAll({
       where: { userId: req.user.id },
       include: [{ all: true }]
     });
-    console.log('pastOrders', pastOrders);
     res.json(pastOrders);
   } catch (error) {
     next(error);
@@ -20,7 +17,6 @@ router.get('/', async (req, res, next) => {
 router.get('/allOrders', async (req, res, next) => {
   try {
     const allOrders = await Order.findAll();
-    console.log(allOrders);
     res.json(allOrders);
   } catch (error) {
     next(error);
