@@ -27,6 +27,7 @@ export const getPastOrdersThunk = () => {
 export const getAllOrdersThunk = () => {
   return async dispatch => {
     const { data } = await axios.get('/api/orders/all');
+    console.log('TCL: getAllOrdersThunk -> data', data);
     dispatch(getAllOrders(data));
   };
 };

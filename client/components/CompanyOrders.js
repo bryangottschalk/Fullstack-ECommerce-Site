@@ -10,12 +10,11 @@ class CompanyOrders extends React.Component {
   constructor() {
     super();
     this.state = {
-      selectedFilter: ''
+      selectedFilter: 'All Orders'
     };
   }
   async componentDidMount() {
     await this.props.getAllOrders();
-    console.log('got all orders');
   }
 
   handleChange = event => {
@@ -24,22 +23,26 @@ class CompanyOrders extends React.Component {
     });
   };
   filterCompanyOrders = (allOrders, status) => {
-    return allOrders.filter(order => {
+    //filter by status
+    const filtered = allOrders.filter(order => {
       if (status === 'All Orders') {
         return allOrders;
       }
       return order.status === status;
     });
+    // filter out incomplete orders anon orders
+    // add this option back later if you decide to display incomplete orders with status cart (they have no user object so will need to choose default values for imageUrl etc)
+    return filtered.filter(order => {
+      return order.user !== null;
+    });
   };
 
   render() {
-    console.log('selected filter', this.state.selectedFilter);
     const { companyOrders } = this.props;
     const filteredOrders = this.filterCompanyOrders(
       companyOrders,
       this.state.selectedFilter
     );
-    console.log('TCL: render -> filteredOrders', filteredOrders);
 
     return (
       <div>
