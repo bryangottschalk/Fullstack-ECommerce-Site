@@ -65,9 +65,11 @@ class SingleProduct extends React.Component {
         </div>
         <Image size="big" src={product.imageUrl} />
         <h1>{product.name}</h1>
-        <NavLink to={`/products/${product.id}/edit`}>
-          <Button>EDIT PRODUCT</Button>
-        </NavLink>
+        {this.props.isAdmin && (
+          <NavLink to={`/products/${product.id}/edit`}>
+            <Button>EDIT PRODUCT</Button>
+          </NavLink>
+        )}
         <h3>{`$${product.price}`}</h3>
         <h3>{product.description}</h3>
         <Input
