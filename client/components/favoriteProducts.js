@@ -11,8 +11,8 @@ export class FavoriteProducts extends React.Component {
         <div className="homeImages">
           <Image src="cody.jpg" size="big" centered />
         </div>
-        <Header as="h1" textAlign="center" color="blue">
-          Your new best friend awaits!
+        <Header as="h2" textAlign="center" color="blue">
+          Welcome to our pet store. Your new best friend awaits!
         </Header>
         <Header as="h3" textAlign="center" color="blue">
           - Cody, CEO
