@@ -94,6 +94,9 @@ li {
   list-style: none;
 }
 
+form div {
+  margin-left: 0;
+}
 /*
 for later if a subtitle for nav is neccesary
 .nav-divider {
