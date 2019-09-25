@@ -1,11 +1,11 @@
 import React from 'react';
-import { Rating, Image } from 'semantic-ui-react';
+import { Rating, Image, Header } from 'semantic-ui-react';
 
 const ListReviews = props => {
   const { oldReviews, newReviews } = props;
   return (
-    <div>
-      <h1>Past Reviews:</h1>
+    <div style={{ marginBottom: 60 }}>
+      <Header as="h1"> Past Reviews:</Header>
       <div>
         {oldReviews === undefined || oldReviews.length === 0 ? (
           <div>No review available for this product.</div>

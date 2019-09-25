@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import ReviewForm from './ReviewForm';
 import ListReviews from './ListReviews';
 import { getSingleProductThunk } from '../store/singleProduct';
-import { Button, Input, Label, Modal, Header } from 'semantic-ui-react';
+import { Button, Input, Label, Modal, Header, Image } from 'semantic-ui-react';
 import { addToCartThunk, setCartIdThunk } from '../store/cart';
 import { getAllProductsThunk } from '../store/allProducts';
 import { NavLink } from 'react-router-dom';
@@ -63,7 +63,7 @@ class SingleProduct extends React.Component {
             <div>Category information not available</div>
           )}
         </div>
-        <img src={product.imageUrl} />
+        <Image size="big" src={product.imageUrl} />
         <h1>{product.name}</h1>
         <NavLink to={`/products/${product.id}/edit`}>
           <Button>EDIT PRODUCT</Button>
@@ -99,6 +99,7 @@ class SingleProduct extends React.Component {
           </Modal.Content>
         </Modal>
         <ReviewForm
+          className="reviewForm"
           productId={product.id}
           userName={`${this.props.user.firstName} ${this.props.user.lastName}`}
           imageUrl={this.props.user.imageUrl}

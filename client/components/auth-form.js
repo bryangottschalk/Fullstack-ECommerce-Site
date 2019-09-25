@@ -58,11 +58,13 @@ class AuthForm extends React.Component {
             </div>
           )}
           <div>
-            <Button type="submit">{displayName}</Button>
+            <Button color="orange" type="submit">
+              {displayName}
+            </Button>
           </div>
           {error && error.response && <div> {error.response.data} </div>}
         </Form>
-        <a href="/auth/google">{displayName} with Google</a>
+        {/* <a href="/auth/google">{displayName} with Google</a> */}
       </div>
     );
   }
