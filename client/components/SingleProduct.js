@@ -3,7 +3,17 @@ import { connect } from 'react-redux';
 import ReviewForm from './ReviewForm';
 import ListReviews from './ListReviews';
 import { getSingleProductThunk } from '../store/singleProduct';
-import { Button, Input, Label, Modal, Header, Image } from 'semantic-ui-react';
+import {
+  Button,
+  Input,
+  Label,
+  Modal,
+  Header,
+  Image,
+  Container,
+  Segment,
+  Grid
+} from 'semantic-ui-react';
 import { addToCartThunk, setCartIdThunk } from '../store/cart';
 import { getAllProductsThunk } from '../store/allProducts';
 import { NavLink } from 'react-router-dom';
@@ -44,70 +54,83 @@ class SingleProduct extends React.Component {
     const oldReviews = product.reviews;
     const newReviews = this.props.reviews;
     const categories = product.categories;
-
     return (
-      <div>
-        <div>
-          {categories ? (
-            categories.map(category => (
-              <NavLink
-                to={`/products?categoryTag=${category.Name}`}
-                key={category.id}
+      <Container>
+        <Segment>
+          <Grid columns="two" stackable divided>
+            <Grid.Column>
+              <Image src={product.imageUrl} />
+            </Grid.Column>
+            <Grid.Column>
+              <h1>{product.name}</h1>
+              {this.props.user.isAdmin && (
+                <NavLink to={`/products/${product.id}/edit`}>
+                  <Button color="blue">EDIT PRODUCT</Button>
+                </NavLink>
+              )}
+              <h3>{`Price: $${product.price}`}</h3>
+              <h3>{product.description}</h3>
+              <Input
+                onChange={this.handleChange}
+                name="quantity"
+                type="number"
+                value={this.state.quantity}
+                placeholder="Enter quantity"
+                min="0"
+                step="1"
+              />{' '}
+              <Modal
+                trigger={
+                  <Button
+                    className="addToCart"
+                    color="teal"
+                    onClick={() => this.addProduct(product)}
+                    type="button"
+                  >
+                    Add To Cart
+                  </Button>
+                }
+                basic
+                size="small"
               >
-                <Label color="teal" tag size="large">
-                  {category.name}
-                </Label>
-              </NavLink>
-            ))
-          ) : (
-            <div>Category information not available</div>
-          )}
-        </div>
-        <Image size="big" src={product.imageUrl} />
-        <h1>{product.name}</h1>
-        {this.props.isAdmin && (
-          <NavLink to={`/products/${product.id}/edit`}>
-            <Button>EDIT PRODUCT</Button>
-          </NavLink>
-        )}
-        <h3>{`$${product.price}`}</h3>
-        <h3>{product.description}</h3>
-        <Input
-          onChange={this.handleChange}
-          name="quantity"
-          type="number"
-          value={this.state.quantity}
-          placeholder="Enter quantity"
-          min="0"
-          step="1"
-        />{' '}
-        <Modal
-          trigger={
-            <Button
-              className="addToCart"
-              color="teal"
-              onClick={() => this.addProduct(product)}
-              type="button"
-            >
-              Add To Cart
-            </Button>
-          }
-          basic
-          size="small"
-        >
-          <Header icon="shopping cart" content="Added to your cart!!" />
-          <Modal.Content>
-            <p>very cool.</p>
-          </Modal.Content>
-        </Modal>
-        <ReviewForm
-          className="reviewForm"
-          productId={product.id}
-          userName={`${this.props.user.firstName} ${this.props.user.lastName}`}
-          imageUrl={this.props.user.imageUrl}
-        />
-        <ListReviews oldReviews={oldReviews} newReviews={newReviews} />
-      </div>
+                <Header icon="shopping cart" content="Added to your cart!!" />
+                <Modal.Content>
+                  <p>very cool.</p>
+                </Modal.Content>
+              </Modal>
+              <br />
+              <br />
+              {categories &&
+                categories.map(category => (
+                  <div key={category.id}>
+                    This product belongs to these categories:
+                    <br />
+                    <br />
+                    <NavLink
+                      to={`/products?categoryTag=${category.Name}`}
+                      key={category.id}
+                    >
+                      <Label color="teal" tag size="large">
+                        {category.name}
+                      </Label>
+                    </NavLink>
+                  </div>
+                ))}
+            </Grid.Column>
+          </Grid>
+        </Segment>
+        <Segment>
+          <ReviewForm
+            className="reviewForm"
+            productId={product.id}
+            userName={`${this.props.user.firstName} ${
+              this.props.user.lastName
+            }`}
+            imageUrl={this.props.user.imageUrl}
+          />
+          <ListReviews oldReviews={oldReviews} newReviews={newReviews} />
+        </Segment>
+      </Container>
     );
   }
 }
