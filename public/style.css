@@ -57,6 +57,10 @@ form div {
   color: white;
   border-radius: 0;
   background-color: #2185d0;
+  padding-left: 0px !important;
+}
+
+.ui.blue.inverted.button.active {
   padding-left: 0;
 }
 
@@ -69,6 +73,9 @@ input {
   padding: 15px;
 }
 
+.ui.right.menu {
+  margin: 0;
+}
 .ui.menu {
   margin: 0;
   background-color: #2185d0;

@@ -103,6 +103,32 @@ export class allProducts extends React.Component {
           this.state.loading && (
             <Icon center color="teal" size="massive" loading name="spinner" />
           )}
+        {!this.state.loading && (
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'space-between'
+            }}
+          >
+            <Header color="orange">Filter by Species</Header>
+            <Form onSubmit={this.handleSubmit}>
+              <Form.Field style={{ display: 'flex' }}>
+                <Input
+                  style={{ margin: 0 }}
+                  onChange={this.handleChange}
+                  name="search"
+                  type="text"
+                  placeholder="Search..."
+                  value={this.state.search}
+                />
+                <Button size="mini" type="submit">
+                  Search by Name
+                </Button>
+              </Form.Field>
+            </Form>
+          </div>
+        )}
         {!this.state.category ? (
           <div style={{ marginBottom: '10px' }}>
             {categories.map(category => (
@@ -132,20 +158,6 @@ export class allProducts extends React.Component {
             </Label>
           </div>
         )}
-        <Form onSubmit={this.handleSubmit}>
-          <Form.Field>
-            <Input
-              onChange={this.handleChange}
-              name="search"
-              type="text"
-              placeholder="Search..."
-              value={this.state.search}
-            />
-            <Button size="mini" type="submit">
-              Search
-            </Button>
-          </Form.Field>
-        </Form>
 
         <Card.Group itemsPerRow={4}>
           {products &&
