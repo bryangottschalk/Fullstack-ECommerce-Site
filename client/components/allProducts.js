@@ -111,7 +111,9 @@ export class allProducts extends React.Component {
               justifyContent: 'space-between'
             }}
           >
-            <Header color="orange">Filter by Species</Header>
+            <Header style={{ paddingTop: 10 }} color="orange">
+              Filter by Species
+            </Header>
             <Form onSubmit={this.handleSubmit}>
               <Form.Field style={{ display: 'flex' }}>
                 <Input
@@ -130,10 +132,15 @@ export class allProducts extends React.Component {
           </div>
         )}
         {!this.state.category ? (
-          <div style={{ marginBottom: '10px' }}>
+          <div style={{ marginBottom: 30, marginTop: 20 }}>
             {categories.map(category => (
               <Label
-                style={{ cursor: 'pointer' }}
+                style={{
+                  cursor: 'pointer',
+                  marginLeft: 10,
+                  marginRight: 10,
+                  marginBottom: 10
+                }}
                 key={category.id}
                 color="teal"
                 tag
@@ -159,7 +166,7 @@ export class allProducts extends React.Component {
           </div>
         )}
 
-        <Card.Group itemsPerRow={4}>
+        <Card.Group stackable itemsPerRow={4}>
           {products &&
             products.map(product => {
               return (

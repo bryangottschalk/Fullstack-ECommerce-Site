@@ -10,14 +10,15 @@ class SingleUser extends React.Component {
     const { user } = this.props;
     return (
       <div>
-        <h1>Your info:</h1>
-        <h2>
-          Name: {user.firstName} {user.lastName}
-        </h2>
-        <h2>Email: {user.email}</h2>
-        <h2>Address: {user.address}</h2>
-        <h2>Account Type: {user.isAdmin ? 'Admin' : 'User'}</h2>
-        <button>See past orders</button>
+        <h1>User information</h1>
+        Name: {user.firstName} {user.lastName}
+        <br />
+        Email: {user.email}
+        <br />
+        Address: {user.address}
+        <br />
+        Account Type: {user.isAdmin ? 'Admin' : 'User'}
+        {/* feature to add later <button>See past orders</button> */}
       </div>
     );
   }
