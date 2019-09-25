@@ -1,4 +1,4 @@
 {
-  "git.ignoreLimitWarning": true,
+  "git.ignoreLimitWarning": false,
   "workbench.colorCustomizations": {}
 }

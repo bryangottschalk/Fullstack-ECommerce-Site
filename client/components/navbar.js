@@ -39,7 +39,15 @@ const Navbar = ({ handleClick, isLoggedIn, isAdmin }) => (
 
         <Menu.Menu position="right">
           {isAdmin && (
-            <Dropdown className="adminPortal" item simple text="Admin Portal">
+            <Dropdown
+              className="adminPortal"
+              floating
+              labeled
+              // button
+              item
+              // simple
+              text="Admin Portal"
+            >
               <Dropdown.Menu>
                 <Dropdown.Item as={NavLink} to="/orders">
                   Company Orders
@@ -53,41 +61,9 @@ const Navbar = ({ handleClick, isLoggedIn, isAdmin }) => (
               </Dropdown.Menu>
             </Dropdown>
           )}
-          <Dropdown item simple text="Adopt a Pet">
-            <Dropdown.Menu>
-              <Dropdown.Item as={NavLink} to="/products">
-                All Pets
-              </Dropdown.Item>
-              <Dropdown.Divider />
-              <Dropdown.Item>
-                <i className="dropdown icon" />
-                <span className="text">By Species</span>
-                <Dropdown.Menu>
-                  <Dropdown.Item as={NavLink} to="/products?categoryTag=1Dog">
-                    Dog
-                  </Dropdown.Item>
-                  <Dropdown.Item
-                    as={NavLink}
-                    to="/products?categoryTag=1Reptile"
-                  >
-                    Reptile
-                  </Dropdown.Item>
-                  <Dropdown.Item as={NavLink} to="/products?categoryTag=1Cat">
-                    Cat
-                  </Dropdown.Item>
-                  <Dropdown.Item as={NavLink} to="/products?categoryTag=1Panda">
-                    Panda
-                  </Dropdown.Item>
-                  <Dropdown.Item
-                    as={NavLink}
-                    to="/products?categoryTag=1Hamster"
-                  >
-                    Hamster
-                  </Dropdown.Item>
-                </Dropdown.Menu>
-              </Dropdown.Item>
-            </Dropdown.Menu>
-          </Dropdown>
+          <Menu.Item as={NavLink} to="/products">
+            Browse Pets
+          </Menu.Item>
           {!isLoggedIn && (
             <Menu.Item as={NavLink} to="/signup">
               Sign Up
