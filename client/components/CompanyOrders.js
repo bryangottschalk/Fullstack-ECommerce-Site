@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { getAllOrdersThunk } from '../store/pastOrders';
 import { NavLink } from 'react-router-dom';
 
-import { Card, Image, Header } from 'semantic-ui-react';
+import { Card, Image, Header, Container } from 'semantic-ui-react';
 import user from '../store/user';
 
 class CompanyOrders extends React.Component {
@@ -57,21 +57,28 @@ class CompanyOrders extends React.Component {
           <option value="Processing">Processing</option>
           <option value="Cancelled">Cancelled</option>
         </select>
-        <Card.Group itemsPerRow={5}>
+
+        <Card.Group style={{ marginTop: 10 }} doubling itemsPerRow={4}>
           {filteredOrders &&
             filteredOrders.map(order => {
               return (
                 <Card key={order.id}>
-                  <div>
-                    <Image src={order.user.imageUrl} />
-                    <h3>
-                      User: {`${order.user.firstName} ${order.user.lastName}`}
-                    </h3>
-                    <h3>Email: {order.user.email}</h3>
-                    <h3>Address: {order.shippingAddress || `N/A`}</h3>
-                    <h3>Total: {`$${order.total}`}</h3>
-                    <h3>Status: {order.status}</h3>
-                    <ul>
+                  <Container>
+                    <Image centered size="small" src={order.user.imageUrl} />
+                    <Container textAlign="center" style={{ padding: 20 }}>
+                      <h3>
+                        <strong>User:</strong>{' '}
+                        {`${order.user.firstName} ${order.user.lastName}`}
+                      </h3>
+                      Email: {order.user.email}
+                      <br />
+                      Address: {order.shippingAddress || `N/A`}
+                      <br />
+                      Total: {`$${order.total}`}
+                      <br />
+                      Status: {order.status}
+                      <br />
+                      Products in Order:
                       {order.products.map(product => {
                         return (
                           <NavLink
@@ -82,8 +89,8 @@ class CompanyOrders extends React.Component {
                           </NavLink>
                         );
                       })}
-                    </ul>
-                  </div>
+                    </Container>
+                  </Container>
                 </Card>
               );
             })}
