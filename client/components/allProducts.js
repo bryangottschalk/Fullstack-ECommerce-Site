@@ -101,7 +101,7 @@ export class allProducts extends React.Component {
       <div>
         {!this.props.products.length &&
           this.state.loading && (
-            <Icon center color="teal" size="massive" loading name="spinner" />
+            <Icon color="teal" size="massive" loading name="spinner" />
           )}
         {!this.state.loading && (
           <div
