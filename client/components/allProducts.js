@@ -103,10 +103,6 @@ export class allProducts extends React.Component {
   };
 
   async addProduct(product) {
-    console.log(
-      'userId on state before calling setCartIdThunk',
-      this.props.user.id
-    );
     await this.props.setCartId(this.props.user.id);
     await this.props.quickAdd({
       quantity: 1,
