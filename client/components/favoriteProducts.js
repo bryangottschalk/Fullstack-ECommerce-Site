@@ -17,10 +17,7 @@ export class FavoriteProducts extends React.Component {
         <Header as="h3" textAlign="center" color="blue">
           - Cody, CEO
         </Header>
-        <Container
-          style={{ marginTop: 30, marginBottom: 30 }}
-          textAlign="center"
-        >
+        <Container style={{ marginTop: 30 }} textAlign="center">
           <Button as={NavLink} to="/products" color="orange">
             Browse Our Pets
           </Button>

@@ -48,6 +48,7 @@ export const setCartIdThunk = userId => {
         dispatch(setCartId(data));
       } else {
         const { data } = await axios.get(`/api/orders/?userId=${userId}`);
+        console.log('TCL: data', data);
         dispatch(setCartId(data[0].id));
       }
     } catch (error) {

@@ -58,7 +58,7 @@ class CompanyOrders extends React.Component {
           <option value="Cancelled">Cancelled</option>
         </select>
 
-        <Card.Group style={{ marginTop: 10 }} stackable itemsPerRow={4}>
+        <Card.Group style={{ marginTop: 10 }} doubling itemsPerRow={4}>
           {filteredOrders &&
             filteredOrders.map(order => {
               return (
