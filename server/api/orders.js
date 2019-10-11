@@ -5,7 +5,6 @@ module.exports = router;
 
 router.post('/newCart', async (req, res, next) => {
   try {
-    console.log('in newCart route');
     res.sendStatus(200);
   } catch (err) {
     console.log(err);
@@ -69,7 +68,6 @@ router.get('/', async (req, res, next) => {
             status: 'Cart'
           }
         });
-        // console.log('Found order', order);
         res.json(order);
       }
     } else if (req.query.userId) {

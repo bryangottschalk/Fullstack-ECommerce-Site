@@ -232,7 +232,7 @@ export class allProducts extends React.Component {
                         >
                           <Header
                             icon="shopping cart"
-                            content="Added To Your Cart!!"
+                            content="Added To Your Cart!"
                           />
                           <Modal.Content>
                             <p>very cool.</p>
