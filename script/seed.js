@@ -122,6 +122,17 @@ async function seed() {
     isAdmin: true
   });
 
+  await User.create({
+    email: 'bryan.gottschalk@email.com',
+    password: '123',
+    firstName: 'bryan',
+    lastName: 'gottschalk',
+    address: ['456 Road'],
+    creditCardNumber: 999999979,
+    imageUrl: `https://robohash.org/bryan--bryan`,
+    isAdmin: true
+  });
+
   await Order.create({
     total: 100.21,
     status: 'Created',

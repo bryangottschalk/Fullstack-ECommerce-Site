@@ -95,7 +95,10 @@ export class Cart extends React.Component {
           </Step>
         </Step.Group>
         {!this.props.cart.id ? (
-          <div>Loading Cart...</div>
+          <div>
+            There are no items currently in your cart. Check out our pet
+            selection!
+          </div>
         ) : (
           <div>
             <form onSubmit={this.handleSubmit} autoComplete="off">

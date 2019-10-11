@@ -103,6 +103,10 @@ export class allProducts extends React.Component {
   };
 
   async addProduct(product) {
+    console.log(
+      'userId on state before calling setCartIdThunk',
+      this.props.user.id
+    );
     await this.props.setCartId(this.props.user.id);
     await this.props.quickAdd({
       quantity: 1,
@@ -232,7 +236,7 @@ export class allProducts extends React.Component {
                         >
                           <Header
                             icon="shopping cart"
-                            content="Added To Your Cart!!"
+                            content="Added To Your Cart!"
                           />
                           <Modal.Content>
                             <p>very cool.</p>
