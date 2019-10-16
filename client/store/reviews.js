@@ -1,5 +1,4 @@
 import axios from 'axios';
-import history from '../history';
 
 const POST_REVIEW = 'POST_REVIEW';
 
@@ -27,7 +26,6 @@ export const postReviewThunk = (
         imageUrl: imageUrl
       });
       dispatch(postReview(data));
-      // history.push(redirectPath);
     } catch (err) {
       console.log('error adding review', err);
     }

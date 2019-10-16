@@ -3,15 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { logout } from '../store';
-import {
-  Button,
-  Header,
-  Menu,
-  Dropdown,
-  Container,
-  Icon,
-  Divider
-} from 'semantic-ui-react';
+import { Button, Menu, Dropdown, Container, Icon } from 'semantic-ui-react';
 
 const Navbar = ({ handleClick, isLoggedIn, isAdmin }) => (
   <div style={{ marginBottom: 20 }}>
@@ -23,10 +15,6 @@ const Navbar = ({ handleClick, isLoggedIn, isAdmin }) => (
         stackable
         inverted
       >
-        {/* <Menu.Item as={NavLink} to="/" header>
-          <Image size="mini" src="/logo.png" style={{ marginRight: '1.5em' }} />
-          Cody & Co. Pet Store
-        </Menu.Item> */}
         <Button
           style={{ paddingLeft: 20, textAlign: 'center' }}
           inverted

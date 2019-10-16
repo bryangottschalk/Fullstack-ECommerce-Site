@@ -1,10 +1,7 @@
 import axios from 'axios';
-import history from '../history';
 
 const GET_ALL_USERS = 'GET_ALL_USERS';
 const DELETE_USER = 'DELETE_USER';
-
-const initialState = [];
 
 const getAllUsers = users => ({ type: GET_ALL_USERS, users });
 const deleteUser = userId => ({ type: DELETE_USER, userId });
@@ -35,6 +32,8 @@ export const deleteUserThunk = userId => {
     }
   };
 };
+
+const initialState = [];
 
 export const allUsersReducer = (state = initialState, action) => {
   switch (action.type) {

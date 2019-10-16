@@ -28,7 +28,6 @@ export class allProducts extends React.Component {
     this.state = {
       category: null,
       search: '',
-      searching: false,
       loading: true
     };
     this.handleClick = this.handleClick.bind(this);
@@ -66,41 +65,13 @@ export class allProducts extends React.Component {
   handleSubmit(event) {
     event.preventDefault();
     this.props.fetchProducts(`2${this.state.search}`);
-    this.setState({
-      searching: true
-    });
   }
 
   handleChange(event) {
     this.setState({
       [event.target.name]: event.target.value
     });
-    if (event.target.value === '') {
-      this.setState({
-        searching: false
-      });
-    }
   }
-
-  shuffle = array => {
-    //shuffle to show variety of products
-    let currentIndex = array.length,
-      temporaryValue,
-      randomIndex;
-
-    // While there remain elements to shuffle...
-    while (0 !== currentIndex) {
-      // Pick a remaining element...
-      randomIndex = Math.floor(Math.random() * currentIndex);
-      currentIndex -= 1;
-
-      // And swap it with the current element.
-      temporaryValue = array[currentIndex];
-      array[currentIndex] = array[randomIndex];
-      array[randomIndex] = temporaryValue;
-    }
-    return array;
-  };
 
   async addProduct(product) {
     await this.props.setCartId(this.props.user.id);

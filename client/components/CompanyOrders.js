@@ -4,7 +4,6 @@ import { getAllOrdersThunk } from '../store/pastOrders';
 import { NavLink } from 'react-router-dom';
 
 import { Card, Image, Header, Container } from 'semantic-ui-react';
-import user from '../store/user';
 
 class CompanyOrders extends React.Component {
   constructor() {

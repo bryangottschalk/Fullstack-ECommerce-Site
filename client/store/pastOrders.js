@@ -18,7 +18,6 @@ const getAllOrders = orders => ({
 //Thunk creators
 export const getPastOrdersThunk = () => {
   return async dispatch => {
-    console.log('in thunk');
     const { data } = await axios.get('/api/pastOrders');
     dispatch(getPastOrders(data));
   };

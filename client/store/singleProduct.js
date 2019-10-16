@@ -1,6 +1,5 @@
 import axios from 'axios';
 import history from '../history';
-import Axios from 'axios';
 
 // action types
 const GET_SINGLE_PRODUCT = 'GET_SINGLE_PRODUCT';
@@ -33,7 +32,6 @@ export const getSingleProductThunk = productId => {
 };
 
 //reducer
-// const initialState = { products: [] } - bryan did this;
 const initialState = {};
 export const singleProductReducer = (state = initialState, action) => {
   switch (action.type) {

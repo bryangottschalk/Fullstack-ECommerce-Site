@@ -3,15 +3,6 @@ const { Order } = require('../db/models');
 
 module.exports = router;
 
-router.post('/newCart', async (req, res, next) => {
-  try {
-    res.sendStatus(200);
-  } catch (err) {
-    console.log(err);
-    next(err);
-  }
-});
-
 //new route to get cartId
 router.get('/unauthCart', async (req, res, next) => {
   try {
@@ -31,6 +22,7 @@ router.get('/unauthCart', async (req, res, next) => {
   }
 });
 
+// eslint-disable-next-line complexity
 router.get('/', async (req, res, next) => {
   try {
     const order = await Order.findAll({

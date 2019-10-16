@@ -1,5 +1,4 @@
 import axios from 'axios';
-import history from '../history';
 
 const SET_CART_ID = 'SET_CART_ID';
 const GET_CART = 'GET_CART';

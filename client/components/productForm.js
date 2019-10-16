@@ -1,12 +1,7 @@
 import React from 'react';
-import { Form, Message, Container, Input, Header } from 'semantic-ui-react';
+import { Form, Container, Header } from 'semantic-ui-react';
 import { connect } from 'react-redux';
-import {
-  addProductThunk,
-  getAllProductsThunk,
-  editProductThunk
-} from '../store/allProducts';
-import { runInThisContext } from 'vm';
+import { addProductThunk, editProductThunk } from '../store/allProducts';
 import { getCategoriesThunk } from '../store/categories';
 
 class ProductForm extends React.Component {
@@ -102,8 +97,7 @@ class ProductForm extends React.Component {
       imageUrl,
       price,
       inventoryQuantity,
-      availability,
-      categories
+      availability
     } = this.state;
     return (
       <Container>
@@ -164,19 +158,6 @@ class ProductForm extends React.Component {
             onChange={this.handleChange}
             required
           />
-
-          {/* <Form.Group widths="equal">
-            <label>Categories</label>
-            {this.props.categories.map(category => (
-              <Form.Checkbox
-                key={category.name}
-                label={category.name}
-                name={category.name}
-                value={category.name}
-                onChange={this.handleCategoryCheckbox}
-              />
-            ))}
-          </Form.Group> */}
           <Form.Group>
             <Form.Checkbox
               label="Available?"
