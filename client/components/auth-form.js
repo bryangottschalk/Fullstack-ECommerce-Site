@@ -64,6 +64,19 @@ class AuthForm extends React.Component {
           </div>
           {error && error.response && <div> {error.response.data} </div>}
         </Form>
+
+        {name === 'login' && (
+          <div>
+            <hr />
+            <div style={{ marginBottom: 10 }}>
+              <strong>Admin login </strong> (to see admin functionality for this
+              application)
+            </div>
+            <li>email: cody.cody@email.com</li>
+            <li>password: 123</li>
+          </div>
+        )}
+
         {/* <a href="/auth/google">{displayName} with Google</a> */}
       </div>
     );
